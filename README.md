@@ -28,6 +28,7 @@ Our goals are to confine the many separate systems and services for students int
 [Insight](https://github.com/CSCI3323-AXEEMPLANNER/AXEEM-PLANNER/pulse)
 
 #### More Information
+[Living Document](https://docs.google.com/document/d/1_7LbF8NpVlz80kAa7WrsrjFVx1Ocmgov/edit?usp=sharing&ouid=114371371013843952830&rtpof=true&sd=true) <br />
 [ReadMe](https://github.com/CSCI3323-AXEEMPLANNER/AXEEM-PLANNER/blob/main/README.md) <br />
 
 ---
