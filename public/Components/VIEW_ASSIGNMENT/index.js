@@ -4,7 +4,7 @@ import Checkbox from 'expo-checkbox';
 import { connect } from 'react-redux';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { ADD_TODO_ACTION } from "../../Actions/List_Action";
-import OBJECT_CREATION from '../../Util/Object_Creation';
+import {TASK_OBJECT_CREATION} from '../../Util/Object_Creation';
 
 // INITIAL STATE SETUP FOR LOCAL STATE ON SUBMIT
 const INIT_STATE = {
@@ -32,8 +32,6 @@ class VIEW_ASSIGNMENT extends React.Component {
     render() {
         return(
             <View>
-                {/* VIEW.VIEW BECAUSE WE ARE GETTING AN OBJECT FROM STATE LINE 112 */}
-                
                 {/* REDUCE TO A SEPARATE COMPONENT TO DISPLAY */}
                 <Text style={{fontSize: '20px'}}>Your current TODO</Text>
                 <Text style={{fontSize: '20px'}}>{this.state.title}</Text>
@@ -48,15 +46,13 @@ class VIEW_ASSIGNMENT extends React.Component {
                     underlayColor="#DDDDDD"
                     onPress={() => alert(TODO.title)} // Could have a function to bring closer to user via enlarged view!
                     >
-                        <>
-                            <Text
-                                key={index}
-                            >
-                                Title: {TODO.title}
-                                Description: {TODO.desc}
-                                Flagged: {((TODO.urgent) ? 'YES' : 'NOPE')}
-                            </Text>
-                        </>
+                        <Text
+                            key={index}
+                        >
+                            Title: {TODO.title}
+                            Description: {TODO.desc}
+                            Flagged: {((TODO.urgent) ? 'YES' : 'NOPE')}
+                        </Text>
                     </TouchableHighlight>
                 ))}
                 
@@ -69,18 +65,15 @@ class VIEW_ASSIGNMENT extends React.Component {
                     underlayColor="#DDDDDD"
                     onPress={() => alert(URGENT.title)} // Could have a function to bring closer to user via enlarged view!
                     >
-                        <>
-                            <Text
-                                key={index}
-                            >
-                                Title: {URGENT.title}
-                                Description: {URGENT.desc}
-                                Flagged: YES
-                            </Text>
-                        </>
+                        <Text
+                            key={index}
+                        >
+                            Title: {URGENT.title}
+                            Description: {URGENT.desc}
+                            Flagged: YES
+                        </Text>
                     </TouchableHighlight>
                 ))}
-
                 
                 <TextInput
                 style={{ height: 40, borderColor: "black", borderWidth: 1 }}
@@ -105,7 +98,7 @@ class VIEW_ASSIGNMENT extends React.Component {
                 <Button 
                     title='Create a Task!'
                     onPress={() =>
-                        {this.props.ADD_TODO_ACTION(OBJECT_CREATION(this.state.title, this.state.desc, this.state.urgent));} //this.setState(INIT_STATE); CAN REWRITE STATE TO BE EMPTY AGAIN
+                        {this.props.ADD_TODO_ACTION(TASK_OBJECT_CREATION(this.state.title, this.state.desc, this.state.urgent));} //this.setState(INIT_STATE); CAN REWRITE STATE TO BE EMPTY AGAIN
                     }
                 />
             </View>

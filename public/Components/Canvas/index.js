@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Button, Text, View } from 'react-native';
-import VIEW_ASSIGNMENT from '../VIEW_ASSIGNMENT';
+import { Text, View } from 'react-native';
 import Navigation from '../Navigation';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { CHANGE_VIEW_ACTION } from '../../Actions/List_Action';
+import GLOBAL_VIEW from '../GLOBAL_VIEW';
 
 class Canvas extends React.Component {
     constructor() {
@@ -23,7 +23,7 @@ class Canvas extends React.Component {
     handleUpdate = (VIEW_NAME) => {
         if (VIEW_NAME === this.state.view) return null; // ADDED IN CASE OF ANY ISSUES WITH CONSTANT PAGE RELOADS
         this.props.CHANGE_VIEW_ACTION(VIEW_NAME)
-        this.setState({view: this.props.VIEW_STATE.VIEW})
+        this.setState({view: this.props.VIEW_STATE.VIEW}) // Gets new updated state in global state
     }
 
     // CAN USE THIS TO UPDATE USER WITH SUCCESS ON SOMETHING!
@@ -36,10 +36,10 @@ class Canvas extends React.Component {
         <View>
             {/* this text view displaying current view can be minimized to a single component for all instances! */}
             <Text style={{ fontSize: '40px' }}>You are viewing: {this.state.view}</Text>
-            {/* CURRENT TERNARY OPERATION BASED ON PARENT LEVEL STATE, but may change in future! */}
-            {this.state.view === 'VIEW_ASSIGNMENT' ? <VIEW_ASSIGNMENT /> : <Text style={{ fontSize: '30px' }}>'Nothing here Yet, but will be {this.state.view}</Text>}
-            {/* CHILD NAVIGATION COMPONENT */}
-            <Navigation UPDATE_VIEW={this.handleUpdate} /> 
+            {/* Adjust view in canvas to view selected by user in navigation! */}
+            {this.state.view !== null ? GLOBAL_VIEW(this.state.view) : null}
+            {/* CHILD NAVIGATION COMPONENT getting passed parent function handleUpdate */}
+            <Navigation UPDATE_VIEW={this.handleUpdate} />
         </View>
     )}
 }

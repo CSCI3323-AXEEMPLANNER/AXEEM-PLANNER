@@ -1,4 +1,6 @@
-import { ADD_TODO, CHANGE_VIEW } from '../../Actions/Action_Type';
+import { ADD_TODO, CHANGE_VIEW, ADD_CLASS } from '../../Actions/Action_Type';
+
+// MAYBE ADD STATE INFO VIA https://github.com/react-native-async-storage/async-storage
 
 // Creating INITIAL STATE IN CASE OF NO MUTATION
 const TODO_STATE = {
@@ -7,7 +9,58 @@ const TODO_STATE = {
 };
 
 const VIEW_STATE = {
-    VIEW: 'VIEW_CLASS'
+    VIEW: 'VIEW_CLASS' // default value
+}
+
+const CLASS_STATE = {
+    CLASSES: []
+}
+
+// User login
+const LOGGED_STATE = {
+    LOGGEDIN: false
+}
+
+function checkCLASSES(CLASSES, ID) {
+    for (let index = 0; index < CLASSES.length; index++) {
+        if (CLASSES[index].class_ID === ID) {
+            return true;
+        }
+    }
+}
+
+export function CLASS_REDUCER (state = CLASS_STATE, action) {
+    switch (action.type) {
+        case ADD_CLASS:
+        // GETS CLASS ARRAY FROM STATE PASSED IN FUNCTION
+        const {
+            CLASSES
+        } = state;
+
+        // SETTING POST_CLASS_OBJECT TO OBJECT PASSED FROM ACTION
+        const POST_CLASS_OBJECT = action.payload;
+
+        // RUN SEARCH TO PREVENT USER FROM ADDING 2 OF SAME CLASS
+        // LIKELY REMOVE IN FUTURE IN CASE OF TOO MUCH RUNTIME/MEMORY USAGE
+        // CAN REPLACE BY HAVING DB POST RUN FILTER
+        if (checkCLASSES(CLASSES, POST_CLASS_OBJECT.class_ID)) {
+            alert('cannot add two of same class type!')
+            alert('this button is in testmode, so it only sends a hardcoded object which does not have a different id at the moment')
+            return {CLASSES};
+        } else {
+            // PUSHING NEW OBJECT TO CLASS ARRAY if no matching id
+            CLASSES.push(POST_CLASS_OBJECT); // FINALLY ADDING PAYLOAD (USER TODO) TO TODO ARRAY if urgency
+        
+            const UPDATED_STATE = {CLASSES};
+            
+            // RETURNING UPDATED STATE
+            return UPDATED_STATE;
+        }
+
+        // IF NO ACTION.TYPE, RETURNS STATE!
+        default:
+            return state; // IN MAPSTATETOPROPS, GETTING EXACT VALUE FOR VIEW WITH STATE.VIEW
+    }
 }
 
 // REDUCER CALLED WHEN ATTEMPTING TO GET VIEW IN STATE OR CHANGE THE VIEW!
