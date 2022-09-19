@@ -118,5 +118,5 @@ const mapDispatchToProps = dispatch => (
         ADD_TODO_ACTION
     }, dispatch)
 );
-  
+
 export default connect(mapStateToProps, mapDispatchToProps)(VIEW_ASSIGNMENT);

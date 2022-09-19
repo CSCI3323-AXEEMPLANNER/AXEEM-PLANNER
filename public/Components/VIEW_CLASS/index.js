@@ -51,8 +51,6 @@ class VIEW_CLASS extends React.Component {
           </View>
         );
     }
-
-
 }
 
 // ALLOWS US TO MAKE CLASS ARRAY AVAILABLE IN class CLASS

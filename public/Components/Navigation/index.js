@@ -5,7 +5,7 @@ export default class Navigation extends React.Component {
     constructor() {
         super();
         this.state = {
-            VIEW_NAMES: ['CLASS', 'ASSIGNMENT', 'CALENDAR', 'SETTING']
+            VIEW_NAMES: ['CLASS', 'ASSIGNMENT', 'NOTIFICATIONS', 'CALENDAR', 'SETTING']
         }
     }
     
