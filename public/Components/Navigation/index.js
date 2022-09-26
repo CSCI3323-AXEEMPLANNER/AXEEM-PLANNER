@@ -1,26 +1,25 @@
 import React from "react";
 import { 
-    SafeAreaView,
     StyleSheet,
     View,
     Text,
     Image,
-    Button,
     TouchableOpacity,
   } from "react-native";
-const a = require('./Images/bell.png')
-const b = require('./Images/clipboard-list.png')
-const c = require('./Images/comment.png')
-const d=require('./Images/calendar-lines.png')
-const e=require('./Images/menu-dots.png')
+const a = 'class';
+const b = require('./Images/bell.png')
+const c = require('./Images/clipboard-list.png')
+const d = require('./Images/comment.png')
+const e = require('./Images/calendar-lines.png')
+const f = require('./Images/menu-dots.png')
 
 export default class Navigation extends React.Component {
     constructor() {
         super();
         this.state = {
             //VIEW_NAMES: ['CLASS', 'ASSIGNMENT', 'NOTIFICATIONS', 'CALENDAR', 'SETTING']
-            VIEW_NAMES: [['NOTIFICATIONS', a],['ASSIGNMENT', b],
-             ['CHAT', c],['CALENDAR', d],['SETTING', e]]
+            VIEW_NAMES: [['CLASS', a],['NOTIFICATIONS', b],['ASSIGNMENT', c],
+             ['CHAT', d],['CALENDAR', e],['SETTING', f]]
         }
     }
     
@@ -35,7 +34,7 @@ export default class Navigation extends React.Component {
                     key={index}>
                     <Image
                       source={IMG}
-                      style={styles.buttonImageIconStyle}
+                      style={styles.buttonImageIconStyle}                  
                     />
                     <Text style={styles.buttonTitleStyle}>{ '\n' + NAME}</Text>
                     <View style={styles.buttonIconSeparatorStyle} />
@@ -69,8 +68,8 @@ const styles = StyleSheet.create({
       resizeMode: 'stretch',
     },
     buttonTitleStyle:{
-     textAlign: 'center',
-     display: 'block'
+      textAlign: 'center',
+      display: 'block'
     },
     buttonIconSeparatorStyle: {
       backgroundColor: '#fff',

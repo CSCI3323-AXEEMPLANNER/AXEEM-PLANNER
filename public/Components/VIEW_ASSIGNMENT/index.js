@@ -1,16 +1,14 @@
 import React from 'react';
-import { View, Button, Text, TextInput, TouchableHighlight } from 'react-native';
-import Checkbox from 'expo-checkbox';
+import { View, Button, Text } from 'react-native';
 import { connect } from 'react-redux';
-import { bindActionCreators } from '@reduxjs/toolkit';
-import { ADD_TODO_ACTION } from "../../Actions/List_Action";
-import {TASK_OBJECT_CREATION} from '../../Util/Object_Creation';
+import PASS_THROUGH from '../../Util/Object _Pass';
+import MODAL_VIEW from '../../Util/Modal';
+import ADD_TASK from "../../Util/ADD_TASK";
 
 // INITIAL STATE SETUP FOR LOCAL STATE ON SUBMIT
 const INIT_STATE = {
-    title: 'title',
-    desc: 'description',
-    urgent: false
+    obj: {THIS_TODO: null, index: null},
+    add_Task: false
 }
 
 class VIEW_ASSIGNMENT extends React.Component {
@@ -18,93 +16,49 @@ class VIEW_ASSIGNMENT extends React.Component {
         super();
         // STATE CREATED IN CANVAS LOCALLY TO MAINTAIN INPUTS READY FOR PUSH
         this.state = INIT_STATE;
-        this.handleChange = this.handleChange.bind(this);
+        this.handle_Modal_Change = this.handle_Modal_Change.bind(this);
+        this.handle_Task_Change = this.handle_Task_Change.bind(this);
     }
 
     // ALLOWS FOR COMPONENT'S STATE TO UPDATE ON TEXT INPUT CHANGE
-    handleChange = (ref, event) => {
-        if(ref !== 'urgent') {
-            this.setState(prevState => ({[ref]: prevState = event}));
-        } 
-        else this.setState(prevState => ({[ref]: !prevState.urgent}));
+    handle_Modal_Change = (obj, i) => {
+        (this.state.add_Task) ? this.setState(prevState => ({add_Task: !prevState.add_Task})) : null,
+        (i === undefined) ? this.setState(INIT_STATE) : this.setState(({obj: {THIS_TODO: obj, index: i}})) // if object is passed, we can set it in state to get data
+    }
+
+    handle_Task_Change = () => {
+        this.setState(prevState => ({...prevState, add_Task: !prevState.add_Task}));
     }
     
     render() {
-        return(
-            <View>
-                {/* REDUCE TO A SEPARATE COMPONENT TO DISPLAY */}
-                <Text style={{fontSize: '20px'}}>Your current TODO</Text>
-                <Text style={{fontSize: '20px'}}>{this.state.title}</Text>
-                <Text style={{fontSize: '20px'}}>{this.state.desc}</Text>
-                <Text style={{fontSize: '20px'}}>{(this.state.urgent).toString()}</Text>
-                <Text>You have { this.props.TODO_STATE.TODO_LIST.length } To-Do.</Text>
+        if (this.state.add_Task === true) {
+            return <ADD_TASK view_Task={this.handle_Task_Change}/>
+        } else {
+            return (
+                <View>
 
-                {this.props.TODO_STATE.TODO_LIST.map((TODO, index) => (
-                    <TouchableHighlight
-                    key={index}
-                    activeOpacity={0.6}
-                    underlayColor="#DDDDDD"
-                    onPress={() => alert(TODO.title)} // Could have a function to bring closer to user via enlarged view!
-                    >
-                        <Text
-                            key={index}
-                        >
-                            Title: {TODO.title}
-                            Description: {TODO.desc}
-                            Flagged: {((TODO.urgent) ? 'YES' : 'NOPE')}
-                        </Text>
-                    </TouchableHighlight>
-                ))}
-                
-                <Text>You have { this.props.TODO_STATE.URGENT.length } Urgent To-Do.</Text>
+                    {(this.state.obj.THIS_TODO !== null) ? <MODAL_VIEW prop={this.state.obj.THIS_TODO} view_ME={this.handle_Modal_Change} /> : null}
 
-                {this.props.TODO_STATE.URGENT.map((URGENT, index) => (
-                    <TouchableHighlight
-                    key={index}
-                    activeOpacity={0.6}
-                    underlayColor="#DDDDDD"
-                    onPress={() => alert(URGENT.title)} // Could have a function to bring closer to user via enlarged view!
-                    >
-                        <Text
-                            key={index}
-                        >
-                            Title: {URGENT.title}
-                            Description: {URGENT.desc}
-                            Flagged: YES
-                        </Text>
-                    </TouchableHighlight>
-                ))}
-                
-                <TextInput
-                style={{ height: 40, borderColor: "black", borderWidth: 1 }}
-                onChangeText={event =>  this.handleChange('title', event)}
-                placeholder={'title'}
-                required={true}
-                />
-                
-                <TextInput
-                style={{ height: 40, borderColor: "black", borderWidth: 1 }}
-                onChangeText={event =>  this.handleChange('desc', event)}
-                placeholder={'text'}
-                required={true}
-                />
-                
-                <Text>Add to Urgent</Text>
-                
-                <Checkbox
-                    value={this.state.urgent}
-                    onValueChange={event => this.handleChange('urgent', event)}
-                />
-                <Button 
-                    title='Create a Task!'
-                    onPress={() =>
-                        {this.props.ADD_TODO_ACTION(TASK_OBJECT_CREATION(this.state.title, this.state.desc, this.state.urgent));} //this.setState(INIT_STATE); CAN REWRITE STATE TO BE EMPTY AGAIN
-                    }
-                />
-            </View>
-        );
+                    <Text>You have { this.props.TODO_STATE.TODO_LIST.length } To-Do.</Text>
+                    
+                    {/* PASS_THROUGH FUNCTION REDUCES REDUNDANT MAPPING OF LISTS */}
+                    <PASS_THROUGH type='TODO' PROP_STATE={this.props.TODO_STATE.TODO_LIST} view_ME={this.handle_Modal_Change} />
+                    
+                    <Text>You have { this.props.TODO_STATE.URGENT.length } Urgent To-Do.</Text>
+                    
+                    <PASS_THROUGH type='URGENT' PROP_STATE={this.props.TODO_STATE.URGENT} view_ME={this.handle_Modal_Change} />
+                    
+                    <Button
+                        title='Create Task!'
+                        onPress={() =>
+                            {this.handle_Task_Change()} // Going to show add todo view
+                        }
+                    />
+                </View>
+                );
+            }
+        }
     }
-}
 
 // ALLOWS US TO MAKE TODOs AVAILABLE IN ASSIGNMENT CLASS
 const mapStateToProps = (state) => {
@@ -113,10 +67,4 @@ const mapStateToProps = (state) => {
     return { TODO_STATE };
 };
 
-const mapDispatchToProps = dispatch => (
-    bindActionCreators({
-        ADD_TODO_ACTION
-    }, dispatch)
-);
-
-export default connect(mapStateToProps, mapDispatchToProps)(VIEW_ASSIGNMENT);
+export default connect(mapStateToProps)(VIEW_ASSIGNMENT);
