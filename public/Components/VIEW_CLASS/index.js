@@ -21,7 +21,7 @@ class VIEW_CLASS extends React.Component {
         return(
           <View>
             {/* Mapping through classes in user profile already as of 9/17, pulling from array in global state */}
-            <Text style={{fontSize: '20px'}}>You have {this.props.CLASS_STATE.CLASSES.length} classes.</Text>
+            <Text style={{fontSize: 20}}>You have {this.props.CLASS_STATE.CLASSES.length} classes.</Text>
             {this.props.CLASS_STATE.CLASSES.length > 0 ?
             this.props.CLASS_STATE.CLASSES.map((CLASS, index) => (
                 <TouchableHighlight
@@ -39,7 +39,7 @@ class VIEW_CLASS extends React.Component {
                         Professor: Dr. Becnel
                     </Text>
                 </TouchableHighlight>
-            )) : <Text style={{fontSize: '20px'}}>Look's like you have no classes!</Text>}
+            )) : <Text style={{fontSize: 20}}>Look's like you have no classes!</Text>}
 
             {/* ADJUST BUTTON ONCLICK TO BRING LIST OF CLASSES BY PROFESSOR_ID -- USER SHOULD ONLY BE ABLE TO ADD CLASSES BASED ON WHAT PROFESSOR THEY BELONG TO */}
             <Button

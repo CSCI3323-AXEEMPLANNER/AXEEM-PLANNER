@@ -8,5 +8,5 @@ export default function GLOBAL_VIEW(VIEW) {
     // if (VIEW === 'VIEW_NOTIFICATIONS') return
     // if (VIEW === 'VIEW_CALENDAR') return 
     // if (VIEW === 'VIEW_SETTING') return
-    return <Text style={{ fontSize: '20px' }}>Look's Empty!</Text>; // IF VIEW DOES NOT EQUAL SET OF VIEWS POSSIBLE DEFAULT IS TEXT
+    return <Text style={{ fontSize: 20 }}>Look's Empty!</Text>; // IF VIEW DOES NOT EQUAL SET OF VIEWS POSSIBLE DEFAULT IS TEXT
 }
