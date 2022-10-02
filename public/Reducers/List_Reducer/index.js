@@ -76,9 +76,9 @@ export function VIEW_REDUCER (state = VIEW_STATE, action) {
         // REWRITING VIEW VALUE TO CHANGE VALUE GLOBALLY
         VIEW.VIEW = ADJUST_VIEW;
 
-        const UPDATED_STATE = VIEW;
+        const UPDATED_VIEW = VIEW;
 
-        return UPDATED_STATE;
+        return UPDATED_VIEW;
 
         // IF NO ACTION.TYPE, RETURNS STATE!
         default:

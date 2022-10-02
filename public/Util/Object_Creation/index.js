@@ -1,7 +1,8 @@
 // Throws Exception?
-export function TASK_OBJECT_CREATION(title, desc, urgent) {
+export function TASK_OBJECT_CREATION(title, desc, urgent, date, time) {
     // LIKELY ADD PREVENTION OF ADDITION IF ATLEAST TITLE OR DESCRIPTION IS EMPTY
-    const obj = {'title': title, 'desc': desc, 'urgent': urgent}
+    // DATE & TIME UNDEFINED ARE IN CASE A USER DECIDED TO CREATE A TODO TASK WITHOUT THE NEED FOR A TIME OR DATE, CAN PLACE IN CALENDAR AT THE TIME OF CREATION
+    const obj = {'title': title, 'desc': desc, 'urgent': urgent, 'date': (date === undefined) ? new Date().toLocaleDateString() : date, 'time': (time === undefined) ? new Date().toLocaleTimeString() : time}
     return obj;
 };
 
