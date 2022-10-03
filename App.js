@@ -1,6 +1,6 @@
 // IMPORTING IMPORTANT PAGE COMPONENTS
 import Canvas from './public/Components/Canvas';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 
 // IMPORTANT IMPORTS FOR GLOBAL STATE
