@@ -23,7 +23,7 @@ class Calendar extends React.Component {
     render() {
         return (
             <View>
-                {(this.state.obj.THIS_TODO !== null) ? <MODAL_VIEW prop={this.state.obj.THIS_TODO} view_ME={this.handle_Modal_Change} /> : null}
+                {(this.state.obj.THIS_TODO !== null) ? <MODAL_VIEW prop={this.state.obj} view_ME={this.handle_Modal_Change} /> : null}
                 <Text>Today is {(new Date).toLocaleDateString()}</Text>
                 <PASS_THROUGH type='TODO' PROP_STATE={this.props.TODO_STATE.TODO_LIST} view_ME={this.handle_Modal_Change} />
             </View>

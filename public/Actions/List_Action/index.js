@@ -1,9 +1,23 @@
-import { ADD_TODO, ADD_CLASS, CHANGE_VIEW, GET_TODO } from "../Action_Type";
+import { ADD_TODO, ADD_CLASS, CHANGE_VIEW, GET_TODO, REMOVE_TODO, EDIT_TODO } from "../Action_Type";
 
 export const GET_TODO_ACTION = INDEX => (
   {
     type: GET_TODO,
     payload: INDEX // PAYLOD TO RETURN TODO AT INDEX
+  }
+);
+
+export const EDIT_TODO_ACTION = TODO_OBJECT => (
+  {
+    type: EDIT_TODO,
+    payload: TODO_OBJECT
+  }
+);
+
+export const REMOVE_TODO_ACTION = INDEX => (
+  {
+    type: REMOVE_TODO,
+    payload: INDEX
   }
 );
 
