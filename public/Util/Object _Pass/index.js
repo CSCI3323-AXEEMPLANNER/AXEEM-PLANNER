@@ -4,8 +4,8 @@ import ADD_TASK from "../ADD_TASK"
 
 // type SHOULD BE STRING OF WHAT THE STATE ARRAY IS > 'TODO' 'URGENT'
 export default class PASS_THROUGH extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             edit_ME: false
         }
@@ -26,7 +26,7 @@ export default class PASS_THROUGH extends React.Component {
                     key={index}
                     activeOpacity={0.6}
                     underlayColor="#DDDDDD"
-                    onPress={() => this.props.view_ME(ITEM, index)} // Could have a function to bring closer to user via enlarged view!
+                    onPress={() => this.props.view_ME(ITEM, index)}
                     >
                         <Text
                             key={index}
@@ -35,6 +35,7 @@ export default class PASS_THROUGH extends React.Component {
                             Description: {ITEM.desc}
                             Flagged: {((ITEM.urgent) ? 'YES' : 'NOPE')}
                             Date: {ITEM.date}
+                            Time: {ITEM.time}
                         </Text>
                     </TouchableHighlight>
                 ))
@@ -76,6 +77,46 @@ export default class PASS_THROUGH extends React.Component {
                         underlayColor="#FFFFFF"
                         onPress={() => {this.props.view_ME();}}
                     />
+                </>
+            )
+        }
+        if (type === 'DATE') {
+            const todos = obj.TODO;
+            const classes = obj.CLASS;
+            return (
+                <>
+                <Text>Todos or Assignments</Text>
+                {todos.map((ITEM, index) => (
+                    <TouchableHighlight
+                    key={index}
+                    activeOpacity={0.6}
+                    underlayColor="#DDDDDD"
+                    onPress={() => this.props.view_ME(ITEM, index)}
+                    >
+                        <Text
+                            key={index}
+                        >
+                            Title: {ITEM.title}
+                            Flagged: {((ITEM.urgent) ? 'YES' : 'NOPE')}
+                        </Text>
+                    </TouchableHighlight>
+                ))} 
+                <Text>Classes:</Text>
+                {classes.map((ITEM, index) => (
+                    <TouchableHighlight
+                    key={index}
+                    activeOpacity={0.6}
+                    underlayColor="#DDDDDD"
+                    onPress={() => alert('this is have modal view as well, but should only allow view')}
+                    >
+                        <Text
+                            key={index}
+                        >
+                            Title: {ITEM.name}
+                            Time: {ITEM.time}
+                        </Text>
+                    </TouchableHighlight>
+                ))}
                 </>
             )
         }
