@@ -1,4 +1,4 @@
-import { ADD_TODO, ADD_CLASS, CHANGE_VIEW, GET_TODO, REMOVE_TODO, EDIT_TODO } from "../Action_Type";
+import { ADD_TODO, ADD_CLASS, CHANGE_VIEW, GET_TODO, REMOVE_TODO, EDIT_TODO, SET_S_DATE, SET_E_DATE } from "../Action_Type";
 
 export const GET_TODO_ACTION = INDEX => (
   {
@@ -41,3 +41,19 @@ export const CHANGE_VIEW_ACTION = NEW_VIEW => (
     payload: NEW_VIEW, // PAYLOAD WILL EQUAL STRING SENT FROM CHANGE_VIEW_ACTION EVENT
   }
 );
+
+// To set start date of calendar view
+export const SET_START_DATE = NEW_DATE => (
+  {
+    type: SET_S_DATE,
+    payload: NEW_DATE
+  }
+)
+
+// To set end date of calendar view
+export const SET_END_DATE = NEW_DATE => (
+  {
+    type: SET_E_DATE,
+    payload: NEW_DATE
+  }
+)
