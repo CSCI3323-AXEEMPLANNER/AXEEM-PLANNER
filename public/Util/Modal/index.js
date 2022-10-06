@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet, Modal } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from '@reduxjs/toolkit';
-import { REMOVE_TODO_ACTION, EDIT_TODO_ACTION } from "../../Actions/List_Action";
+import { REMOVE_TODO_ACTION } from "../../Actions/List_Action";
 import PASS_THROUGH from "../Object _Pass";
 
 class MODAL_VIEW extends React.Component {
