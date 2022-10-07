@@ -1,11 +1,12 @@
 import React from "react";
 import { TouchableHighlight, Text, Button } from "react-native";
-import ADD_TASK from "../ADD_TASK"
+import ADD_TASK from "../ADD_TASK";
+import {to_Date, to_Time, to_Zero} from "../../Util/TO_DATE";
 
 // type SHOULD BE STRING OF WHAT THE STATE ARRAY IS > 'TODO' 'URGENT'
 export default class PASS_THROUGH extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             edit_ME: false
         }
@@ -26,7 +27,7 @@ export default class PASS_THROUGH extends React.Component {
                     key={index}
                     activeOpacity={0.6}
                     underlayColor="#DDDDDD"
-                    onPress={() => this.props.view_ME(ITEM, index)} // Could have a function to bring closer to user via enlarged view!
+                    onPress={() => this.props.view_ME(ITEM, index)}
                     >
                         <Text
                             key={index}
@@ -34,7 +35,8 @@ export default class PASS_THROUGH extends React.Component {
                             Title: {ITEM.title}
                             Description: {ITEM.desc}
                             Flagged: {((ITEM.urgent) ? 'YES' : 'NOPE')}
-                            Date: {ITEM.date}
+                            Date: {to_Date(ITEM.date)}
+                            Time: {to_Time(ITEM.time)}
                         </Text>
                     </TouchableHighlight>
                 ))
@@ -48,8 +50,8 @@ export default class PASS_THROUGH extends React.Component {
                     {this.state.edit_ME === false ?
                     <>
                         <Text>
-                            Date: {obj.date + '\n'}
-                            Time: {obj.time + '\n'}
+                            Date: {to_Date(obj.date) + '\n'}
+                            Time: {to_Time(obj.time) + '\n'}
                             Title: {obj.title + '\n'}
                             Description: {obj.desc + '\n'}
                             Urgent: {((obj.urgent) ? 'YES' : 'NOPE')}
@@ -76,6 +78,54 @@ export default class PASS_THROUGH extends React.Component {
                         underlayColor="#FFFFFF"
                         onPress={() => {this.props.view_ME();}}
                     />
+                </>
+            )
+        }
+        if (type === 'DATE') {
+            const todos = obj.TODO;
+            const classes = obj.CLASS;
+            return (
+                <>
+                <Text>Todos or Assignments</Text>
+                {todos.map((ITEM, index) => {
+                    // Checks if date of item is between (inclusive) dates set by user or app
+                    if (ITEM.date >= this.props.date.s_Date && to_Zero(ITEM.date) <= this.props.date.e_Date) { // to_Zero because an items date may be ahead of the set
+                    return (
+                        <TouchableHighlight
+                        key={index}
+                        activeOpacity={0.6}
+                        underlayColor="#DDDDDD"
+                        onPress={() => this.props.view_ME(ITEM, index)}
+                        >
+                            <Text
+                                key={index}
+                            >
+                                Title: {ITEM.title}
+                                Flagged: {((ITEM.urgent) ? 'YES' : 'NOPE')}
+                            </Text>
+                        </TouchableHighlight>
+                    )} else return <Text key={0}>Nothing To Display :L</Text>;
+                })
+                } 
+                <Text>Classes:</Text>
+                {classes.map((ITEM, index) => {
+                    if (ITEM.date >= this.props.date.s_Date && to_Zero(ITEM.date) <= this.props.date.e_Date) {
+                        return (
+                        <TouchableHighlight
+                        key={index}
+                        activeOpacity={0.6}
+                        underlayColor="#DDDDDD"
+                        onPress={() => alert('this is have modal view as well, but should only allow view')}
+                        >
+                            <Text
+                                key={index}
+                            >
+                                Title: {ITEM.name}
+                                Time: {ITEM.time}
+                            </Text>
+                        </TouchableHighlight>
+                    )} else return <Text key={0}>Nothing To Display :L</Text>;
+                })}
                 </>
             )
         }

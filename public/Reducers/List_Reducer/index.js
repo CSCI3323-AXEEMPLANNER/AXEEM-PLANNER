@@ -1,4 +1,4 @@
-import { ADD_TODO, REMOVE_TODO, CHANGE_VIEW, ADD_CLASS, GET_TODO, EDIT_TODO } from '../../Actions/Action_Type';
+import { ADD_TODO, REMOVE_TODO, CHANGE_VIEW, ADD_CLASS, GET_TODO, EDIT_TODO, SET_S_DATE, SET_E_DATE } from '../../Actions/Action_Type';
 
 // MAYBE ADD STATE INFO VIA https://github.com/react-native-async-storage/async-storage
 
@@ -14,6 +14,12 @@ const VIEW_STATE = {
 
 const CLASS_STATE = {
     CLASSES: []
+}
+
+// Allows a re-renderable date selection for calendar view
+const DATE_STATE = {
+    s_Date: new Date().setDate(new Date().getDate() + 0),
+    e_Date: new Date().setDate(new Date().getDate() + 5)
 }
 
 // User login
@@ -61,6 +67,34 @@ function setObj(OLD_OBJ, NEW_OBJ) {
     }
 
     return temp_OBJ;
+}
+
+// Setting date in global state, should already have calculated date
+export function CALENDAR_REDUCER (state = DATE_STATE, action) {
+    switch (action.type) {
+        case SET_S_DATE:
+
+        let NEW_S_Date = action.payload;
+        
+        state.s_Date = NEW_S_Date;
+
+        const POST_S_STATE = DATE_STATE;
+
+        return POST_S_STATE;
+
+        case SET_E_DATE:
+
+        let NEW_E_Date = action.payload;
+    
+        state.e_Date = NEW_E_Date;
+
+        const POST_E_STATE = DATE_STATE;
+
+        return POST_E_STATE;
+
+        default:
+            return state;
+    }
 }
 
 export function CLASS_REDUCER (state = CLASS_STATE, action) {

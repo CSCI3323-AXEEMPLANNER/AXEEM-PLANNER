@@ -25,7 +25,8 @@ export default class Navigation extends React.Component {
     
     render() {
         return (
-            <View style={styles.buttonRowStyle}>
+          <>
+            {/* <View style={styles.buttonRowStyle}> */}
                 {this.state.VIEW_NAMES.map(([NAME, IMG], index) => (
                     <TouchableOpacity
                     style={styles.buttonRowStyle}
@@ -40,7 +41,7 @@ export default class Navigation extends React.Component {
                     <View style={styles.buttonIconSeparatorStyle} />
                   </TouchableOpacity>
                 ))}
-            </View>
+            </>
         )
     }
 }
