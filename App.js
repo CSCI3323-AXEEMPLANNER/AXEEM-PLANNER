@@ -1,7 +1,7 @@
 // IMPORTING IMPORTANT PAGE COMPONENTS
-import Canvas from "./public/Components/Canvas";
-import { StyleSheet, Text, View } from "react-native";
-import { StatusBar } from "expo-status-bar";
+import Canvas from './public/Components/Canvas';
+import { StyleSheet, View } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 
 // IMPORTANT IMPORTS FOR GLOBAL STATE
 import { Provider } from "react-redux";

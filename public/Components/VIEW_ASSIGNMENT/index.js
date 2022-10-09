@@ -25,7 +25,7 @@ class VIEW_ASSIGNMENT extends React.Component {
         (i === undefined) ? this.setState(INIT_STATE) : this.setState(({obj: {THIS_TODO: obj, index: i}})) // if object is passed, we can set it in state to get data
     }
 
-    handle_Task_Change = () => {
+    handle_Task_Change = () => { // ...prevState to preserve other state values
         this.setState(prevState => ({...prevState, add_Task: !prevState.add_Task}));
     }
     
@@ -36,7 +36,7 @@ class VIEW_ASSIGNMENT extends React.Component {
             return (
                 <View>
 
-                    {(this.state.obj.THIS_TODO !== null) ? <MODAL_VIEW prop={this.state.obj.THIS_TODO} view_ME={this.handle_Modal_Change} /> : null}
+                    {(this.state.obj.THIS_TODO !== null) ? <MODAL_VIEW prop={this.state.obj} view_ME={this.handle_Modal_Change} /> : null}
 
                     <Text>You have { this.props.TODO_STATE.TODO_LIST.length } To-Do.</Text>
                     

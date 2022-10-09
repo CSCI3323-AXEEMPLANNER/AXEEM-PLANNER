@@ -1,4 +1,4 @@
-import { ADD_TODO, CHANGE_VIEW, ADD_CLASS } from '../../Actions/Action_Type';
+import { ADD_TODO, REMOVE_TODO, CHANGE_VIEW, ADD_CLASS, GET_TODO, EDIT_TODO, SET_S_DATE, SET_E_DATE } from '../../Actions/Action_Type';
 
 // MAYBE ADD STATE INFO VIA https://github.com/react-native-async-storage/async-storage
 
@@ -16,16 +16,84 @@ const CLASS_STATE = {
     CLASSES: []
 }
 
+// Allows a re-renderable date selection for calendar view
+const DATE_STATE = {
+    s_Date: new Date().setDate(new Date().getDate() + 0),
+    e_Date: new Date().setDate(new Date().getDate() + 5)
+}
+
 // User login
 const LOGGED_STATE = {
     LOGGEDIN: false
 }
 
-function checkCLASSES(CLASSES, ID) {
-    for (let index = 0; index < CLASSES.length; index++) {
-        if (CLASSES[index].class_ID === ID) {
+// Checks if item exists to not duplicate
+function checkCLASSES(ARRAY, ID) {
+    for (let index = 0; index < ARRAY.length; index++) {
+        if (ARRAY[index].class_ID === ID) {
             return true;
         }
+    }
+}
+
+// Should not need an throw due to an urgent or todo item not existing unless in array
+function getINDEX(ARRAY, ID) {
+    let index;
+    for(var i = 0; i < ARRAY.length; i++) {
+        if(ARRAY[i].id === ID) {
+            index = i;
+            return index;
+        }
+    }
+}
+
+function setObj(OLD_OBJ, NEW_OBJ) {
+    // Creating new object
+    const temp_OBJ = OLD_OBJ;
+    const REMOVE_URGENT = temp_OBJ.urgent;
+    temp_OBJ.title = NEW_OBJ.title;
+    temp_OBJ.desc = NEW_OBJ.desc;
+    temp_OBJ.urgent = NEW_OBJ.urgent;
+
+    // Checks if the edit requires the object to be adjusted in other arrays
+    if (temp_OBJ.urgent !== REMOVE_URGENT) {
+        if (REMOVE_URGENT === true) {
+            TODO_STATE.URGENT.splice(getINDEX(TODO_STATE.URGENT, temp_OBJ.id), 1); // to remove from urgent! TEMPORARY FIX
+        }
+
+        if (REMOVE_URGENT === false) {
+            TODO_STATE.URGENT.push(temp_OBJ);
+        }
+    }
+
+    return temp_OBJ;
+}
+
+// Setting date in global state, should already have calculated date
+export function CALENDAR_REDUCER (state = DATE_STATE, action) {
+    switch (action.type) {
+        case SET_S_DATE:
+
+        let NEW_S_Date = action.payload;
+        
+        state.s_Date = NEW_S_Date;
+
+        const POST_S_STATE = DATE_STATE;
+
+        return POST_S_STATE;
+
+        case SET_E_DATE:
+
+        let NEW_E_Date = action.payload;
+    
+        state.e_Date = NEW_E_Date;
+
+        const POST_E_STATE = DATE_STATE;
+
+        return POST_E_STATE;
+
+        default:
+            return state;
     }
 }
 
@@ -91,7 +159,7 @@ export function TODO_REDUCER (state = TODO_STATE, action) {
     switch (action.type) {
         case ADD_TODO:
             // GETS URGENT AND TODO ARRAYS FROM STATE (STATE = INIT_STATE)
-        const {
+        var {
             URGENT,
             TODO_LIST
         } = state;
@@ -105,6 +173,56 @@ export function TODO_REDUCER (state = TODO_STATE, action) {
         const UPDATED_STATE = {TODO_LIST, URGENT};
         
         return UPDATED_STATE;
+
+        case EDIT_TODO:
+        
+        var {
+            URGENT,
+            TODO_LIST
+        } = state;
+        
+        const TODO_FOR_REPLACE_ID = action.payload.id;
+        const TODO_REPLACEMENT = action.payload.obj; // is new object, if object is different at any area, it will update in todo array/urgent array
+
+        var TODO_INDEX_TODOLIST = getINDEX(TODO_LIST, TODO_FOR_REPLACE_ID);
+
+        const UPDATED_OBJECT = setObj(TODO_LIST[TODO_INDEX_TODOLIST], TODO_REPLACEMENT);
+
+        if (TODO_LIST[TODO_INDEX_TODOLIST].urgent === true) {
+            // item is also urgent
+            let TODO_INDEX_URGENT = getINDEX(URGENT, TODO_FOR_REPLACE_ID);
+            URGENT[TODO_INDEX_URGENT] = UPDATED_OBJECT;
+        }
+
+        TODO_LIST[TODO_INDEX_TODOLIST] = UPDATED_OBJECT;
+
+        const TODO_AFTER_UPDATE = {TODO_LIST, URGENT};
+        
+        return TODO_AFTER_UPDATE;
+        // Remove todo action
+        case REMOVE_TODO:
+
+        var {
+            URGENT,
+            TODO_LIST
+        } = state;
+
+        const TODO_ID = action.payload; // todo id to be deleted
+
+        // with todo_id, find where it is placed (index)
+        var TODO_INDEX_TODOLIST = getINDEX(TODO_LIST, TODO_ID);
+        if (TODO_LIST[TODO_INDEX_TODOLIST].urgent === true) {
+            // item is also urgent
+            let TODO_INDEX_URGENT = getINDEX(URGENT, TODO_ID);
+            URGENT.splice(TODO_INDEX_URGENT, 1); // RIGHT NOW REMOVAL IS ONLY ACCOUNTING FOR TODO_LIST, BUT SHOULD DO BOTH OR NEITHER DEPENDING ON GROUP DECISION!!!
+        }
+
+        // Regardless, if deleted, the item will be in todo
+        TODO_LIST.splice(TODO_INDEX_TODOLIST, 1); // RIGHT NOW REMOVAL IS ONLY ACCOUNTING FOR TODO_LIST, BUT SHOULD DO BOTH OR NEITHER DEPENDING ON GROUP DECISION!!!
+
+        const TODO_AFTER_REMOVAL = {TODO_LIST, URGENT};
+
+        return TODO_AFTER_REMOVAL;
 
         // IF NO ACTION.TYPE, RETURNS STATE!
         default:
