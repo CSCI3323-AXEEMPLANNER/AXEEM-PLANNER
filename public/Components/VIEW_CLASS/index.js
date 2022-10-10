@@ -10,6 +10,8 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { ADD_CLASS_ACTION } from "../../Actions/List_Action";
 import { CLASS_OBJECT_CREATION } from "../../Util/Object_Creation";
+import reactDom from "react-dom";
+import { TouchableWithoutFeedback } from "react-native-web";
 
 // CLASS_OBJECT_CREATION(class_ID, name, desc, professor_ID)
 
@@ -26,9 +28,9 @@ class VIEW_CLASS extends React.Component {
     return (
       <View style={styles.container}>
         {/* Mapping through classes in user profile already as of 9/17, pulling from array in global state */}
-        <Text style={{ fontSize: 20 }}>
+        {/*<Text style={{ fontSize: 20 }}>
           You have {this.props.CLASS_STATE.CLASSES.length} classes.
-        </Text>
+    </Text>*/}
         {this.props.CLASS_STATE.CLASSES.length > 0 ? (
           this.props.CLASS_STATE.CLASSES.map((CLASS, index) => (
             <TouchableHighlight
@@ -38,16 +40,18 @@ class VIEW_CLASS extends React.Component {
               onPress={() => alert(CLASS.class_ID)}
             >
                 <>
-                <View style={styles.classSection}>
-                  <Text style={styles.classTxt} key={index}>
-                    Class: {CLASS.name}
-                    {"\n"}
-                    Description: {CLASS.desc}
-                    {"\n"}
-                    {/* Ideally, when we implement the db, we can pull the professor's info for class based on foreign key */}
-                    Professor: Dr. Becnel
+                <View style={styles.classContainerFirst}>
+                  <Text style={styles.classTitleTx} key={index}>
+                    {CLASS.name} -
+                    {"\n"}       
                   </Text>
-                </View>
+                  <Text style={styles.classMainTxt}>
+                      Description: {CLASS.desc}
+                      {"\n"}
+                      {/* Ideally, when we implement the db, we can pull the professor's info for class based on foreign key */}
+                      Professor: Dr. Becnel
+                    </Text>
+                  </View>
                 <Text> {"\n"}</Text>
                 </>
             </TouchableHighlight>
@@ -62,12 +66,12 @@ class VIEW_CLASS extends React.Component {
           onPress={() => {
             {
               this.props.ADD_CLASS_ACTION(
-                CLASS_OBJECT_CREATION("123", "DBMS", "DATABASE", "445")
+                CLASS_OBJECT_CREATION("123", "CSCI 3323", "Software Engineering", "445")
               );
             }
             {
               this.props.ADD_CLASS_ACTION(
-                CLASS_OBJECT_CREATION("113", "CSI", "Computer", "232")
+                CLASS_OBJECT_CREATION("113", "CSCI 4341", "Computer", "232")
               );
             }
           }}
@@ -98,25 +102,38 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginHorizontal: 10,
-    //backgroundColor: "white",
     alignItems: "center",
-    //justifyContent: "center",
-  },/*
-  classContainer: {
-    alignItems:"center",
-    backgroundColor:'red',
-    
-  }*/
-  classSection: {
-    height: 80,
-    width: 350,
-    backgroundColor: "#FF7878",
-    borderRadius: 50,
+  },
+  classContainerFirst: {
+    height: 139,
+    width: 360,
+    backgroundColor: "#FFA386",
+    borderRadius: 30,
     overflow: "hidden",
     justifyContent: "center",
+    borderWidth:1,
+  },
+  classTitleTx: {   
+    textAlign: "left",
+    textAlignVertical: "top",
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    fontWeight: "bold",
+    color: "white",
+    fontSize: 20,
+    //backgroundColor:"red",
+    marginVertical: -30,
+    //flexGrow: 1,
+  },
+  classMainTxt:{
+    height: 51,
+    width: '100%',
+   // backgroundColor:"blue",
+    fontSize: 14,
+    color: "white",
+    textAlign:'center',
   },
   classTxt: {
-    //justifyContent: "space-around",
     textAlign: "center",
   },
 });

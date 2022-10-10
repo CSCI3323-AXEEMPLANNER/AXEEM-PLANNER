@@ -35,6 +35,7 @@ class Canvas extends React.Component {
   render() {
     return (
       <>
+      {/* remeber to refactor this*/}
         <View style={styles.mainBody}>
          
           {/* Displays a welcome message for users*/}
@@ -85,12 +86,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },*/
   mainBody: {
-    height: "90%",
-    width: "97%",
-    borderRadius: 50,
-    backgroundColor: "#9326c7", //"#9326c7",
-    marginBottom: 80,
-  },
+    flex: 1,
+    //borderRadius: 50,
+    //backgroundColor: "#9326c7", //"#9326c7",
+    alignItems: 'center',
+    //marginBottom: 80,
+  },/*
   greetContainer: {
     height: 40,
     width: "40%",
@@ -106,14 +107,15 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#FF7878",
     textAlign: "center",
-  },
+   },*/
   tabTitle: {
     height: 40,
     width: "90%",
+    marginTop: 10,
     marginHorizontal: 20,
     textAlign: "center",
-    backgroundColor: "white",
     fontWeight: "bold",
     fontSize: 20,
+    //backgroundColor: 'red',
   },
 });

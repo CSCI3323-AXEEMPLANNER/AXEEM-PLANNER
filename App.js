@@ -38,11 +38,4 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  /*mainBody: {
-    height: "90%",
-    width: "97%",
-    borderRadius: 50,
-    backgroundColor: "#9326c7",
-    marginBottom: 80, 
-  },*/
 });
