@@ -7,9 +7,16 @@ import { ADD_TODO_ACTION, EDIT_TODO_ACTION } from '../../Actions/List_Action';
 import { TASK_OBJECT_CREATION } from '../Object_Creation';
 import REVIEW from "../REVIEW";
 
+var today = new Date();
+var dd = String(today.getDate()).padStart(2, '0');
+var mm = String(today.getMonth() + 1).padStart(2, '0');
+var yyyy = today.getFullYear();
+today = mm + '/' + dd + '/' + yyyy;
+
 const INIT_STATE = {
     title: 'title',
     desc: 'desc',
+    date: today,
     urgent: false
 }
 
@@ -17,6 +24,7 @@ function CREATE_OBJ_STATE(obj) {
     const OBJ = {
         title: obj.title,
         desc: obj.desc,
+        date: obj.date,
         urgent: obj.urgent
     }
     return OBJ;
@@ -49,6 +57,7 @@ class ADD_TASK extends React.Component {
                 <Text style={{fontSize: '20px'}}>Your current TODO</Text>
                 <Text style={{fontSize: '20px'}}>{this.state.title}</Text>
                 <Text style={{fontSize: '20px'}}>{this.state.desc}</Text>
+                <Text style={{fontSize: '20px'}}>{this.state.date}</Text>
                 <Text style={{fontSize: '20px'}}>{(this.state.urgent).toString()}</Text>
 
                 <TextInput
@@ -63,6 +72,14 @@ class ADD_TASK extends React.Component {
                 style={{ height: 40, borderColor: "black", borderWidth: 1 }}
                 onChangeText={event =>  this.handleChange('desc', event)}
                 defaultValue={this.state.desc}
+                required={true}
+                />
+
+                <TextInput
+                style={{ height: 40, borderColor: "black", borderWidth: 1 }}
+                onChangeText={event =>  this.handleChange('date', event)}
+                defaultValue={this.state.date}
+                autoFocus={true}
                 required={true}
                 />
                 
@@ -82,7 +99,7 @@ class ADD_TASK extends React.Component {
                 : <Button
                     title={"Add Task!"}
                     onPress={() =>
-                    {this.props.ADD_TODO_ACTION(TASK_OBJECT_CREATION(this.state.title, this.state.desc, this.state.urgent)); this.props.view_Task()}
+                    {this.props.ADD_TODO_ACTION(TASK_OBJECT_CREATION(this.state.title, this.state.desc, this.state.date, this.state.urgent)); this.props.view_Task()}
                     }
                 />
                 }
