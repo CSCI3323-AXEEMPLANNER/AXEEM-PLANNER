@@ -24,26 +24,28 @@ export default class Navigation extends React.Component {
     }
     
     render() {
-        return (
-            <View style={styles.buttonRowStyle}>
-                {this.state.VIEW_NAMES.map(([NAME, IMG], index) => (
-                    <TouchableOpacity
-                    style={styles.buttonRowStyle}
-                    activeOpacity={0.5}
-                    onPress={() => {this.props.UPDATE_VIEW('VIEW_' + NAME)}}
-                    key={index}>
-                    <Image
-                      source={IMG}
-                      style={styles.buttonImageIconStyle}                  
-                    />
-                    <Text style={styles.buttonTitleStyle}>{ '\n' + NAME}</Text>
-                    <View style={styles.buttonIconSeparatorStyle} />
-                  </TouchableOpacity>
-                ))}
-            </View>
-        )
-    }
+      return (
+        <>
+          {/* <View style={styles.buttonRowStyle}> */}
+              {this.state.VIEW_NAMES.map(([NAME, IMG], index) => (
+                  <TouchableOpacity
+                  style={styles.buttonRowStyle}
+                  activeOpacity={0.5}
+                  onPress={() => {this.props.UPDATE_VIEW('VIEW_' + NAME)}}
+                  key={index}>
+                  <Image
+                    source={IMG}
+                    style={styles.buttonImageIconStyle}                  
+                  />
+                  <Text style={styles.buttonTitleStyle}>{ '\n' + NAME}</Text>
+                  <View style={styles.buttonIconSeparatorStyle} />
+                </TouchableOpacity>
+              ))}
+          </>
+      )
+  }
 }
+
 const styles = StyleSheet.create({
     container: {
       flex: 1,
