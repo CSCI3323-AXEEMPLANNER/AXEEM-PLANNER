@@ -19,8 +19,8 @@
     "react-native": "0.69.6",
     "react-native-web": "~0.18.7",
     "react-redux": "^8.0.2",
-    "realm": "^10.21.1",
-    "sharp-cli": "^3.0.0"
+    "sharp-cli": "^3.0.0",
+    "@react-native-community/datetimepicker": "6.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

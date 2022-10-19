@@ -1,27 +1,30 @@
 import React from "react";
 import { connect } from "react-redux";
-import { View, Text, Button } from "react-native";
+import { View, Button } from "react-native";
 import PASS_THROUGH from "../../Util/Object _Pass";
 import MODAL_VIEW from "../../Util/Modal";
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { SET_START_DATE, SET_END_DATE } from "../../Actions/List_Action";
+import {to_Date} from "../../Util/TO_DATE";
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 class Calendar extends React.Component {
     constructor() {
         super();
         this.state = {
             obj: {THIS_TODO: null, index: null},
-            view_count: 5, // total viewables set by user
-            s_Date: 0, // may want to only store date in ms to save space and then convert to actual date string in markup
+            s_Date: 0,
             e_Date: 0,
-            content: {classes: [], assignments: [], todos: []}
+            content: {classes: [], assignments: [], todos: []},
+            show_Date: {on: false, type: ''}
         };
         this.handle_Modal_Change = this.handle_Modal_Change.bind(this);
         this.SENDER = this.SENDER.bind(this);
         this.CALC_AND_SEND = this.CALC_AND_SEND.bind(this);
+        this.handle_Date_View = this.handle_Date_View.bind(this);
     }
     
-    //Gets and stores values from state when components in mounted
+    // Gets and stores values from state when components in mounted
     // assignments: [...this.state.content.assignments] TEMP REPLACEMENT SO THAT THE ASSIGNENTS OBJECTS ARRAY DOES NOT GET REMOVED
     componentDidMount() {
         this.setState({s_Date: this.props.DATE_STATE.s_Date, e_Date: this.props.DATE_STATE.e_Date, content: {classes: this.props.CLASS_STATE.CLASSES, assignments: [...this.state.content.assignments], todos: this.props.TODO_STATE.TODO_LIST}});
@@ -32,9 +35,14 @@ class Calendar extends React.Component {
         (i === undefined) ? this.setState({obj: {THIS_TODO: null, index: null}}) : this.setState(({obj: {THIS_TODO: obj, index: i}})) // if object is passed, we can set it in state to get data
     }
 
+    handle_Date_View = (type) => {
+        this.setState({show_Date: {on: !this.state.show_Date.on, type: type}});
+    }
+
     SENDER = (date) => {
         this.props.SET_START_DATE(date.s_Date);
         this.props.SET_END_DATE(date.e_Date);
+        this.setState({s_Date: this.props.DATE_STATE.s_Date, e_Date: this.props.DATE_STATE.e_Date});
     }
 
     CALC_AND_SEND = (type) => {
@@ -52,25 +60,52 @@ class Calendar extends React.Component {
         s_Date = s_Date.getTime();
         e_Date = e_Date.getTime();
         this.SENDER({s_Date, e_Date})
-        this.setState({s_Date: this.props.DATE_STATE.s_Date, e_Date: this.props.DATE_STATE.e_Date});
     }
 
     render() {
         return (
             <View>
                 {(this.state.obj.THIS_TODO !== null) ? <MODAL_VIEW prop={this.state.obj} view_ME={this.handle_Modal_Change} /> : null}
-                <Text style={{fontSize: '20px'}}>Begin Date: {new Date(this.state.s_Date).toLocaleDateString()}</Text>
-                <Text style={{fontSize: '20px'}}>End Date: {new Date(this.state.e_Date).toLocaleDateString()}</Text>
+                <Button 
+                    style={{fontSize: '20px'}} 
+                    title={"From " + to_Date(this.state.s_Date)}
+                    onPress={() => this.handle_Date_View('s')}
+                />
+                <Button 
+                    style={{fontSize: '20px'}} 
+                    title={"To " + to_Date(this.state.e_Date)}
+                    onPress={() => this.handle_Date_View('e')}
+                />
                 {/* Add view by date: Start to Finish and render todo and classes from beginning date to end date */}
-                <PASS_THROUGH type='DATE' PROP_STATE={{TODO: this.state.content.todos, CLASS: this.state.content.classes}} view_ME={this.handle_Modal_Change} />
-                <Button
-                title="<"
-                onPress={() => this.CALC_AND_SEND('<')}
+                <PASS_THROUGH type='DATE' PROP_STATE={{TODO: this.state.content.todos, CLASS: this.state.content.classes}} view_ME={this.handle_Modal_Change} date={{e_Date: this.state.e_Date, s_Date: this.state.s_Date}} />
+                
+                {this.state.show_Date.on === true ?
+                <>
+                <Button 
+                    title={"return"}
+                    onPress={() => this.handle_Date_View()}
                 />
-                <Button
-                title=">"
-                onPress={() => this.CALC_AND_SEND('>')}
+                <DateTimePicker
+                testID="dateTimePicker"
+                value={this.state.show_Date.type === 's' ? new Date(this.state.s_Date) : new Date(this.state.e_Date)}
+                mode={'date'}
+                display={'spinner'}
+                is24Hour={true}
+                onChange={(e) => {this.state.show_Date.type === 's' ? this.SENDER({s_Date: e.nativeEvent.timestamp, e_Date: this.state.e_Date}) : this.SENDER({s_Date: this.state.s_Date, e_Date: e.nativeEvent.timestamp})}} 
                 />
+                </>
+                : 
+                <>
+                    <Button
+                    title="<"
+                    onPress={() => this.CALC_AND_SEND('<')} 
+                    />
+                    <Button
+                    title=">"
+                    onPress={() => this.CALC_AND_SEND('>')} 
+                    />
+                </>
+                }
             </View>
         )
     }
