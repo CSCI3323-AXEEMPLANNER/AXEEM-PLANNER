@@ -5,6 +5,7 @@ import Navigation from "../Navigation";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { CHANGE_VIEW_ACTION } from "../../Actions/List_Action";
 import GLOBAL_VIEW from "../GLOBAL_VIEW";
+import {NavigationContainer, DarkTheme} from '@react-navigation/native';
 import reactDom from "react-dom";
 
 class Canvas extends React.Component {
@@ -52,7 +53,6 @@ class Canvas extends React.Component {
           {/* CHILD NAVIGATION COMPONENT getting passed parent function handleUpdate */}
         </View>
         <Navigation UPDATE_VIEW={this.handleUpdate} />
-    
       </>
     );
   }

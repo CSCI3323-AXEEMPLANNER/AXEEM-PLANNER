@@ -10,7 +10,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { ADD_CLASS_ACTION } from "../../Actions/List_Action";
 import { CLASS_OBJECT_CREATION } from "../../Util/Object_Creation";
-import reactDom from "react-dom";
+import reactDom, { render } from "react-dom";
 import { TouchableWithoutFeedback } from "react-native-web";
 
 // CLASS_OBJECT_CREATION(class_ID, name, desc, professor_ID)
@@ -39,21 +39,20 @@ class VIEW_CLASS extends React.Component {
               underlayColor="#DDDDDD"
               onPress={() => alert(CLASS.class_ID)}
             >
-                <>
+              <>
                 <View style={styles.classContainerFirst}>
                   <Text style={styles.classTitleTx} key={index}>
-                    {CLASS.name} -
-                    {"\n"}       
+                    {CLASS.name} -{"\n"}
                   </Text>
                   <Text style={styles.classMainTxt}>
-                      Description: {CLASS.desc}
-                      {"\n"}
-                      {/* Ideally, when we implement the db, we can pull the professor's info for class based on foreign key */}
-                      Professor: Dr. Becnel
-                    </Text>
-                  </View>
+                    Description: {CLASS.desc}
+                    {"\n"}
+                    {/* Ideally, when we implement the db, we can pull the professor's info for class based on foreign key */}
+                    Professor: Dr. Becnel
+                  </Text>
+                </View>
                 <Text> {"\n"}</Text>
-                </>
+              </>
             </TouchableHighlight>
           ))
         ) : (
@@ -66,7 +65,12 @@ class VIEW_CLASS extends React.Component {
           onPress={() => {
             {
               this.props.ADD_CLASS_ACTION(
-                CLASS_OBJECT_CREATION("123", "CSCI 3323", "Software Engineering", "445")
+                CLASS_OBJECT_CREATION(
+                  "123",
+                  "CSCI 3323",
+                  "Software Engineering",
+                  "445"
+                )
               );
             }
             {
@@ -111,9 +115,9 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     overflow: "hidden",
     justifyContent: "center",
-    borderWidth:1,
+    borderWidth: 1,
   },
-  classTitleTx: {   
+  classTitleTx: {
     textAlign: "left",
     textAlignVertical: "top",
     paddingVertical: 20,
@@ -125,13 +129,13 @@ const styles = StyleSheet.create({
     marginVertical: -30,
     //flexGrow: 1,
   },
-  classMainTxt:{
+  classMainTxt: {
     height: 51,
-    width: '100%',
-   // backgroundColor:"blue",
+    width: "100%",
+    // backgroundColor:"blue",
     fontSize: 14,
     color: "white",
-    textAlign:'center',
+    textAlign: "center",
   },
   classTxt: {
     textAlign: "center",

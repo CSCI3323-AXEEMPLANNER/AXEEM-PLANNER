@@ -23,7 +23,7 @@ export default class Navigation extends React.Component {
         this.state = {
             //VIEW_NAMES: ['CLASS', 'ASSIGNMENT', 'NOTIFICATIONS', 'CALENDAR', 'SETTING']
             VIEW_NAMES: [['CLASS', a],['NOTIFICATIONS', b],['ASSIGNMENT', c],
-             ['CHAT', d],['CALENDAR', e],['SETTING', f]],
+             ['CHAT', d],['CALENDAR', e],['SETTINGS', f]],
         }
     }
 
