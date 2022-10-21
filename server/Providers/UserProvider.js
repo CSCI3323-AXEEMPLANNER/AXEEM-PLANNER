@@ -2,6 +2,8 @@ import React, { useContext, useState, useEffect, useRef } from "react";
 import Realm from "realm";
 import { Class, Todo } from "../Schema";
 import { useAuth } from "./AuthProvider";
+import STORE from "../../store";
+import { ADD_TODO_ACTION } from "../../public/Actions/List_Action";
 
 const UserContext = React.createContext(null);
 
@@ -44,6 +46,10 @@ const UserProvider = ( props ) => {
       let sortedTodos = syncTodos.sorted("title");
       setTodos([...sortedTodos]);
 
+      syncTodos.forEach(todo => {
+        STORE.dispatch(ADD_TODO_ACTION(todo));
+      })
+
       // we observe changes on the Todos, in case Sync informs us of changesr
       // started in other devices (or the cloud)
       sortedTodos.addListener(() => {
@@ -62,7 +68,7 @@ const UserProvider = ( props ) => {
     realm.write(() => {
       // Create a new Todo in the same partition -- that is, using the same user id.
       if (obj !== undefined) {
-      realm.create(
+      const currTodo = realm.create(
         "Todo",
         new Todo({
           title: obj.title,
@@ -74,19 +80,21 @@ const UserProvider = ( props ) => {
           urgent: obj.urgent
         })
       );
-    } else {
-      realm.create(
+      STORE.dispatch(ADD_TODO_ACTION(currTodo));
+    } else { // Only for testing
+      const test = realm.create(
         "Todo",
         new Todo({
           title: "New Todo",
           desc: "Some Todo Info",
           _partition: user.id,
-          createdOn: (new Date()).getDate().toString(),
+          createdOn: new Date(),
           time: (new Date()).getTime().toString(),
           date: (new Date()).getTime().toString(),
-          urgent: false
+          urgent: true
         })
       );
+      STORE.dispatch(ADD_TODO_ACTION(test));
     }})
   };
 

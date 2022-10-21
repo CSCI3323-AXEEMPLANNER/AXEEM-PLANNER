@@ -40,10 +40,10 @@ class VIEW_ASSIGNMENT extends React.Component {
                     {(this.state.obj.THIS_TODO !== null) ? <MODAL_VIEW prop={this.state.obj} view_ME={this.handle_Modal_Change} /> : null}
 
                     {/* <Text>You have { this.props.TODO_STATE.TODO_LIST.length } To-Do.</Text> */}
-                    <Text>You have { this.props.Todos.length } To-Do.</Text>
+                    <Text>You have { this.props.TODO_STATE.TODO_LIST.length } To-Do.</Text>
                     
                     {/* PASS_THROUGH FUNCTION REDUCES REDUNDANT MAPPING OF LISTS */}
-                    <PASS_THROUGH type='TODO' PROP_STATE={this.props.Todos} view_ME={this.handle_Modal_Change} />
+                    <PASS_THROUGH type='TODO' PROP_STATE={this.props.TODO_STATE.TODO_LIST} view_ME={this.handle_Modal_Change} />
                     
                     <Text>You have { this.props.TODO_STATE.URGENT.length } Urgent To-Do.</Text>
                     

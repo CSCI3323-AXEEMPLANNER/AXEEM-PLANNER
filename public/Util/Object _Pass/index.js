@@ -88,6 +88,8 @@ export default class PASS_THROUGH extends React.Component {
                 <>
                 <Text>Todos or Assignments</Text>
                 {todos.map((ITEM, index) => {
+                    // ISSUE: When a todo is created its date works fine when comparing to the prop date
+                    // |-> Unfortunately, when the user RE-logs into their account, the date is rendered as one less day?
                     // Checks if date of item is between (inclusive) dates set by user or app
                     if (ITEM.date >= this.props.date.s_Date && to_Zero(ITEM.date) <= this.props.date.e_Date) { // to_Zero because an items date may be ahead of the set
                     return (
