@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     },
     buttonTitleStyle:{
       textAlign: 'center',
-      display: 'block'
+      // display: 'block'
     },
     buttonIconSeparatorStyle: {
       backgroundColor: '#fff',

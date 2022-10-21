@@ -102,11 +102,11 @@ export default class PASS_THROUGH extends React.Component {
                             >
                                 Title: {ITEM.title}
                                 Flagged: {((ITEM.urgent) ? 'YES' : 'NOPE')}
+                                Date: {to_Date(ITEM.date)}
                             </Text>
                         </TouchableHighlight>
-                    )} else return <Text key={0}>Nothing To Display :L</Text>;
-                })
-                } 
+                    )} else return <Text key={index}>Nothing To Display :L</Text>;
+                })} 
                 <Text>Classes:</Text>
                 {classes.map((ITEM, index) => {
                     if (ITEM.date >= this.props.date.s_Date && to_Zero(ITEM.date) <= this.props.date.e_Date) {
@@ -115,16 +115,17 @@ export default class PASS_THROUGH extends React.Component {
                         key={index}
                         activeOpacity={0.6}
                         underlayColor="#DDDDDD"
-                        onPress={() => alert('this is have modal view as well, but should only allow view')}
+                        onPress={() => alert('This class will have a separate view! Just not completed :)')}
                         >
                             <Text
                                 key={index}
                             >
-                                Title: {ITEM.name}
-                                Time: {ITEM.time}
+                                ID: {ITEM.class_ID}
+                                Time: {to_Time(ITEM.time)}
+                                Date: {to_Date(ITEM.date)}
                             </Text>
                         </TouchableHighlight>
-                    )} else return <Text key={0}>Nothing To Display :L</Text>;
+                    )} else return <Text key={index}>Nothing To Display :L</Text>;
                 })}
                 </>
             )

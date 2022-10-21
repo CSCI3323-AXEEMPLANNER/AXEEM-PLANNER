@@ -1,9 +1,9 @@
-import { ADD_TODO, ADD_CLASS, CHANGE_VIEW, GET_TODO, REMOVE_TODO, EDIT_TODO, SET_S_DATE, SET_E_DATE } from "../Action_Type";
+import { ADD_TODO, ADD_CLASS, CHANGE_VIEW, REMOVE_TODO, EDIT_TODO, SET_S_DATE, SET_E_DATE, SET_LOGGED } from "../Action_Type";
 
-export const GET_TODO_ACTION = INDEX => (
+export const SET_LOGGED_ACTION = TRUE => (
   {
-    type: GET_TODO,
-    payload: INDEX // PAYLOD TO RETURN TODO AT INDEX
+    type: SET_LOGGED,
+    payload: TRUE
   }
 );
 

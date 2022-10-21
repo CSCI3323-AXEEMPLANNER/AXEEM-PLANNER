@@ -1,7 +1,6 @@
-import { ADD_TODO, REMOVE_TODO, CHANGE_VIEW, ADD_CLASS, GET_TODO, EDIT_TODO, SET_S_DATE, SET_E_DATE } from '../../Actions/Action_Type';
-
+import { ADD_TODO, REMOVE_TODO, CHANGE_VIEW, ADD_CLASS, GET_TODO, EDIT_TODO, SET_S_DATE, SET_E_DATE, SET_LOGGED } from '../../Actions/Action_Type';
 // MAYBE ADD STATE INFO VIA https://github.com/react-native-async-storage/async-storage
-
+import { CLASS_OBJECT_CREATION } from '../../Util/Object_Creation';
 // Creating INITIAL STATE IN CASE OF NO MUTATION
 const TODO_STATE = {
     URGENT: [], // USED FOR WHEN A TASK IS SET AS FLAGGED AND CAN BE USED FOR REMINDERS
@@ -24,16 +23,7 @@ const DATE_STATE = {
 
 // User login
 const LOGGED_STATE = {
-    LOGGEDIN: false
-}
-
-// Checks if item exists to not duplicate
-function checkCLASSES(ARRAY, ID) {
-    for (let index = 0; index < ARRAY.length; index++) {
-        if (ARRAY[index].class_ID === ID) {
-            return true;
-        }
-    }
+    LOGGEDIN: false // default value
 }
 
 // Should not need an throw due to an urgent or todo item not existing unless in array
@@ -65,8 +55,25 @@ function setObj(OLD_OBJ, NEW_OBJ) {
             TODO_STATE.URGENT.push(temp_OBJ);
         }
     }
-
     return temp_OBJ;
+}
+
+export function LOGIN_REDUCER (state = LOGGED_STATE, action) {
+    switch (action.type) {
+
+    case SET_LOGGED:
+
+    let IS_LOGGED = action.payload;
+
+    state.LOGGEDIN = IS_LOGGED;
+
+    const LOG_CONDITION = LOGGED_STATE;
+
+    return LOG_CONDITION;
+    
+    default:
+            return state;
+    }
 }
 
 // Setting date in global state, should already have calculated date
@@ -101,29 +108,22 @@ export function CLASS_REDUCER (state = CLASS_STATE, action) {
     switch (action.type) {
         case ADD_CLASS:
         // GETS CLASS ARRAY FROM STATE PASSED IN FUNCTION
-        const {
+        var {
             CLASSES
         } = state;
 
         // SETTING POST_CLASS_OBJECT TO OBJECT PASSED FROM ACTION
         const POST_CLASS_OBJECT = action.payload;
-
-        // RUN SEARCH TO PREVENT USER FROM ADDING 2 OF SAME CLASS
-        // LIKELY REMOVE IN FUTURE IN CASE OF TOO MUCH RUNTIME/MEMORY USAGE
-        // CAN REPLACE BY HAVING DB POST RUN FILTER
-        if (checkCLASSES(CLASSES, POST_CLASS_OBJECT.class_ID)) {
-            alert('cannot add two of same class type!')
-            alert('this button is in testmode, so it only sends a hardcoded object which does not have a different id at the moment')
-            return {CLASSES};
-        } else {
-            // PUSHING NEW OBJECT TO CLASS ARRAY if no matching id
-            CLASSES.push(POST_CLASS_OBJECT); // FINALLY ADDING PAYLOAD (USER TODO) TO TODO ARRAY if urgency
         
-            const UPDATED_STATE = {CLASSES};
-            
-            // RETURNING UPDATED STATE
-            return UPDATED_STATE;
-        }
+        POST_CLASS_OBJECT.forEach(element => {
+            let obj = CLASS_OBJECT_CREATION(element)
+            CLASSES.push(obj)
+        });
+
+        const UPDATED_STATE = CLASSES;
+        
+        // RETURNING UPDATED STATE
+        return UPDATED_STATE;
 
         // IF NO ACTION.TYPE, RETURNS STATE!
         default:
