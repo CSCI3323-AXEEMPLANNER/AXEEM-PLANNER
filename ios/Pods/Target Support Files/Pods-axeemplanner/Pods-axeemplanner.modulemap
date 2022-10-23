@@ -1,0 +1,6 @@
+module Pods_axeemplanner {
+  umbrella header "Pods-axeemplanner-umbrella.h"
+
+  export *
+  module * { export * }
+}
