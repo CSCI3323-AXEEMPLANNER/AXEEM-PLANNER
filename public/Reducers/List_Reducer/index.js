@@ -29,34 +29,13 @@ const LOGGED_STATE = {
 
 // Should not need an throw due to an urgent or todo item not existing unless in array
 function getINDEX(ARRAY, ID) {
-    let index;
+    let index = -1;
     for(var i = 0; i < ARRAY.length; i++) {
         if(ARRAY[i]._id.equals(ID)) {
             index = i;
             return index;
         }
     }
-}
-
-function setObj(OLD_OBJ, NEW_OBJ) {
-    // Creating new object
-    const temp_OBJ = OLD_OBJ;
-    const REMOVE_URGENT = temp_OBJ.urgent;
-    temp_OBJ.title = NEW_OBJ.title;
-    temp_OBJ.desc = NEW_OBJ.desc;
-    temp_OBJ.urgent = NEW_OBJ.urgent;
-
-    // Checks if the edit requires the object to be adjusted in other arrays
-    if (temp_OBJ.urgent !== REMOVE_URGENT) {
-        if (REMOVE_URGENT === true) {
-            TODO_STATE.URGENT.splice(getINDEX(TODO_STATE.URGENT, temp_OBJ.id), 1); // to remove from urgent! TEMPORARY FIX
-        }
-
-        if (REMOVE_URGENT === false) {
-            TODO_STATE.URGENT.push(temp_OBJ);
-        }
-    }
-    return temp_OBJ;
 }
 
 export function LOGIN_REDUCER (state = LOGGED_STATE, action) {
@@ -174,26 +153,29 @@ export function TODO_REDUCER (state = TODO_STATE, action) {
         return UPDATED_STATE;
 
         case EDIT_TODO:
-        
+        console.log("HERE AT EDIT TODO ACTION")
         var {
             URGENT,
             TODO_LIST
         } = state;
         
-        const TODO_FOR_REPLACE_ID = action.payload.id;
-        let TODO_REPLACEMENT = action.payload.obj; // is new object, if object is different at any area, it will update in todo array/urgent array
+        // Objects from payload
+        const TODOID_FOR_CHECK = action.payload.id; // object id in concern
+        const OLD_OBJ = action.payload.oldObj;
+        const NEW_OBJ = action.payload.newObj
 
-        var TODO_INDEX_TODOLIST = getINDEX(TODO_LIST, TODO_FOR_REPLACE_ID);
+        // Storing previous values and adjusting to see if a revision was necessary
+        let temp_OBJ = OLD_OBJ;
+        const REMOVE_URGENT = temp_OBJ.oldUrgState;
+        temp_OBJ.urgent = NEW_OBJ.urgent;
 
-        const UPDATED_OBJECT = setObj(TODO_LIST[TODO_INDEX_TODOLIST], TODO_REPLACEMENT);
-
-        if (TODO_LIST[TODO_INDEX_TODOLIST].urgent === true) {
-            // item is also urgent
-            let TODO_INDEX_URGENT = getINDEX(URGENT, TODO_FOR_REPLACE_ID);
-            URGENT[TODO_INDEX_URGENT] = UPDATED_OBJECT;
+        if (temp_OBJ.urgent !== REMOVE_URGENT) {
+            if (REMOVE_URGENT === true) {
+                URGENT.splice(getINDEX(URGENT, TODOID_FOR_CHECK), 1); // to remove from urgent! TEMPORARY FIX
+            } else {
+                URGENT.push(NEW_OBJ);
+            }
         }
-
-        TODO_LIST[TODO_INDEX_TODOLIST] = UPDATED_OBJECT;
 
         const TODO_AFTER_UPDATE = {TODO_LIST, URGENT};
         

@@ -3,7 +3,7 @@ import Realm from "realm";
 import { Class, Todo } from "../Schema";
 import { useAuth } from "./AuthProvider";
 import STORE from "../../store";
-import { ADD_TODO_ACTION } from "../../public/Actions/List_Action";
+import { ADD_TODO_ACTION, EDIT_TODO_ACTION } from "../../public/Actions/List_Action";
 
 const UserContext = React.createContext(null);
 const INIT_STATE = [];
@@ -85,12 +85,14 @@ const UserProvider = ( props ) => {
   
   const editTodo = (id, obj) => {
     const realm = realmRef.current;
+    let todo; // storing todo to reference for reducer action
     realm.write(() => {
-      const todo = realm.objectForPrimaryKey('Todo', id)
+      todo = realm.objectForPrimaryKey('Todo', id); // finds at some id
       todo.title = obj.title;
       todo.desc = obj.desc;
       todo.urgent = obj.urgent;
     });
+    STORE.dispatch(EDIT_TODO_ACTION({id: id, oldObj: obj, newObj: todo}));
   };
 
   // Define the function for deleting a Todo in realms

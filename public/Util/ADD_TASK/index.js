@@ -17,7 +17,8 @@ function CREATE_OBJ_STATE(obj) {
     const OBJ = {
         title: obj.title,
         desc: obj.desc,
-        urgent: obj.urgent
+        urgent: obj.urgent,
+        oldUrgState: obj.urgent // storing previous state of object before update
     }
     return OBJ;
 }
