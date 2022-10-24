@@ -6,9 +6,10 @@ import STORE from "../../store";
 import { ADD_TODO_ACTION } from "../../public/Actions/List_Action";
 
 const UserContext = React.createContext(null);
+const INIT_STATE = [];
 
 const UserProvider = ( props ) => {
-  const [Todos, setTodos] = useState([]);
+  const [Todos, setTodos] = useState(INIT_STATE);
   const { user } = useAuth();
 
   // Use a Ref to store the realm rather than the state because it is not
@@ -45,11 +46,11 @@ const UserProvider = ( props ) => {
       const syncTodos = realm.objects("Todo");
       let sortedTodos = syncTodos.sorted("title");
       setTodos([...sortedTodos]);
-
-      syncTodos.forEach(todo => {
+      // Only storing to global if existing info!
+      if (STORE.getState().TODO_STATE.TODO_LIST.length === 0) {
+        syncTodos.forEach((todo) => {
         STORE.dispatch(ADD_TODO_ACTION(todo));
-      })
-
+      })}
       // we observe changes on the Todos, in case Sync informs us of changesr
       // started in other devices (or the cloud)
       sortedTodos.addListener(() => {
@@ -67,7 +68,6 @@ const UserProvider = ( props ) => {
     const realm = realmRef.current;
     realm.write(() => {
       // Create a new Todo in the same partition -- that is, using the same user id.
-      if (obj !== undefined) {
       const currTodo = realm.create(
         "Todo",
         new Todo({
@@ -81,31 +81,24 @@ const UserProvider = ( props ) => {
         })
       );
       STORE.dispatch(ADD_TODO_ACTION(currTodo));
-    } else { // Only for testing
-      const test = realm.create(
-        "Todo",
-        new Todo({
-          title: "New Todo",
-          desc: "Some Todo Info",
-          _partition: user.id,
-          createdOn: new Date(),
-          time: (new Date()).getTime().toString(),
-          date: (new Date()).getTime().toString(),
-          urgent: true
-        })
-      );
-      STORE.dispatch(ADD_TODO_ACTION(test));
-    }})
-  };
-
-  // Define the function for deleting a Todo.
-  const deleteTodo = () => {
+  })};
+  
+  const editTodo = (id, obj) => {
     const realm = realmRef.current;
     realm.write(() => {
-      realm.deleteAll();
-      // after deleting, we get the Todos again and update them
-      setTodos([]);
+      const todo = realm.objectForPrimaryKey('Todo', id)
+      todo.title = obj.title;
+      todo.desc = obj.desc;
+      todo.urgent = obj.urgent;
     });
+  };
+
+  // Define the function for deleting a Todo in realms
+  const deleteTodo = (id) => {
+    const realm = realmRef.current;
+    realm.write(()=>{
+      realm.delete(realm.objectForPrimaryKey('Todo', id));
+   }) 
   };
 
   const closeRealm = () => {
@@ -123,6 +116,7 @@ const UserProvider = ( props ) => {
     <UserContext.Provider
       value={{
         createTodo,
+        editTodo,
         deleteTodo,
         closeRealm,
         Todos

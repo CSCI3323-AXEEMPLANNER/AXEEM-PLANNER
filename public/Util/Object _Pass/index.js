@@ -20,7 +20,7 @@ export default class PASS_THROUGH extends React.Component {
     render() {
         const type = this.props.type;
         const obj = this.props.PROP_STATE;
-        if (type === 'TODO' || type === 'URGENT') {
+        if (type === 'TODO' || type === 'URGENT' && obj.length > 0) {
         return (
             obj.map((ITEM, index) => (
                     <TouchableHighlight
@@ -64,13 +64,22 @@ export default class PASS_THROUGH extends React.Component {
                         />
                     </>
                     // when edit button is clicked, add_task is returned to update the item at id!
-                    : <ADD_TASK in_Edit={this.state.edit_ME} in_Edit_obj={obj} view_Task={this.handle_Edit_Mode} /> // view_Task here is adjusting the state value in this instance view_ME func.
+                    : <ADD_TASK in_Edit={this.state.edit_ME} RLM_EDIT={this.props.RLM_EDIT} in_Edit_obj={obj} view_Task={this.handle_Edit_Mode} /> // view_Task here is adjusting the state value in this instance view_ME func.
                     }
                     <Button
                         title="Delete"
                         activeOpacity={0.6}
                         underlayColor="#FFFFFF"
-                        onPress={() => {this.props.DELETE_ME(obj.id); this.props.view_ME();}}
+                        onPress={() => {
+                            const id = obj._id;
+                            try {
+                                this.props.DELETE_ME(id);
+                                this.props.RLM_DELETE(id);
+                            } catch (e) {
+                                console.error(e)
+                            }
+                            this.props.view_ME();
+                        }}
                     />
                     <Button
                         title="Exit"
@@ -107,9 +116,9 @@ export default class PASS_THROUGH extends React.Component {
                                 Date: {to_Date(ITEM.date)}
                             </Text>
                         </TouchableHighlight>
-                    )} else return <Text key={index}>Nothing To Display :L</Text>;
+                    )}
                 })} 
-                <Text>Classes:</Text>
+                <Text>Classes</Text>
                 {classes.map((ITEM, index) => {
                     if (ITEM.date >= this.props.date.s_Date && to_Zero(ITEM.date) <= this.props.date.e_Date) {
                         return (

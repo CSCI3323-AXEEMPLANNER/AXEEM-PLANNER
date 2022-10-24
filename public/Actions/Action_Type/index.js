@@ -9,3 +9,4 @@ export const CHANGE_VIEW = 'CHANGE_VIEW';
 export const SET_S_DATE = 'SET_S_DATE';
 export const SET_E_DATE = 'SET_E_DATE';
 export const SET_LOGGED = 'SET_LOGGED';
+export const RESET = 'RESET';

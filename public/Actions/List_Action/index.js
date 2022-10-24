@@ -1,4 +1,4 @@
-import { ADD_TODO, ADD_CLASS, CHANGE_VIEW, REMOVE_TODO, EDIT_TODO, SET_S_DATE, SET_E_DATE, SET_LOGGED } from "../Action_Type";
+import { ADD_TODO, ADD_CLASS, CHANGE_VIEW, REMOVE_TODO, EDIT_TODO, SET_S_DATE, SET_E_DATE, SET_LOGGED, RESET } from "../Action_Type";
 
 export const SET_LOGGED_ACTION = TRUE => (
   {
@@ -6,6 +6,13 @@ export const SET_LOGGED_ACTION = TRUE => (
     payload: TRUE
   }
 );
+
+export const SET_RESET = E => (
+  {
+    type: RESET,
+    payload: E
+  }
+)
 
 export const EDIT_TODO_ACTION = TODO_OBJECT => (
   {

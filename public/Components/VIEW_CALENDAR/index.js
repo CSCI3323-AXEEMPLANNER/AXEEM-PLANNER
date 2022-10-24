@@ -15,7 +15,7 @@ class Calendar extends React.Component {
             obj: {THIS_TODO: null, index: null},
             s_Date: 0,
             e_Date: 0,
-            content: {classes: [], assignments: []},
+            content: {classes: [], assignments: [], todos: []},
             show_Date: {on: false, type: ''}
         };
         this.handle_Modal_Change = this.handle_Modal_Change.bind(this);
@@ -27,7 +27,7 @@ class Calendar extends React.Component {
     // Gets and stores values from state when components in mounted
     // assignments: [...this.state.content.assignments] TEMP REPLACEMENT SO THAT THE ASSIGNENTS OBJECTS ARRAY DOES NOT GET REMOVED
     componentDidMount() {
-        this.setState({s_Date: this.props.DATE_STATE.s_Date, e_Date: this.props.DATE_STATE.e_Date, content: {classes: this.props.CLASS_STATE, assignments: [...this.state.content.assignments]}});
+        this.setState({s_Date: this.props.DATE_STATE.s_Date, e_Date: this.props.DATE_STATE.e_Date, content: {classes: this.props.CLASS_STATE, assignments: [...this.state.content.assignments], todos: this.props.TODO_STATE.TODO_LIST}});
     }
 
     // ALLOWS FOR COMPONENT'S STATE TO UPDATE ON TEXT INPUT CHANGE
@@ -65,7 +65,7 @@ class Calendar extends React.Component {
     render() {
         return (
             <View>
-                {(this.state.obj.THIS_TODO !== null) ? <MODAL_VIEW prop={this.state.obj} view_ME={this.handle_Modal_Change} /> : null}
+                {(this.state.obj.THIS_TODO !== null) ? <MODAL_VIEW prop={this.state.obj} RLM_DELETE={this.props.delete_TODO} RLM_EDIT={this.props.edit_TODO} view_ME={this.handle_Modal_Change} /> : null}
                 <Button
                     style={{fontSize: 20}} 
                     title={"From " + to_Date(this.state.s_Date)}
@@ -77,7 +77,7 @@ class Calendar extends React.Component {
                     onPress={() => this.handle_Date_View('e')}
                 />
                 {/* Add view by date: Start to Finish and render todo and classes from beginning date to end date */}
-                <PASS_THROUGH type='DATE' PROP_STATE={{TODO: this.props.Todos, CLASS: this.state.content.classes}} view_ME={this.handle_Modal_Change} date={{e_Date: this.state.e_Date, s_Date: this.state.s_Date}} />
+                <PASS_THROUGH type='DATE' PROP_STATE={{TODO: this.state.content.todos, CLASS: this.state.content.classes}} view_ME={this.handle_Modal_Change} date={{e_Date: this.state.e_Date, s_Date: this.state.s_Date}} />
                 
                 {this.state.show_Date.on === true ?
                 <>

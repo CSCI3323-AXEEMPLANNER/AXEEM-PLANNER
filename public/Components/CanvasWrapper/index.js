@@ -4,6 +4,7 @@ import Canvas from "../Canvas";
 // import LOGIN_VIEW from "../VIEW_LOGIN";
 import Login from "../../Util/Login";
 import { SafeAreaView, Button, Text } from "react-native";
+import STORE from "../../../store";
 
 // Canvas wrapper allows us to use a hook call and pass down all functions of useAuth provider to CANVAS
 export const CanvasWrapper = () => {
@@ -16,22 +17,18 @@ export const CanvasWrapper = () => {
                     <Text>Viewing as {authProps.userRole}</Text>
                     <Button 
                     title="View Todos"
-                    onPress={() => {const todos = UserAble.Todos.map((x) => "_Partition: " + x._partition + " Title: " + x.title + " createdOn: " + x.createdOn + "\n"); console.log(UserAble.Todos)}}
+                    onPress={() => {console.log(STORE.getState().TODO_STATE.TODO_LIST)}}
                     />
                     <Button
                     title={"Logout of " + authProps.user.id}
-                    onPress={() => authProps.signOut()}
+                    onPress={() => {authProps.signOut();}}
                     />
-                    <Button
-                    title={"Add a Todo"}
-                    onPress={() => UserAble.createTodo()}
-                    />
-                    <Button 
+                    {/* <Button // here in case of having to remove ALL user's todos
                     title="Delete all Todos"
                     onPress={() => {UserAble.deleteTodo()}}
-                    />
+                    /> */}
                     {/* Passing functions from userable to canvas -> global view -> to anything */}
-                    <Canvas {...UserAble} /> 
+                    <Canvas {...UserAble} />
                 </SafeAreaView>
             )
     //    }

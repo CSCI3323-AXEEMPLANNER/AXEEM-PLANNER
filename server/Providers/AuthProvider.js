@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import Realm from "realm";
 import app from "../../RealmApp";
-import { ADD_CLASS_ACTION } from "../../public/Actions/List_Action";
+import { ADD_CLASS_ACTION, SET_RESET } from "../../public/Actions/List_Action";
 import STORE from "../../store";
 
 const AuthContext = React.createContext(null);
@@ -69,6 +69,7 @@ const signOut = () => {
       console.warn("Not logged in, can't log out!");
       return;
     }
+    STORE.dispatch(SET_RESET("Resetting all arrays!"));
     user.logOut();
     setUser(null);
 };

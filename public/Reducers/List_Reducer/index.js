@@ -1,4 +1,4 @@
-import { ADD_TODO, REMOVE_TODO, CHANGE_VIEW, ADD_CLASS, GET_TODO, EDIT_TODO, SET_S_DATE, SET_E_DATE, SET_LOGGED } from '../../Actions/Action_Type';
+import { ADD_TODO, REMOVE_TODO, CHANGE_VIEW, ADD_CLASS, RESET, EDIT_TODO, SET_S_DATE, SET_E_DATE, SET_LOGGED } from '../../Actions/Action_Type';
 // MAYBE ADD STATE INFO VIA https://github.com/react-native-async-storage/async-storage
 import { CLASS_OBJECT_CREATION } from '../../Util/Object_Creation';
 // Creating INITIAL STATE IN CASE OF NO MUTATION
@@ -16,12 +16,13 @@ const CLASS_STATE = {
 }
 
 // Allows a re-renderable date selection for calendar view
+// Dates here are initially set to 5 days apart, but can be changed via user input
 const DATE_STATE = {
     s_Date: new Date().setDate(new Date().getDate() + 0),
     e_Date: new Date().setDate(new Date().getDate() + 5)
 }
 
-// User login
+// User login -> storing a boolean here for future
 const LOGGED_STATE = {
     LOGGEDIN: false // default value
 }
@@ -30,7 +31,7 @@ const LOGGED_STATE = {
 function getINDEX(ARRAY, ID) {
     let index;
     for(var i = 0; i < ARRAY.length; i++) {
-        if(ARRAY[i].id === ID) {
+        if(ARRAY[i]._id.equals(ID)) {
             index = i;
             return index;
         }
@@ -114,10 +115,9 @@ export function CLASS_REDUCER (state = CLASS_STATE, action) {
 
         // SETTING POST_CLASS_OBJECT TO OBJECT PASSED FROM ACTION
         const POST_CLASS_OBJECT = action.payload;
-        
         POST_CLASS_OBJECT.forEach(element => {
             let obj = CLASS_OBJECT_CREATION(element)
-            CLASSES.push(obj)
+            if (obj !== undefined) CLASSES.push(obj)
         });
 
         const UPDATED_STATE = CLASSES;
@@ -166,8 +166,7 @@ export function TODO_REDUCER (state = TODO_STATE, action) {
 
         // SETTING POST_TODO TO THE TODO CREATED BY USER AND ADDING IT TO TODO ARRAY IN STATE
         const POST_TODO_OBJECT = action.payload;
-        
-        // ACTION.PAYLOAD.LENGTH IS GREATER THAN 0 IF A PARAMETER IS SENT AS 'URGENT' TO ADD TODO TO URGENT ARRAY
+
         (POST_TODO_OBJECT.urgent === true) ? (URGENT.push(POST_TODO_OBJECT), TODO_LIST.push(POST_TODO_OBJECT)) :  TODO_LIST.push(POST_TODO_OBJECT); // FINALLY ADDING PAYLOAD (USER TODO) TO TODO ARRAY if urgency
 
         const UPDATED_STATE = {TODO_LIST, URGENT};
@@ -182,7 +181,7 @@ export function TODO_REDUCER (state = TODO_STATE, action) {
         } = state;
         
         const TODO_FOR_REPLACE_ID = action.payload.id;
-        const TODO_REPLACEMENT = action.payload.obj; // is new object, if object is different at any area, it will update in todo array/urgent array
+        let TODO_REPLACEMENT = action.payload.obj; // is new object, if object is different at any area, it will update in todo array/urgent array
 
         var TODO_INDEX_TODOLIST = getINDEX(TODO_LIST, TODO_FOR_REPLACE_ID);
 
@@ -208,7 +207,6 @@ export function TODO_REDUCER (state = TODO_STATE, action) {
         } = state;
 
         const TODO_ID = action.payload; // todo id to be deleted
-
         // with todo_id, find where it is placed (index)
         var TODO_INDEX_TODOLIST = getINDEX(TODO_LIST, TODO_ID);
         if (TODO_LIST[TODO_INDEX_TODOLIST].urgent === true) {
@@ -222,7 +220,26 @@ export function TODO_REDUCER (state = TODO_STATE, action) {
 
         const TODO_AFTER_REMOVAL = {TODO_LIST, URGENT};
 
+        console.log("After removal: " + JSON.stringify(TODO_AFTER_REMOVAL))
+
         return TODO_AFTER_REMOVAL;
+
+        case RESET:
+
+        var {
+            URGENT,
+            TODO_LIST
+        } = state;
+
+        console.warn(action.payload);
+
+        // NEED TO RESET ARRAYS HERE
+        URGENT = [];
+        TODO_LIST = [];
+
+        const RESET_CLASS_STATE = {TODO_LIST, URGENT};
+
+        return RESET_CLASS_STATE;
 
         // IF NO ACTION.TYPE, RETURNS STATE!
         default:

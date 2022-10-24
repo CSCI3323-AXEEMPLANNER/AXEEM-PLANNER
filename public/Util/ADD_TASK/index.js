@@ -77,7 +77,7 @@ class ADD_TASK extends React.Component {
                     title={"Update Task!"}
                     onPress={() =>
                         // CREATE A FUNCTION TO REVIEW OBJECTS AND COMPARE IF THE UPDATE VIEW NEEDS TO OCCUR!
-                    {{REVIEW(this.props.in_Edit_obj, this.state) === true ? alert("no change found!") : this.props.EDIT_TODO_ACTION({id: this.props.in_Edit_obj.id, obj: this.state})} this.props.view_Task()}}
+                    {{REVIEW(this.props.in_Edit_obj, this.state) === true ? alert("no change found!") : this.props.RLM_EDIT(this.props.in_Edit_obj._id, this.state)} this.props.view_Task()}}
                 />
                 : <Button
                     title={"Add Task!"}
