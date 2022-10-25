@@ -5,7 +5,6 @@ import Navigation from "../Navigation";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { CHANGE_VIEW_ACTION } from "../../Actions/List_Action";
 import GLOBAL_VIEW from "../GLOBAL_VIEW";
-import {NavigationContainer, DarkTheme} from '@react-navigation/native';
 import reactDom from "react-dom";
 
 class Canvas extends React.Component {
@@ -38,14 +37,7 @@ class Canvas extends React.Component {
       <>
       {/* remeber to refactor this*/}
         <View style={styles.mainBody}>
-         
-          {/* Displays a welcome message for users*/}
-          <View style={styles.greetContainer}>
-            <Text style={styles.greetWelcome}>
-              Welcome Back!{"\n"}
-              <Text style={styles.greetUser}>User</Text>
-            </Text>
-          </View>
+
           {/* this text view displaying current view can be minimized to a single component for all instances! */}
           <Text style={styles.tabTitle}>{this.state.view}</Text>
           {/* Adjust view in canvas to view selected by user in navigation! */}
@@ -111,11 +103,11 @@ const styles = StyleSheet.create({
   tabTitle: {
     height: 40,
     width: "90%",
-    marginTop: 10,
+    marginTop: 40,
     marginHorizontal: 20,
     textAlign: "center",
     fontWeight: "bold",
     fontSize: 20,
-    //backgroundColor: 'red',
+    
   },
 });

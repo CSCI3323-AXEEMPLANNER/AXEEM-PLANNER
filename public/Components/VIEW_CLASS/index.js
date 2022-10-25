@@ -5,6 +5,7 @@ import {
   Text,
   Button,
   StyleSheet,
+  ScrollView,
 } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from "@reduxjs/toolkit";
@@ -31,55 +32,68 @@ class VIEW_CLASS extends React.Component {
         {/*<Text style={{ fontSize: 20 }}>
           You have {this.props.CLASS_STATE.CLASSES.length} classes.
     </Text>*/}
-        {this.props.CLASS_STATE.CLASSES.length > 0 ? (
-          this.props.CLASS_STATE.CLASSES.map((CLASS, index) => (
-            <TouchableHighlight
-              key={index}
-              activeOpacity={0.6}
-              underlayColor="#DDDDDD"
-              onPress={() => alert(CLASS.class_ID)}
-            >
-              <>
-                <View style={styles.classContainerFirst}>
-                  <Text style={styles.classTitleTx} key={index}>
-                    {CLASS.name} -{"\n"}
-                  </Text>
-                  <Text style={styles.classMainTxt}>
-                    Description: {CLASS.desc}
-                    {"\n"}
-                    {/* Ideally, when we implement the db, we can pull the professor's info for class based on foreign key */}
-                    Professor: Dr. Becnel
-                  </Text>
-                </View>
-                <Text> {"\n"}</Text>
-              </>
-            </TouchableHighlight>
-          ))
-        ) : (
-          <Text style={{ fontSize: 20 }}>Look's like you have no classes!</Text>
-        )}
-
+        <ScrollView>
+          {this.props.CLASS_STATE.CLASSES.length > 0 ? (
+            this.props.CLASS_STATE.CLASSES.map((CLASS, index) => (
+              <TouchableHighlight
+                key={index}
+                activeOpacity={0.6}
+                underlayColor="#DDDDDD"
+                onPress={() => alert(CLASS.class_ID)}
+              >
+                <>
+                  {index == 0 ? (
+                    <>
+                      <View style={styles.classContainerFirst}>
+                        <Text style={styles.classTitleTx} key={index}>
+                          {CLASS.name} -{"\n"}
+                        </Text>
+                        <Text style={styles.classMainTxt}>
+                          {CLASS.desc}
+                          {"\n"}
+                          {/* Ideally, when we implement the db, we can pull the professor's info for class based on foreign key */}
+                          {CLASS.date}
+                        </Text>
+                      </View>
+                      <Text> {"\n"}</Text>
+                    </>
+                  ) : (
+                    <>
+                      <View style={styles.classContainerSecond}>
+                        <Text style={styles.classTitleTx2} key={index}>
+                          {CLASS.name} -{"\n"}
+                        </Text>
+                        <Text style={styles.classMainTxt2}>
+                          {CLASS.desc}
+                          {"\n"}
+                          {/* Ideally, when we implement the db, we can pull the professor's info for class based on foreign key */}
+                          {CLASS.date}
+                        </Text>
+                      </View>
+                      <Text> {"\n"}</Text>
+                    </>
+                  )}
+                </>
+              </TouchableHighlight>
+            ))
+          ) : (
+            <Text style={{ fontSize: 20 }}>
+              Look's like you have no classes!
+            </Text>
+          )}
+        </ScrollView>
         {/* ADJUST BUTTON ONCLICK TO BRING LIST OF CLASSES BY PROFESSOR_ID -- USER SHOULD ONLY BE ABLE TO ADD CLASSES BASED ON WHAT PROFESSOR THEY BELONG TO */}
-        <Button
+        {/*<Button
           title="Add Class"
           onPress={() => {
-            {
-              this.props.ADD_CLASS_ACTION(
-                CLASS_OBJECT_CREATION(
-                  "123",
-                  "CSCI 3323",
-                  "Software Engineering",
-                  "445"
-                )
-              );
-            }
+
             {
               this.props.ADD_CLASS_ACTION(
                 CLASS_OBJECT_CREATION("113", "CSCI 4341", "Computer", "232")
               );
             }
-          }}
-        />
+          }
+        />*/}
       </View>
     );
   }
@@ -117,6 +131,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderWidth: 1,
   },
+  classContainerSecond: {
+      height: 133,
+      width: 259,
+      backgroundColor: "#CDF5D8",
+      borderRadius: 30,
+      overflow: "hidden",
+      justifyContent: "center",
+      borderWidth: 1,
+      marginLeft: 100,
+  },
   classTitleTx: {
     textAlign: "left",
     textAlignVertical: "top",
@@ -125,7 +149,17 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "white",
     fontSize: 20,
-    //backgroundColor:"red",
+    marginVertical: -30,
+    //flexGrow: 1,
+  },
+  classTitleTx2: {
+    textAlign: "left",
+    textAlignVertical: "top",
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    fontWeight: "bold",
+    color: "black",
+    fontSize: 20,
     marginVertical: -30,
     //flexGrow: 1,
   },
@@ -135,6 +169,14 @@ const styles = StyleSheet.create({
     // backgroundColor:"blue",
     fontSize: 14,
     color: "white",
+    textAlign: "center",
+  },
+  classMainTxt2: {
+    height: 51,
+    width: "100%",
+    // backgroundColor:"blue",
+    fontSize: 14,
+    color: "black",
     textAlign: "center",
   },
   classTxt: {
