@@ -2,7 +2,7 @@
 export function TASK_OBJECT_CREATION(title, desc, urgent, date, time) {
     // LIKELY ADD PREVENTION OF ADDITION IF ATLEAST TITLE OR DESCRIPTION IS EMPTY
     // DATE & TIME UNDEFINED ARE IN CASE A USER DECIDED TO CREATE A TODO TASK WITHOUT THE NEED FOR A TIME OR DATE, CAN PLACE IN CALENDAR AT THE TIME OF CREATION
-    const obj = {'id': crypto.randomUUID(), 'title': title, 'desc': desc, 'urgent': urgent, 'date': (date === undefined) ? new Date().getTime() : date, 'time': (time === undefined) ? new Date().getTime() : time}
+    const obj = {'id': new Date().getTime(), 'title': title, 'desc': desc, 'urgent': urgent, 'date': (date === undefined) ? new Date().getTime() : date, 'time': (time === undefined) ? new Date().getTime() : time}
     return obj;
 };
 
