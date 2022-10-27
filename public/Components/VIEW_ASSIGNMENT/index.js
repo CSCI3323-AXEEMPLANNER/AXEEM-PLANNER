@@ -10,7 +10,6 @@ const INIT_STATE = {
     obj: {THIS_TODO: null, index: null},
     add_Task: false
 }
-
 class VIEW_ASSIGNMENT extends React.Component {
     constructor() {
         super();

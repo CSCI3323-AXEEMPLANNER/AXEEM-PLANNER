@@ -13,7 +13,51 @@ const VIEW_STATE = {
 }
 
 const CLASS_STATE = {
-    CLASSES: []
+    CLASSES: [
+        {
+            class_ID: "122",
+            name: "CSCI 3342",
+            desc: "Software Engineering",
+            professor_ID: "232",
+            date: "MW 4:00 PM - 5:15 PM"
+        },
+        {
+            class_ID: "123",
+            name: "CSCI 4342",
+            desc: "Database",
+            professor_ID: "232",
+            date: "MW 4:00 PM - 5:15 PM"
+        },
+        {
+            class_ID: "223",
+            name: "CSCI 4560",
+            desc: "Software Modeling",
+            professor_ID: "233",
+            date: "TTH 4:00 PM - 5:15 PM"
+        },
+        {
+            class_ID: "230",
+            name: "CSCI 5342",
+            desc: "AI",
+            professor_ID: "242",
+            date: "MW 12:00 PM - 3:15 PM"
+        },
+        {
+            class_ID: "430",
+            name: "CSCI 5542",
+            desc: "Machine Learning",
+            professor_ID: "432",
+            date: "MW 5:00 PM - 7:15 PM"
+        },
+        {
+            class_ID: "123",
+            name: "CSCI 5642",
+            desc: "Lab ML",
+            professor_ID: "632",
+            date: "MW 8:00 PM - 9:15 PM"
+        }
+        
+    ]
 }
 
 // Allows a re-renderable date selection for calendar view
