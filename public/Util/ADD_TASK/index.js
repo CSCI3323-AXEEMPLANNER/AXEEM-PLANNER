@@ -46,10 +46,10 @@ class ADD_TASK extends React.Component {
         return(
             <View>
                 {/* REDUCE TO A SEPARATE COMPONENT TO DISPLAY */}
-                <Text style={{fontSize: '20px'}}>Your current TODO</Text>
-                <Text style={{fontSize: '20px'}}>{this.state.title}</Text>
-                <Text style={{fontSize: '20px'}}>{this.state.desc}</Text>
-                <Text style={{fontSize: '20px'}}>{(this.state.urgent).toString()}</Text>
+                <Text style={{fontSize: 20}}>Your current TODO</Text>
+                <Text style={{fontSize: 20}}>{this.state.title}</Text>
+                <Text style={{fontSize: 20}}>{this.state.desc}</Text>
+                <Text style={{fontSize: 20}}>{(this.state.urgent).toString()}</Text>
 
                 <TextInput
                 style={{ height: 40, borderColor: "black", borderWidth: 1 }}
