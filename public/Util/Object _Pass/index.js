@@ -1,5 +1,5 @@
 import React from "react";
-import { TouchableHighlight, Text, Button } from "react-native";
+import { TouchableHighlight, Text, Button, StyleSheet } from "react-native";
 import ADD_TASK from "../ADD_TASK";
 import {to_Date, to_Time, to_Zero} from "../../Util/TO_DATE";
 
@@ -31,6 +31,7 @@ export default class PASS_THROUGH extends React.Component {
                     >
                         <Text
                             key={index}
+                            style={styles.textExample}
                         >
                             Title: {ITEM.title}
                             Description: {ITEM.desc}
@@ -131,3 +132,15 @@ export default class PASS_THROUGH extends React.Component {
         }
     }
 }
+const styles = StyleSheet.create({
+    someBox: {
+        color: "blue",
+        backgroundColor: "red",
+        width: 300,
+        height: 400,
+    },
+    textExample: {
+        color: "blue",
+        
+    }
+});

@@ -27,6 +27,7 @@ class VIEW_CLASS extends React.Component {
 
   render() {
     return (
+
       <View style={styles.container}>
         {/* Mapping through classes in user profile already as of 9/17, pulling from array in global state */}
         {/*<Text style={{ fontSize: 20 }}>
@@ -35,16 +36,17 @@ class VIEW_CLASS extends React.Component {
         <ScrollView>
           {this.props.CLASS_STATE.CLASSES.length > 0 ? (
             this.props.CLASS_STATE.CLASSES.map((CLASS, index) => (
+              /*
               <TouchableHighlight
                 key={index}
                 activeOpacity={0.6}
                 underlayColor="#DDDDDD"
                 onPress={() => alert(CLASS.class_ID)}
-              >
+              >*/
                 <>
                   {index == 0 ? (
                     <>
-                      <View style={styles.classContainerFirst}>
+                      <View style={[styles.classContainerFirst, styles.shawdowProp]}>
                         <Text style={styles.classTitleTx} key={index}>
                           {CLASS.name} -{"\n"}
                         </Text>
@@ -74,8 +76,9 @@ class VIEW_CLASS extends React.Component {
                     </>
                   )}
                 </>
-              </TouchableHighlight>
+              /*</TouchableHighlight>*/
             ))
+          
           ) : (
             <Text style={{ fontSize: 20 }}>
               Look's like you have no classes!
@@ -127,9 +130,15 @@ const styles = StyleSheet.create({
     width: 360,
     backgroundColor: "#FFA386",
     borderRadius: 30,
-    overflow: "hidden",
+    //overflow: "hidden",
     justifyContent: "center",
-    borderWidth: 1,
+    //borderWidth: 1,
+  },
+  shawdowProp:{
+    shadowColor:"#171717",
+    shadowOffset:{width: -2, height: 4},
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
   },
   classContainerSecond: {
       height: 133,
@@ -138,8 +147,9 @@ const styles = StyleSheet.create({
       borderRadius: 30,
       overflow: "hidden",
       justifyContent: "center",
-      borderWidth: 1,
+     // borderWidth: 1,
       marginLeft: 100,
+      marginTop: -10,
   },
   classTitleTx: {
     textAlign: "left",

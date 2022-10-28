@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Button, Text } from 'react-native';
+import { View, Button, Text, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import PASS_THROUGH from '../../Util/Object _Pass';
 import MODAL_VIEW from '../../Util/Modal';
@@ -41,8 +41,11 @@ class VIEW_ASSIGNMENT extends React.Component {
                     <Text>You have { this.props.TODO_STATE.TODO_LIST.length } To-Do.</Text>
                     
                     {/* PASS_THROUGH FUNCTION REDUCES REDUNDANT MAPPING OF LISTS */}
-                    <PASS_THROUGH type='TODO' PROP_STATE={this.props.TODO_STATE.TODO_LIST} view_ME={this.handle_Modal_Change} />
                     
+                        
+                        <PASS_THROUGH type='TODO' PROP_STATE={this.props.TODO_STATE.TODO_LIST} view_ME={this.handle_Modal_Change}/>
+                        
+                   
                     <Text>You have { this.props.TODO_STATE.URGENT.length } Urgent To-Do.</Text>
                     
                     <PASS_THROUGH type='URGENT' PROP_STATE={this.props.TODO_STATE.URGENT} view_ME={this.handle_Modal_Change} />
@@ -53,6 +56,7 @@ class VIEW_ASSIGNMENT extends React.Component {
                             {this.handle_Task_Change()} // Going to show add todo view
                         }
                     />
+                   
                 </View>
                 );
             }
@@ -67,3 +71,4 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps)(VIEW_ASSIGNMENT);
+

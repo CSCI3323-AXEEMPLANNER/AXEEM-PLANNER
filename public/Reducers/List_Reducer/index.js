@@ -5,7 +5,12 @@ import { ADD_TODO, REMOVE_TODO, CHANGE_VIEW, ADD_CLASS, GET_TODO, EDIT_TODO, SET
 // Creating INITIAL STATE IN CASE OF NO MUTATION
 const TODO_STATE = {
     URGENT: [], // USED FOR WHEN A TASK IS SET AS FLAGGED AND CAN BE USED FOR REMINDERS
-    TODO_LIST: []
+    TODO_LIST: [{
+        title: 'Hello',
+        desc: 'Walk for a mile',
+        urgent: false,
+    },
+    ]
 };
 
 const VIEW_STATE = {
