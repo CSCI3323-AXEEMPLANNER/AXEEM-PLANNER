@@ -10,13 +10,13 @@ const INIT_STATE = [];
 
 const UserProvider = ( props ) => {
   const [Todos, setTodos] = useState(INIT_STATE);
-  const { user } = useAuth();
+  const { user, userRole } = useAuth();
 
   // Use a Ref to store the realm rather than the state because it is not
   // directly rendered, so updating it should not trigger a re-render as using
   // state would.
   const realmRef = useRef(null);
-
+  
   useEffect(() => {
     if (user == null) {
       console.log("Null user? Needs to log in!");
@@ -29,7 +29,7 @@ const UserProvider = ( props ) => {
       type: 'openImmediately',
     };
     const config = {
-      schema: [Todo.schema, Class.schema],
+      schema: [Todo.schema],
       sync: {
         user: user,
         partitionValue: `${user.id}`,
@@ -111,22 +111,43 @@ const UserProvider = ( props ) => {
       }
   };
 
+  // For admin usage
+  const addClass = () => {
+    const realm = realmRef.current;
+      if (realm) {
+        realm.close();
+        realmRef.current = null;
+      }
+  }
+
   // Render the children within the TodosContext's provider. The value contains
   // everything that should be made available to descendants that use the
   // useTasks hook.
-  return (
-    <UserContext.Provider
-      value={{
-        createTodo,
-        editTodo,
-        deleteTodo,
-        closeRealm,
-        Todos
-      }}
-    >
-      {props.children}
-    </UserContext.Provider>
-  );
+  if (userRole === "admin") { // returning specific data for admin
+    return (
+      <UserContext.Provider
+        value={{
+          closeRealm
+        }}
+      >
+        {props.children}
+      </UserContext.Provider>
+    );
+  } else {
+    return (
+      <UserContext.Provider
+        value={{
+          createTodo,
+          editTodo,
+          deleteTodo,
+          closeRealm,
+          Todos
+        }}
+      >
+        {props.children}
+      </UserContext.Provider>
+    );
+  }
 };
 
 // The useTasks hook can be used by any descendant of the TasksProvider. It

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TextInput, Button, ListViewComponent } from "react-native";
+import { View, Text, TextInput, Button } from "react-native";
 import { connect } from 'react-redux';
 import { SET_LOGGED_ACTION } from "../../Actions/List_Action";
 import { bindActionCreators } from "@reduxjs/toolkit";
@@ -22,7 +22,7 @@ class Login extends React.Component {
         this.state = INIT_STATE;
         this.handleChange = this.handleChange.bind(this);
         this.onPressSignIn = this.onPressSignIn.bind(this);
-        this.onPressSignUp = this.onPressSignUp.bind(this);
+        // this.onPressSignUp = this.onPressSignUp.bind(this);
     }
 
     componentDidMount() {
@@ -40,16 +40,16 @@ class Login extends React.Component {
         }
     };
 
-    onPressSignUp = async () => {
-        console.log("Trying signup with user: " + this.state.email);
-        try {
-            await this.props.signUp(this.state.email, this.state.password);
-            signIn(this.state.email, this.state.password);
-        } catch (error) {
-            const errorMessage = `Failed to sign up: ${error.message}`;
-            console.error(errorMessage);
-        }
-    };
+    // For admin use only
+    // onPressSignUp = async () => {
+    //     console.log("Trying signup with user: " + this.state.email, this.state.type);
+    //     try {
+    //         await this.props.signUp(this.state.email, this.state.password);
+    //     } catch (error) {
+    //         const errorMessage = `Failed to sign up: ${error.message}`;
+    //         console.error(errorMessage);
+    //     }
+    // };
 
     // ALLOWS FOR COMPONENT'S STATE TO UPDATE ON TEXT INPUT CHANGE
     handleChange = (ref, event) => {
@@ -82,20 +82,18 @@ class Login extends React.Component {
                 title="I'm a Student"
                 onPress={() => this.setState({type: s})}
                 />
-                <Button 
+                {/* <Button 
                 title="I'm a Tutor"
                 onPress={() => this.setState({type: t})}
                 
-                />
-                <Button 
+                /> */}
+                {/* <Button 
                 title="I'm a Professor"
                 onPress={() => this.setState({type: p})}
-                
-                />
+                /> */}
                 <Button 
                 title="I'm a Administrator"
-                onPress={() => this.setState({type: a})}
-                
+                onPress={() => this.setState({email: "admin@gmail.com", type: a})}
                 />
 
                 <Button 

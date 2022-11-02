@@ -94,6 +94,7 @@ export function CLASS_REDUCER (state = CLASS_STATE, action) {
 
         // SETTING POST_CLASS_OBJECT TO OBJECT PASSED FROM ACTION
         const POST_CLASS_OBJECT = action.payload;
+        console.log(JSON.stringify(POST_CLASS_OBJECT));
         POST_CLASS_OBJECT.forEach(element => {
             let obj = CLASS_OBJECT_CREATION(element)
             if (obj !== undefined) CLASSES.push(obj)
@@ -153,7 +154,7 @@ export function TODO_REDUCER (state = TODO_STATE, action) {
         return UPDATED_STATE;
 
         case EDIT_TODO:
-        console.log("HERE AT EDIT TODO ACTION")
+
         var {
             URGENT,
             TODO_LIST
@@ -207,7 +208,7 @@ export function TODO_REDUCER (state = TODO_STATE, action) {
         return TODO_AFTER_REMOVAL;
 
         case RESET:
-
+        // A RESET FOR ALL
         var {
             URGENT,
             TODO_LIST
@@ -218,10 +219,13 @@ export function TODO_REDUCER (state = TODO_STATE, action) {
         // NEED TO RESET ARRAYS HERE
         URGENT = [];
         TODO_LIST = [];
+        CLASS_STATE.CLASSES = [] // resetting classes for logout not the best practice -> time constraints
 
-        const RESET_CLASS_STATE = {TODO_LIST, URGENT};
+        var CS = CLASS_STATE.CLASSES;
 
-        return RESET_CLASS_STATE;
+        const RESET_ALL_STATE = {TODO_LIST, URGENT, CS};
+
+        return RESET_ALL_STATE;
 
         // IF NO ACTION.TYPE, RETURNS STATE!
         default:

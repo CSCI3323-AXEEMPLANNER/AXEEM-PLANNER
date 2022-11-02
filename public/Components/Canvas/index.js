@@ -34,7 +34,7 @@ class Canvas extends React.Component {
             {/* Adjust view in canvas to view selected by user in navigation! */}
             {this.state.view !== null ? GLOBAL_VIEW(this.state.view, {createTodo: this.props.createTodo, editTodo: this.props.editTodo ,deleteTodo: this.props.deleteTodo}) : null}
             {/* CHILD NAVIGATION COMPONENT getting passed parent function handleUpdate */}
-            <Navigation UPDATE_VIEW={this.handleUpdate} />
+            <Navigation UPDATE_VIEW={this.handleUpdate} role={this.props.role} />
         </View>
     )}
 }

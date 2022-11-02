@@ -8,8 +8,8 @@ const AuthContext = React.createContext(null);
 
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(app.currentUser);
-    // const [userClasses, setUserClasses] = useState([]);
-    const [userRole, setRole] = useState();
+    const [userRole, setRole] = useState("");
+    const [ADMIN_COLLECTION, setAC] = useState([]);
     const realmRef = useRef(null);
   
     useEffect(() => {
@@ -39,28 +39,99 @@ const AuthProvider = ({ children }) => {
       };
     }, [user]);
 
-const signIn = async (uEmail, upassword, uType) => {
+const signIn = async (uEmail, uPassword) => {
   // Users are ONLY able to login to a provided account > Software Design
     const payload = {
       email: uEmail,
-      password: upassword,
-      type: uType // uType should contain a string value representing the type of user attempting to login!
+      password: uPassword
     };
-    const creds = Realm.Credentials.function(payload); // gets returned id
+    const creds = Realm.Credentials.function(payload); // gets returned id && universal login function returning user's id
     const newUser = await app.logIn(creds); // logs in with returned id
+    let tempRole = "";
+    // Checking Partition and getting role
+    try {
+      const res = await newUser.functions.CHECK_FOR_PARTITION({id: newUser.id, email: uEmail, password: uPassword});
+      setRole((res.role)); // role of user
+      tempRole = res.role; // temprole due to res.role assignment to userRole in state is undefined when referencing in this state
+    } catch (err) {
+      console.log(err);
+    }
 
-    // If user is of type which requires extra information, then use the try method below, else skip and add user
-    if (uType === "student" || uType === "tutor" || uType === "professor") {
-      try { // update partition in db
-        const res = await newUser.functions.ADD_USER_DOC({id: newUser.id, email: uEmail, password: upassword, type: uType});
-        setRole(res.role);
+    // Adjusting next query to user's role from database
+    if (tempRole === "admin") {
+      // Specific to admin functionality for app
+      try {
+        const res = await newUser.functions.GET_USER_COLLECTION({id: newUser.id, email: uEmail, type: tempRole});
+        setAC(res.students) // admin collection
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      // User is of student, tutor, or professor type
+      try {
+        const res = await newUser.functions.GET_USER_COLLECTION({id: newUser.id, email: uEmail, type: tempRole});
         STORE.dispatch(ADD_CLASS_ACTION(res.classes)); // storing user classes from db to global state
       } catch (err) {
-        console.error(err);
+        console.log(err);
       }
     }
     setUser(newUser);
 };
+
+// for admin usage
+const signUp = async (uEmail, uPassword, uType) => {
+  const payload = {
+    email: uEmail,
+    password: uPassword,
+    type: uType,
+    createUser: true
+  };
+  
+  const creds = Realm.Credentials.function(payload); // gets returned id && universal login function returning user's id
+  const newUser = await app.logIn(creds); // logs in with returned id
+  console.log("New User logged in: " + newUser.isLoggedIn);
+  // Add user account into realms and Collection, User document will be allocated in Collection, but not in realms, upon user login, user's partition is allocated in realms
+  try {
+    // add user to doc
+    const res = await newUser.functions.ADD_USER_DOC(payload);
+    console.log("ID: " + res.id);
+  } catch (err) {
+    console.error(err);
+  }
+
+  try {
+    // add user to doc
+    const res = await newUser.functions.CHECK_FOR_PARTITION({id: newUser.id, email: uEmail, password: uPassword});  
+    console.log("ID: " + newUser.id + " || Role: " + res.role);
+  } catch (err) {
+    console.error(err);
+  }
+
+  try {
+    const data = await newUser.functions.GET_USER_COLLECTION({id: newUser.id, email: uEmail, type: uType});
+    console.log("Data: " + JSON.stringify(data));
+  } catch (err) {
+    console.error(err);
+  }
+  // Removing incorrect partition from realms
+  app.deleteUser(newUser);
+  newUser.logOut(); // signing user out for additional user creation
+}
+
+// for admin use, gets current collection of students and updates in admin collection array
+const updateCollection = async () => {
+  if (user == null) {
+    console.warn("Not logged in, can't log out!");
+    return;
+  }
+  // Specific to admin functionality for app
+  try {
+    const res = await user.functions.GET_USER_COLLECTION({id: user.id, email: "admin@gmail.com", type: "admin"});
+    setAC(res.students) // admin collection from db
+  } catch (err) {
+    console.log(err);
+  }
+}
 
   // The signOut function calls the logOut function on the currently
   // logged in user
@@ -72,8 +143,27 @@ const signOut = () => {
     STORE.dispatch(SET_RESET("Resetting all arrays!"));
     user.logOut();
     setUser(null);
+    setRole(null);
+    setAC([]);
 };
 
+ if (userRole === "admin") { // returning specific data for admin
+  return (
+    <AuthContext.Provider
+      value={{
+        signIn,
+        signOut,
+        signUp,
+        updateCollection,
+        user,
+        userRole,
+        ADMIN_COLLECTION
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+ }
   return (
     <AuthContext.Provider
       value={{
