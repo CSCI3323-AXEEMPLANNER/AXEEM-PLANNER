@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { REMOVE_TODO_ACTION } from "../../Actions/List_Action";
 import PASS_THROUGH from "../Object _Pass";
+import {Modal_Style} from "../style.js"
 
 class MODAL_VIEW extends React.Component {
     render() {
@@ -14,7 +15,7 @@ class MODAL_VIEW extends React.Component {
             visible={true}
             >
                 <View
-                style={styles.container}
+                style={Modal_Style.container}
                 >
                     <PASS_THROUGH type='EDIT' DELETE_ME={this.props.REMOVE_TODO_ACTION} PROP_STATE={this.props.prop} view_ME={this.props.view_ME} />
                 </View>

@@ -78,4 +78,12 @@ export const Class_Style = {
   dateTxt: {
     textAlign: "center",
   }
-}
+};
+
+export const Modal_Style = {
+  container:{
+    flex:1,
+    //backgroundColor: 'white',
+    justifyContent: 'center',
+  },
+};

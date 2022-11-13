@@ -5,10 +5,12 @@ import {
   Button,
   StyleSheet,
   View,
+  Pressable,
 } from "react-native";
 import ADD_TASK from "../ADD_TASK";
 import { to_Date, to_Time, to_Zero } from "../../Util/TO_DATE";
 import Icon from '@expo/vector-icons/Ionicons'
+import { YellowBox } from "react-native-web";
 
 // type SHOULD BE STRING OF WHAT THE STATE ARRAY IS > 'TODO' 'URGENT'
 export default class PASS_THROUGH extends React.Component {
@@ -35,8 +37,6 @@ export default class PASS_THROUGH extends React.Component {
           activeOpacity={0.6}
          // underlayColor="blue"
           onPress={() => this.props.view_ME(ITEM, index)}
-          /*onPress={() => this.props.view_ME(ITEM, index)}*/
-          /*this.props.view_ME() Is NOT WORKING*/
         >
           <>
             <View style={styles.container}>
@@ -86,21 +86,79 @@ export default class PASS_THROUGH extends React.Component {
           {
             this.state.edit_ME === false ? (
               <>
-                <Text>
-                  Date: {to_Date(obj.date) + "\n"}
-                  Time: {to_Time(obj.time) + "\n"}
-                  Title: {obj.title + "\n"}
-                  Description: {obj.desc + "\n"}
-                  Urgent: {obj.urgent ? "YES" : "NOPE"}
-                </Text>
-                <Button
-                  title={this.state.edit_ME ? null : "Edit TODO"}
-                  activeOpacity={0.6}
-                  underlayColor="#FFFFFF"
-                  onPress={() => {
-                    this.handle_Edit_Mode();
-                  }}
-                />
+                {/* Header buttons displays are located here*/}
+                <View style={styles.headerBtnContainer}>
+                  <Pressable
+                    style={[styles.editHeaderBtn,{backgroundColor: '#40E8FF',}]}
+                    onPress={() => {
+                      this.handle_Edit_Mode();
+                    }}
+                  >
+                    <Text
+                      style={{
+                        color: "white",
+                        textAlign: "center",
+                        marginTop: 5,
+                      }}
+                    >
+                      {this.state.edit_ME ? null : "Edit TODO"}
+                    </Text>
+                  </Pressable>
+                  <Pressable
+                    style={[styles.editHeaderBtn,{backgroundColor: 'red',}]}
+                    onPress={() => {
+                      this.props.DELETE_ME(obj.id);
+                      this.props.view_ME();
+                    }}
+                  >
+                    <Text
+                      style={{
+                        color: "white",
+                        textAlign: "center",
+                        marginTop: 5,
+                      }}
+                    >
+                      Delete
+                    </Text>
+                  </Pressable>
+                </View>
+                <View
+                  style={
+                    {
+                      /*backgroundColor:"red",*/
+                    }
+                  }
+                >
+                  {/* TodoList content display is located here */}
+                  <View style={styles.editContent}>
+                    {/* Date: {to_Date(obj.date) + "\n"}
+                  Time: {to_Time(obj.time) + "\n"}*/}
+                    <View style={styles.editTitleContainer}>
+                      <Text style={styles.editTitleContent}>Title: </Text>
+                    </View>
+                    <View style={styles.editTextContainer}>
+                      <Text style={styles.editContentText}>{obj.title}</Text>
+                    </View>
+                  </View>
+                  <View style={styles.editContent}>
+                    <View style={styles.editTitleContainer}>
+                      <Text style={styles.editTitleContent}>Description: </Text>
+                    </View>
+                    <View style={styles.editTextContainer}>
+                      <Text style={styles.editContentText}>{obj.desc}</Text>
+                    </View>
+                  </View>
+                  <View style={styles.editContent}>
+                    <View style={styles.editTitleContainer}>
+                      <Text style={styles.editTitleContent}>Urgent: </Text>
+                    </View>
+                    <View style={styles.editTextContainer}>
+                      <Text style={styles.editContentText}>
+                        {obj.urgent ? "Yes" : "Nope"}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
               </>
             ) : (
               // when edit button is clicked, add_task is returned to update the item at id!
@@ -242,4 +300,55 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingLeft:10,
   },
+  editContent: {
+   // backgroundColor: 'blue',
+    marginVertical: 10,
+    //alignItems:'center',
+    //alignItems:'flex-start',
+    marginHorizontal: 50,
+    flexDirection: "row",
+    textAlignVertical: 'center',
+  },
+
+  editTitleContainer: {
+    width: 130,
+    //backgroundColor: 'red',
+    marginLeft:-30,
+    //lineHeight: 30,
+  },
+  editButton:{
+    height: 34,
+  },
+  editTitleContent : {
+    fontSize: 24,
+    //backgroundColor: 'red'
+  },
+  editContentText:{
+    fontSize: 16,
+    textAlignVertical:'center',
+  },
+  backColorBlue: {
+    backgroundColor: '#40E8FF',
+  },
+  editTextContainer:{
+    backgroundColor:'#FFD8D8',
+    height: '100%',
+    padding: 10,
+    marginLeft: 20,
+    width: 170,
+  },
+  headerBtnContainer:{
+    marginTop: -80,
+    marginBottom: 40,
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  editHeaderBtn:{
+    width: 154,
+    height:34,
+    color:"white",
+    borderRadius: 30,
+    textAlign:'center',
+  }
+  
 });
