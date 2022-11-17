@@ -13,7 +13,7 @@ import { ADD_CLASS_ACTION } from "../../Actions/List_Action";
 import { CLASS_OBJECT_CREATION } from "../../Util/Object_Creation";
 import reactDom, { render } from "react-dom";
 import { TouchableWithoutFeedback } from "react-native-web";
-import { Class_Style, randomColor } from "../../Util/style";
+import { Class_Style} from "../../Util/style";
 
 // CLASS_OBJECT_CREATION(class_ID, name, desc, professor_ID)
 

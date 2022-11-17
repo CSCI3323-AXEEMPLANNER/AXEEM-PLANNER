@@ -1,4 +1,48 @@
-export const nav = {
+export const canvas_Style = {
+  /*container: {
+    height: 400,
+    width: "90%",
+    marginTop: 10,
+    marginHorizontal: 20,
+    backgroundColor: "green",
+    alignItems: "center",
+    justifyContent: "center",
+  },*/
+  mainBody: {
+    flex: 1,
+    //borderRadius: 50,
+    //backgroundColor: "#636363", //"#9326c7",
+    alignItems: 'center',
+    //marginBottom: 80,
+  },/*
+  greetContainer: {
+    height: 40,
+    width: "40%",
+    marginLeft: "55%",
+    marginTop: 30,
+  },
+  greetWelcome: {
+    textAlign: "center",
+    fontSize: 20,
+    color: "white",
+  },
+  greetUser: {
+    fontSize: 12,
+    color: "#FF7878",
+    textAlign: "center",
+   },*/
+  tabTitle: {
+    height: 40,
+    width: "90%",
+    marginTop: 40,
+    marginHorizontal: 20,
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 20,
+    
+  },
+};
+export const nav_Style = {
   container: {
     flex: 1,
     margin: 10,
@@ -78,4 +122,21 @@ export const Class_Style = {
   dateTxt: {
     textAlign: "center",
   }
+}
+export const Settings_Style = {
+  button: {
+    margin: 10,
+    textAlign: "center",
+    backgroundColor: "white",
+    alignItems: "center",
+
+  },
+  category: {
+    textAlign: "left",
+    alignItems: "center",
+    fontSize: 20,
+    height: 139,
+    width: 360,
+  }
+
 }
