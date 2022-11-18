@@ -3,6 +3,8 @@ import Realm from "realm";
 import app from "../../RealmApp";
 import { ADD_CLASS_ACTION, SET_RESET } from "../../public/Actions/List_Action";
 import STORE from "../../store";
+import { ObjectId } from "bson";
+import { Class } from "../Schema";
 
 const AuthContext = React.createContext(null);
 
@@ -10,6 +12,7 @@ const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(app.currentUser);
     const [userRole, setRole] = useState("");
     const [ADMIN_COLLECTION, setAC] = useState([]);
+    const [userClasses, setClasses] = useState([]);
     const realmRef = useRef(null);
   
     useEffect(() => {
@@ -19,7 +22,7 @@ const AuthProvider = ({ children }) => {
       
       const config = {
         sync: {
-          user,
+          user: user,
           partitionValue: `user=${user.id}`
         },
       };
@@ -40,6 +43,7 @@ const AuthProvider = ({ children }) => {
     }, [user]);
 
 const signIn = async (uEmail, uPassword) => {
+    const realm = realmRef.current;
   // Users are ONLY able to login to a provided account > Software Design
     const payload = {
       email: uEmail,
@@ -70,7 +74,7 @@ const signIn = async (uEmail, uPassword) => {
       // User is of student, tutor, or professor type
       try {
         const res = await newUser.functions.GET_USER_COLLECTION({id: newUser.id, email: uEmail, type: tempRole});
-        STORE.dispatch(ADD_CLASS_ACTION(res.classes)); // storing user classes from db to global state
+        setClasses(res.classes);
       } catch (err) {
         console.log(err);
       }
@@ -100,7 +104,6 @@ const signUp = async (uEmail, uPassword, uType) => {
   }
 
   try {
-    // add user to doc
     const res = await newUser.functions.CHECK_FOR_PARTITION({id: newUser.id, email: uEmail, password: uPassword});  
     console.log("ID: " + newUser.id + " || Role: " + res.role);
   } catch (err) {
@@ -170,7 +173,8 @@ const signOut = () => {
         signIn,
         signOut,
         user,
-        userRole
+        userRole,
+        userClasses
       }}
     >
       {children}

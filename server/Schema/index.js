@@ -39,30 +39,39 @@ export class Todo {
 export class Class {
   constructor({
     title,
+    subject,
     desc,
     endTime,
     startTime,
     professor,
+    participating,
+    code,
     createdOn,
     id = new ObjectID(),
   }) 
   {
     this.endTime = endTime;
+    this.subject = subject;
     this.startTime = startTime;
     this.professor = professor;
+    this.participating = participating;
     this._id = id;
     this.title = title;
     this.desc = desc;
     this.createdOn = createdOn;
+    this.code = code;
   }
   static schema = {
     name: 'Class',
   properties: {
     _id: 'objectId',
+    subject: 'string',
+    code: 'string',
     createdOn: 'date',
     desc: 'string',
     endTime: 'string',
     professor: 'objectId[]',
+    participating: 'objectId[]',
     startTime: 'string',
     title: 'string',
   },
@@ -72,19 +81,19 @@ export class Class {
 export class userCollection {
   constructor({
     userId,
-    password,
+    // password,
     createdOn,
     classes,
     role,
-    _partition,
+    // _partition,
     id = new ObjectID(),
   }) 
   {
-    this._partition = _partition;
+    // this._partition = _partition;
     this._id = id;
     this.role = role;
     this.userId = userId;
-    this.password = password;
+    // this.password = password;
     this.createdOn = createdOn;
     this.classes = classes;
   }
@@ -92,11 +101,11 @@ export class userCollection {
     name: 'userCollection',
   properties: {
     _id: 'objectId',
-    _partition: 'string',
+    // _partition: 'string',
     role: 'string',
     classes: 'objectId[]',
     createdOn: 'date',
-    password: 'string',
+    // password: 'string',
     userId: 'string',
   },
   primaryKey: '_id',

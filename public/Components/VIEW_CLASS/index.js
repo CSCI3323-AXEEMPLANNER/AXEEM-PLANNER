@@ -8,7 +8,7 @@ class VIEW_CLASS extends React.Component {
     }
 
     render() {
-    if (this.props.CLASS_STATE !== undefined) {
+    if (this.props.CLASS_STATE !== undefined && this.props.CLASS_STATE.length > 0) {
         return(
         <View>
             {/* Mapping through classes in user profile already as of 9/17, pulling from array in global state */}
@@ -24,7 +24,8 @@ class VIEW_CLASS extends React.Component {
                     <Text
                         key={index}
                     >
-                        Class: {CLASS.class_ID}
+                        Title: {CLASS.title}
+
                         {/* Ideally, when we implement the db, we can pull the professor's info for class based on foreign key */}
                     </Text>
                 </TouchableHighlight>

@@ -120,7 +120,7 @@ export default class PASS_THROUGH extends React.Component {
                 })} 
                 <Text>Classes</Text>
                 {classes.map((ITEM, index) => {
-                    if (ITEM.date >= this.props.date.s_Date && to_Zero(ITEM.date) <= this.props.date.e_Date) {
+                    if (ITEM.starTime >= this.props.date.s_Date && to_Zero(ITEM.starTime) <= this.props.date.e_Date) {
                         return (
                         <TouchableHighlight
                         key={index}
@@ -131,9 +131,9 @@ export default class PASS_THROUGH extends React.Component {
                             <Text
                                 key={index}
                             >
-                                ID: {ITEM.class_ID}
-                                Time: {to_Time(ITEM.time)}
-                                Date: {to_Date(ITEM.date)}
+                                Code: {ITEM.code}
+                                Time: {to_Time(ITEM.starTime)}
+                                Date: {to_Date(ITEM.starTime)}
                             </Text>
                         </TouchableHighlight>
                     )} else return <Text key={index}>Nothing To Display :L</Text>;

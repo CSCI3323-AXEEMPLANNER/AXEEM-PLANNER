@@ -1,6 +1,5 @@
 import { ADD_TODO, REMOVE_TODO, CHANGE_VIEW, ADD_CLASS, RESET, EDIT_TODO, SET_S_DATE, SET_E_DATE, SET_LOGGED } from '../../Actions/Action_Type';
 // MAYBE ADD STATE INFO VIA https://github.com/react-native-async-storage/async-storage
-import { CLASS_OBJECT_CREATION } from '../../Util/Object_Creation';
 // Creating INITIAL STATE IN CASE OF NO MUTATION
 const TODO_STATE = {
     URGENT: [], // USED FOR WHEN A TASK IS SET AS FLAGGED AND CAN BE USED FOR REMINDERS
@@ -94,12 +93,12 @@ export function CLASS_REDUCER (state = CLASS_STATE, action) {
 
         // SETTING POST_CLASS_OBJECT TO OBJECT PASSED FROM ACTION
         const POST_CLASS_OBJECT = action.payload;
-        console.log(JSON.stringify(POST_CLASS_OBJECT));
-        POST_CLASS_OBJECT.forEach(element => {
-            let obj = CLASS_OBJECT_CREATION(element)
-            if (obj !== undefined) CLASSES.push(obj)
+
+        POST_CLASS_OBJECT.forEach(item => {
+            item !== undefined ? CLASSES.push(item) : null
         });
 
+        // Should just contain the objects for each class that are in realms
         const UPDATED_STATE = CLASSES;
         
         // RETURNING UPDATED STATE
