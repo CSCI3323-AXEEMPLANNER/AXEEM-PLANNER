@@ -33,7 +33,7 @@ import {
       },
       {
         title: "TestTitle",
-        desc: "Walk for a mile",
+        desc: "Walk",
         urgent: false,
       },
     ],

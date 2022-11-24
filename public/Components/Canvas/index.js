@@ -1,11 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet} from "react-native";
 import Navigation from "../Navigation";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { CHANGE_VIEW_ACTION } from "../../Actions/List_Action";
 import GLOBAL_VIEW from "../GLOBAL_VIEW";
-import reactDom from "react-dom";
+
 
 class Canvas extends React.Component {
   constructor() {
@@ -26,7 +26,7 @@ class Canvas extends React.Component {
     this.props.CHANGE_VIEW_ACTION(VIEW_NAME);
     this.setState({ view: this.props.VIEW_STATE.VIEW }); // Gets new updated state in global state
   };
-
+ 
   // CAN USE THIS TO UPDATE USER WITH SUCCESS ON SOMETHING!
   // componentDidUpdate() {
   //     alert('something updated within THIS component')
@@ -44,7 +44,8 @@ class Canvas extends React.Component {
           {this.state.view !== null ? GLOBAL_VIEW(this.state.view) : null}
           {/* CHILD NAVIGATION COMPONENT getting passed parent function handleUpdate */}
         </View>
-        <Navigation UPDATE_VIEW={this.handleUpdate} />
+        <Navigation UPDATE_VIEW = {this.handleUpdate} />
+        
       </>
     );
   }

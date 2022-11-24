@@ -9,8 +9,8 @@ import {
 } from "react-native";
 import ADD_TASK from "../ADD_TASK";
 import { to_Date, to_Time, to_Zero } from "../../Util/TO_DATE";
-import Icon from '@expo/vector-icons/Ionicons'
-import { YellowBox } from "react-native-web";
+import Icon from "@expo/vector-icons/Ionicons";
+
 
 // type SHOULD BE STRING OF WHAT THE STATE ARRAY IS > 'TODO' 'URGENT'
 export default class PASS_THROUGH extends React.Component {
@@ -29,13 +29,13 @@ export default class PASS_THROUGH extends React.Component {
   render() {
     const type = this.props.type;
     const obj = this.props.PROP_STATE;
-
+    
     if (type === "TODO") {
       return obj.map((ITEM, index) => (
         <TouchableHighlight
           key={index}
           activeOpacity={0.6}
-         // underlayColor="blue"
+          // underlayColor="blue"
           onPress={() => this.props.view_ME(ITEM, index)}
         >
           <>
@@ -55,29 +55,31 @@ export default class PASS_THROUGH extends React.Component {
     } else if (type === "URGENT") {
       return obj.map((ITEM, index) => (
         <>
-        <View style={[styles.container, styles.urgentContainer]}>
-          <View style={styles.greenBox}>
-           
-
-            <Icon name="md-flag-sharp" size={24} color="black" style={{paddingTop: 5, paddingLeft: 2}}/>
-          
+          <View style={[styles.container, styles.urgentContainer]}>
+            <View style={styles.greenBox}>
+              <Icon
+                name="md-flag-sharp"
+                size={24}
+                color="black"
+                style={{ paddingTop: 5, paddingLeft: 2 }}
+              />
             </View>
-          <View style={styles.urgentContent}>
-            <Text key={index} style={[styles.titleToDo, styles.whiteTitle]}>
-              {ITEM.title} {"\n"}
-              <Text style={[styles.descriptionToDo, styles.colorContent]}>
-                {ITEM.desc}
-              </Text>
-              {/* Flagged: {ITEM.urgent ? "YES" : "NOPE"}
+            <View style={styles.urgentContent}>
+              <Text key={index} style={[styles.titleToDo, styles.whiteTitle]}>
+                {ITEM.title} {"\n"}
+                <Text style={[styles.descriptionToDo, styles.colorContent]}>
+                  {ITEM.desc}
+                </Text>
+                {/* Flagged: {ITEM.urgent ? "YES" : "NOPE"}
             Date: {to_Date(ITEM.date)}
             Time: {to_Time(ITEM.time)} */}
-            </Text>
+              </Text>
+            </View>
           </View>
-        </View>
         </>
       ));
     }
-    /* Fix this unreachable code for calendar to work */
+
     if (type === "EDIT") {
       const obj = this.props.PROP_STATE.THIS_TODO;
       return (
@@ -89,7 +91,10 @@ export default class PASS_THROUGH extends React.Component {
                 {/* Header buttons displays are located here*/}
                 <View style={styles.headerBtnContainer}>
                   <Pressable
-                    style={[styles.editHeaderBtn,{backgroundColor: '#40E8FF',}]}
+                    style={[
+                      styles.editHeaderBtn,
+                      { backgroundColor: "#40E8FF" },
+                    ]}
                     onPress={() => {
                       this.handle_Edit_Mode();
                     }}
@@ -105,7 +110,7 @@ export default class PASS_THROUGH extends React.Component {
                     </Text>
                   </Pressable>
                   <Pressable
-                    style={[styles.editHeaderBtn,{backgroundColor: 'red',}]}
+                    style={[styles.editHeaderBtn, { backgroundColor: "red" }]}
                     onPress={() => {
                       this.props.DELETE_ME(obj.id);
                       this.props.view_ME();
@@ -169,7 +174,8 @@ export default class PASS_THROUGH extends React.Component {
               />
             ) // view_Task here is adjusting the state value in this instance view_ME func.
           }
-          <Button
+          {/* Might undo this in case of editing allowed in calander */}
+          {/*<Button
             title="Delete"
             activeOpacity={0.6}
             underlayColor="#FFFFFF"
@@ -177,7 +183,8 @@ export default class PASS_THROUGH extends React.Component {
               this.props.DELETE_ME(obj.id);
               this.props.view_ME();
             }}
-          />
+          />*/}
+          
           <Button
             title="Exit"
             activeOpacity={0.6}
@@ -185,7 +192,7 @@ export default class PASS_THROUGH extends React.Component {
             onPress={() => {
               this.props.view_ME();
             }}
-          />
+          /> 
         </>
       );
     }
@@ -194,7 +201,9 @@ export default class PASS_THROUGH extends React.Component {
       const classes = obj.CLASS;
       return (
         <>
-          <Text>Todos or Assignments</Text>
+        {console.log(classes)}
+          {/*<Text>Todos or Assignments</Text>*/}
+          
           {todos.map((ITEM, index) => {
             // Checks if date of item is between (inclusive) dates set by user or app
             if (
@@ -222,7 +231,7 @@ export default class PASS_THROUGH extends React.Component {
             if (
               ITEM.date >= this.props.date.s_Date &&
               to_Zero(ITEM.date) <= this.props.date.e_Date
-            ) {
+            ) { 
               return (
                 <TouchableHighlight
                   key={index}
@@ -242,6 +251,47 @@ export default class PASS_THROUGH extends React.Component {
               );
             } else return <Text key={0}>Nothing To Display :L</Text>;
           })}
+        </>
+      );
+    }
+    
+    {/*Only for class view modal */}
+    if (type === "CLASSES") {
+      
+      const classes = obj;
+      return (
+        <>
+          {/*if (
+              ITEM.date >= this.props.date.s_Date &&
+              to_Zero(ITEM.date) <= this.props.date.e_Date
+            )*/}
+
+          {/*console.log(this.props.index)*/}
+          <TouchableHighlight
+            activeOpacity={0.6}
+            underlayColor="#DDDDDD"
+            onPress={() =>
+              alert(
+                "this is have modal view as well, but should only allow view"
+              )
+            }
+          >
+            <View style={styles.classContainer}>
+              <Text>Title: {classes[this.props.index].name}</Text>
+              <Text>Time: {classes[this.props.index].date}</Text>
+              <Text>Description: {classes[this.props.index].desc}</Text>
+            </View>
+          </TouchableHighlight>
+
+          <Button
+            title="Exit"
+            activeOpacity={0.6}
+            underlayColor="#FFFFFF"
+            onPress={() => {
+              this.props.view_Me();
+            }}
+          />
+          {/*else return <Text key={0}>Nothing To Display :L</Text>;*/}
         </>
       );
     }
@@ -274,7 +324,7 @@ const styles = StyleSheet.create({
   },
   urgentContainer: {
     backgroundColor: "#C3BADD",
-    flexDirection:"row",
+    flexDirection: "row",
   },
   whiteTitle: {
     color: "white",
@@ -286,69 +336,72 @@ const styles = StyleSheet.create({
     width: 26,
     height: 100,
     backgroundColor: "#81FFA4",
-   
   },
-  urgentContent:{
+  urgentContent: {
     flex: 1,
     //SbackgroundColor: "blue",
-    
   },
-  someBackColor:{
+  someBackColor: {
     backgroundColor: "red",
   },
-  iconFormat:{
+  iconFormat: {
     paddingTop: 10,
-    paddingLeft:10,
+    paddingLeft: 10,
   },
   editContent: {
-   // backgroundColor: 'blue',
+    // backgroundColor: 'blue',
     marginVertical: 10,
     //alignItems:'center',
     //alignItems:'flex-start',
     marginHorizontal: 50,
     flexDirection: "row",
-    textAlignVertical: 'center',
+    textAlignVertical: "center",
   },
 
   editTitleContainer: {
     width: 130,
     //backgroundColor: 'red',
-    marginLeft:-30,
+    marginLeft: -30,
     //lineHeight: 30,
   },
-  editButton:{
+  editButton: {
     height: 34,
   },
-  editTitleContent : {
+  editTitleContent: {
     fontSize: 24,
     //backgroundColor: 'red'
   },
-  editContentText:{
+  editContentText: {
     fontSize: 16,
-    textAlignVertical:'center',
+    textAlignVertical: "center",
   },
   backColorBlue: {
-    backgroundColor: '#40E8FF',
+    backgroundColor: "#40E8FF",
   },
-  editTextContainer:{
-    backgroundColor:'#FFD8D8',
-    height: '100%',
+  editTextContainer: {
+    backgroundColor: "#FFD8D8",
+    height: "100%",
     padding: 10,
     marginLeft: 20,
     width: 170,
+    borderRadius: 10,
   },
-  headerBtnContainer:{
+  headerBtnContainer: {
     marginTop: -80,
     marginBottom: 40,
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "space-evenly",
+    //justifyContent: "center",
   },
-  editHeaderBtn:{
+  editHeaderBtn: {
     width: 154,
-    height:34,
-    color:"white",
+    height: 34,
+    color: "white",
     borderRadius: 30,
-    textAlign:'center',
-  }
-  
+    textAlign: "center",
+  },
+  classContainer:{
+    alignItems:'center',
+   // backgroundColor:'blue',
+  },
 });

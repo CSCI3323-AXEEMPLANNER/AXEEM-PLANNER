@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Modal } from "react-native";
+import { View, StyleSheet, Modal,Text } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { REMOVE_TODO_ACTION } from "../../Actions/List_Action";
@@ -17,7 +17,11 @@ class MODAL_VIEW extends React.Component {
                 <View
                 style={Modal_Style.container}
                 >
+                   {this.props.type === "CLASSES" ? (
+                    <PASS_THROUGH type ="CLASSES" PROP_STATE={this.props.info} index={this.props.index} view_Me={this.props.view_Me}/>
+                   ):
                     <PASS_THROUGH type='EDIT' DELETE_ME={this.props.REMOVE_TODO_ACTION} PROP_STATE={this.props.prop} view_ME={this.props.view_ME} />
+                   }
                 </View>
             </Modal>
         )

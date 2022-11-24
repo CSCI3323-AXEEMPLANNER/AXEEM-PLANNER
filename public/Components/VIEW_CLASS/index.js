@@ -14,6 +14,8 @@ import { CLASS_OBJECT_CREATION } from "../../Util/Object_Creation";
 import reactDom, { render } from "react-dom";
 import { TouchableWithoutFeedback } from "react-native-web";
 import { Class_Style, randomColor } from "../../Util/style";
+import MODAL_VIEW from "../../Util/Modal";
+import Modal from "../../Util/Modal";
 
 // CLASS_OBJECT_CREATION(class_ID, name, desc, professor_ID)
 
@@ -21,17 +23,36 @@ class VIEW_CLASS extends React.Component {
   constructor() {
     super();
       this.state = {
-        colors: ["#CDF5D8","#FFE18A", "#C1FF8A", "#FFB7A0", "#8AD8FF", "#F2B3F9","#8AFFE6"]
+        colors: ["#CDF5D8","#FFE18A", "#C1FF8A", "#FFB7A0", "#8AD8FF", "#F2B3F9","#8AFFE6"],
+        viewClass: false,
+        indexLoc: 0,
       }
+      this.changeView = this.changeView.bind(this);
     }
   
-  
+  //---------changeView-----------
+  /*Changes the view to get out of modal
+    pre: bool
+    Post: none, view is changed
+  */
+  changeView = () =>{
+    this.setState({viewClass: false});
+  };
+
   // This component should not load ALL CRNS/Possible classes
   // Should have child class which when activated, loads the bunch
   // Else, this view is just for the user's ALREADY ADDED classes!
 
   render() {
-    return (
+    if(this.state.viewClass){
+        return(
+        <View>
+          <Modal type="CLASSES" info={this.props.CLASS_STATE.CLASSES} index={this.state.indexLoc} view_Me={this.changeView}/>
+        </View>
+        );
+    }
+    else{
+      return (
       <View style={Class_Style.container}>
         {/* Mapping through classes in user profile already as of 9/17, pulling from array in global state */}
         {/*<Text style={{ fontSize: 20 }}>
@@ -44,10 +65,13 @@ class VIEW_CLASS extends React.Component {
                   key={index}
                   activeOpacity={0.6}
                   underlayColor="#DDDDDD"
-                  onPress={() => alert(CLASS.class_ID)}
+                  onPress={() => this.setState({
+                    viewClass: true,
+                    indexLoc: index
+                  })}
+                    //alert(CLASS.class_ID)}
                 >
                   <>
-              
                       <>
                         <View style={[Class_Style.classContainer, {backgroundColor: this.state.colors[index]}, Class_Style.shawdowProp]}>
                           <Text style={Class_Style.classTitleTx} key={index}>
@@ -88,6 +112,7 @@ class VIEW_CLASS extends React.Component {
         />*/}
       </View>
     );
+   }
   }
 }
 

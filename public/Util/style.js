@@ -32,6 +32,7 @@ export const nav = {
     height: 40,
   },
 };
+
 export const Class_Style = {
   container: {
     flex: 1,
@@ -82,8 +83,8 @@ export const Class_Style = {
 
 export const Modal_Style = {
   container:{
-    flex:1,
-    //backgroundColor: 'white',
+    flex: 1,
+   // backgroundColor: 'yellow',
     justifyContent: 'center',
   },
 };

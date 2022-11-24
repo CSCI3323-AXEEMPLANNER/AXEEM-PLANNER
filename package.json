@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@expo/webpack-config": "^0.17.0",
+    "@react-native-community/datetimepicker": "6.2.0",
     "@reduxjs/toolkit": "^1.8.5",
     "expo": "~46.0.9",
     "expo-checkbox": "^2.2.0",
@@ -20,10 +21,11 @@
     "react-native-web": "~0.18.7",
     "react-redux": "^8.0.2",
     "sharp-cli": "^3.0.0",
-    "@react-native-community/datetimepicker": "6.2.0"
+    "stream": "^0.0.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9"
+    "@babel/core": "^7.12.9",
+    "path": "^0.12.7"
   },
   "private": true
 }

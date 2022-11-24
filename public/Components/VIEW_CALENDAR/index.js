@@ -1,12 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { View, Button } from "react-native";
+import { View, Button, Text, StyleSheet } from "react-native";
 import PASS_THROUGH from "../../Util/Object _Pass";
 import MODAL_VIEW from "../../Util/Modal";
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { SET_START_DATE, SET_END_DATE } from "../../Actions/List_Action";
 import {to_Date} from "../../Util/TO_DATE";
 import DateTimePicker from '@react-native-community/datetimepicker';
+import {DisplayCalendarDates, DisplayMonth}from '../VIEW_CALENDAR/displayCalendarDays'
 
 class Calendar extends React.Component {
     constructor() {
@@ -65,6 +66,10 @@ class Calendar extends React.Component {
     render() {
         return (
             <View>
+                <DisplayMonth startDate = {to_Date(this.state.s_Date)}/>
+                <View style={styles.dateContainer}>
+                    <DisplayCalendarDates startDate = {to_Date(this.state.s_Date)}/>
+                </View>
                 {(this.state.obj.THIS_TODO !== null) ? <MODAL_VIEW prop={this.state.obj} view_ME={this.handle_Modal_Change} /> : null}
                 <Button 
                     style={{fontSize: '20px'}} 
@@ -125,4 +130,14 @@ const mapDispatchToProps = dispatch => (
     }, dispatch)
 );
 
-export default connect(mapStateToProps, mapDispatchToProps)(Calendar)
+export default connect(mapStateToProps, mapDispatchToProps)(Calendar);
+
+const styles = StyleSheet.create({
+    dateContainer:{
+        width: 350,
+        justifyContent: 'space-evenly',
+        flexDirection: "row",
+        //textAlign: 'center',
+        //sbackgroundColor: 'red',
+    }
+})
