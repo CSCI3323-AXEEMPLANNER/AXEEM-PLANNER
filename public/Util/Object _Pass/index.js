@@ -20,7 +20,7 @@ export default class PASS_THROUGH extends React.Component {
     render() {
         const type = this.props.type;
         const obj = this.props.PROP_STATE;
-        if (type === 'TODO' || type === 'URGENT') {
+        if (type === 'TODO' || type === 'URGENT' && obj.length > 0) {
         return (
             obj.map((ITEM, index) => (
                     <TouchableHighlight
@@ -64,13 +64,22 @@ export default class PASS_THROUGH extends React.Component {
                         />
                     </>
                     // when edit button is clicked, add_task is returned to update the item at id!
-                    : <ADD_TASK in_Edit={this.state.edit_ME} in_Edit_obj={obj} view_Task={this.handle_Edit_Mode} /> // view_Task here is adjusting the state value in this instance view_ME func.
+                    : <ADD_TASK in_Edit={this.state.edit_ME} RLM_EDIT={this.props.RLM_EDIT} in_Edit_obj={obj} view_Task={this.handle_Edit_Mode} /> // view_Task here is adjusting the state value in this instance view_ME func.
                     }
                     <Button
                         title="Delete"
                         activeOpacity={0.6}
                         underlayColor="#FFFFFF"
-                        onPress={() => {this.props.DELETE_ME(obj.id); this.props.view_ME();}}
+                        onPress={() => {
+                            const id = obj._id;
+                            try {
+                                this.props.DELETE_ME(id);
+                                this.props.RLM_DELETE(id);
+                            } catch (e) {
+                                console.error(e)
+                            }
+                            this.props.view_ME();
+                        }}
                     />
                     <Button
                         title="Exit"
@@ -88,6 +97,8 @@ export default class PASS_THROUGH extends React.Component {
                 <>
                 <Text>Todos or Assignments</Text>
                 {todos.map((ITEM, index) => {
+                    // ISSUE: When a todo is created its date works fine when comparing to the prop date
+                    // |-> Unfortunately, when the user RE-logs into their account, the date is rendered as one less day?
                     // Checks if date of item is between (inclusive) dates set by user or app
                     if (ITEM.date >= this.props.date.s_Date && to_Zero(ITEM.date) <= this.props.date.e_Date) { // to_Zero because an items date may be ahead of the set
                     return (
@@ -102,29 +113,30 @@ export default class PASS_THROUGH extends React.Component {
                             >
                                 Title: {ITEM.title}
                                 Flagged: {((ITEM.urgent) ? 'YES' : 'NOPE')}
+                                Date: {to_Date(ITEM.date)}
                             </Text>
                         </TouchableHighlight>
-                    )} else return <Text key={0}>Nothing To Display :L</Text>;
-                })
-                } 
-                <Text>Classes:</Text>
+                    )}
+                })} 
+                <Text>Classes</Text>
                 {classes.map((ITEM, index) => {
-                    if (ITEM.date >= this.props.date.s_Date && to_Zero(ITEM.date) <= this.props.date.e_Date) {
+                    if (ITEM.starTime >= this.props.date.s_Date && to_Zero(ITEM.starTime) <= this.props.date.e_Date) {
                         return (
                         <TouchableHighlight
                         key={index}
                         activeOpacity={0.6}
                         underlayColor="#DDDDDD"
-                        onPress={() => alert('this is have modal view as well, but should only allow view')}
+                        onPress={() => alert('This class will have a separate view! Just not completed :)')}
                         >
                             <Text
                                 key={index}
                             >
-                                Title: {ITEM.name}
-                                Time: {ITEM.time}
+                                Code: {ITEM.code}
+                                Time: {to_Time(ITEM.starTime)}
+                                Date: {to_Date(ITEM.starTime)}
                             </Text>
                         </TouchableHighlight>
-                    )} else return <Text key={0}>Nothing To Display :L</Text>;
+                    )} else return <Text key={index}>Nothing To Display :L</Text>;
                 })}
                 </>
             )

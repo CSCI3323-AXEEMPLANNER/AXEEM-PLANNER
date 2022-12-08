@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Button, Text, TextInput, Alert } from 'react-native';
+import { View, Button, Text, TextInput } from 'react-native';
 import Checkbox from 'expo-checkbox';
 import { connect } from 'react-redux';
 import { bindActionCreators } from '@reduxjs/toolkit';
@@ -17,7 +17,8 @@ function CREATE_OBJ_STATE(obj) {
     const OBJ = {
         title: obj.title,
         desc: obj.desc,
-        urgent: obj.urgent
+        urgent: obj.urgent,
+        oldUrgState: obj.urgent // storing previous state of object before update
     }
     return OBJ;
 }
@@ -46,10 +47,10 @@ class ADD_TASK extends React.Component {
         return(
             <View>
                 {/* REDUCE TO A SEPARATE COMPONENT TO DISPLAY */}
-                <Text style={{fontSize: '20px'}}>Your current TODO</Text>
-                <Text style={{fontSize: '20px'}}>{this.state.title}</Text>
-                <Text style={{fontSize: '20px'}}>{this.state.desc}</Text>
-                <Text style={{fontSize: '20px'}}>{(this.state.urgent).toString()}</Text>
+                <Text style={{fontSize: 20}}>Your current TODO</Text>
+                <Text style={{fontSize: 20}}>{this.state.title}</Text>
+                <Text style={{fontSize: 20}}>{this.state.desc}</Text>
+                <Text style={{fontSize: 20}}>{(this.state.urgent).toString()}</Text>
 
                 <TextInput
                 style={{ height: 40, borderColor: "black", borderWidth: 1 }}
@@ -77,12 +78,12 @@ class ADD_TASK extends React.Component {
                     title={"Update Task!"}
                     onPress={() =>
                         // CREATE A FUNCTION TO REVIEW OBJECTS AND COMPARE IF THE UPDATE VIEW NEEDS TO OCCUR!
-                    {{REVIEW(this.props.in_Edit_obj, this.state) === true ? alert("no change found!") : this.props.EDIT_TODO_ACTION({id: this.props.in_Edit_obj.id, obj: this.state})} this.props.view_Task()}}
+                    {{REVIEW(this.props.in_Edit_obj, this.state) === true ? alert("no change found!") : this.props.RLM_EDIT(this.props.in_Edit_obj._id, this.state)} this.props.view_Task()}}
                 />
                 : <Button
                     title={"Add Task!"}
                     onPress={() =>
-                    {this.props.ADD_TODO_ACTION(TASK_OBJECT_CREATION(this.state.title, this.state.desc, this.state.urgent)); this.props.view_Task()}
+                    {this.props.post_TODO(TASK_OBJECT_CREATION(this.state.title, this.state.desc, this.state.urgent)); this.props.view_Task()}
                     }
                 />
                 }

@@ -12,8 +12,8 @@ const INIT_STATE = {
 }
 
 class VIEW_ASSIGNMENT extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         // STATE CREATED IN CANVAS LOCALLY TO MAINTAIN INPUTS READY FOR PUSH
         this.state = INIT_STATE;
         this.handle_Modal_Change = this.handle_Modal_Change.bind(this);
@@ -32,13 +32,12 @@ class VIEW_ASSIGNMENT extends React.Component {
     
     render() {
         if (this.state.add_Task === true) {
-            return <ADD_TASK view_Task={this.handle_Task_Change}/>
+            return <ADD_TASK {...this.props} view_Task={this.handle_Task_Change}/>
         } else {
             return (
                 <View>
 
-                    {(this.state.obj.THIS_TODO !== null) ? <MODAL_VIEW prop={this.state.obj} view_ME={this.handle_Modal_Change} /> : null}
-
+                    {(this.state.obj.THIS_TODO !== null) ? <MODAL_VIEW prop={this.state.obj} RLM_DELETE={this.props.delete_TODO} RLM_EDIT={this.props.edit_TODO} view_ME={this.handle_Modal_Change} /> : null}
                     <Text>You have { this.props.TODO_STATE.TODO_LIST.length } To-Do.</Text>
                     
                     {/* PASS_THROUGH FUNCTION REDUCES REDUNDANT MAPPING OF LISTS */}

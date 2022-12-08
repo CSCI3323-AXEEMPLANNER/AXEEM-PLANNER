@@ -6,6 +6,10 @@ import { REMOVE_TODO_ACTION } from "../../Actions/List_Action";
 import PASS_THROUGH from "../Object _Pass";
 
 class MODAL_VIEW extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
     render() {
         return (
             <Modal
@@ -16,7 +20,7 @@ class MODAL_VIEW extends React.Component {
                 <View
                 style={styles.container}
                 >
-                    <PASS_THROUGH type='EDIT' DELETE_ME={this.props.REMOVE_TODO_ACTION} PROP_STATE={this.props.prop} view_ME={this.props.view_ME} />
+                    <PASS_THROUGH type='EDIT' DELETE_ME={this.props.REMOVE_TODO_ACTION} RLM_DELETE={this.props.RLM_DELETE} RLM_EDIT={this.props.RLM_EDIT} PROP_STATE={this.props.prop} view_ME={this.props.view_ME} />
                 </View>
             </Modal>
         )

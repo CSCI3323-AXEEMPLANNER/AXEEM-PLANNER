@@ -6,6 +6,7 @@ import {
     Image,
     TouchableOpacity,
   } from "react-native";
+  
 const a = 'class';
 const b = require('./Images/bell.png')
 const c = require('./Images/clipboard-list.png')
@@ -14,8 +15,8 @@ const e = require('./Images/calendar-lines.png')
 const f = require('./Images/menu-dots.png')
 
 export default class Navigation extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             //VIEW_NAMES: ['CLASS', 'ASSIGNMENT', 'NOTIFICATIONS', 'CALENDAR', 'SETTING']
             VIEW_NAMES: [['CLASS', a],['NOTIFICATIONS', b],['ASSIGNMENT', c],
@@ -70,11 +71,11 @@ const styles = StyleSheet.create({
     },
     buttonTitleStyle:{
       textAlign: 'center',
-      display: 'block'
+      // display: 'block'
     },
     buttonIconSeparatorStyle: {
       backgroundColor: '#fff',
       width: 1,
       height: 40,
-    },
+    }
 });
