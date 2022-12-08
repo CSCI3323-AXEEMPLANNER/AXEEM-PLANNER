@@ -1,16 +1,15 @@
-import React from 'react';
-import { View, Button, Text } from 'react-native';
-import { connect } from 'react-redux';
-import PASS_THROUGH from '../../Util/Object _Pass';
-import MODAL_VIEW from '../../Util/Modal';
+import React from "react";
+import { View, Button, Text, StyleSheet, ScrollView } from "react-native";
+import { connect } from "react-redux";
+import PASS_THROUGH from "../../Util/Object _Pass";
+import MODAL_VIEW from "../../Util/Modal";
 import ADD_TASK from "../../Util/ADD_TASK";
 
 // INITIAL STATE SETUP FOR LOCAL STATE ON SUBMIT
 const INIT_STATE = {
-    obj: {THIS_TODO: null, index: null},
-    add_Task: false
-}
-
+  obj: { THIS_TODO: null, index: null },
+  add_Task: false,
+};
 class VIEW_ASSIGNMENT extends React.Component {
     constructor(props) {
         super(props);
@@ -20,11 +19,15 @@ class VIEW_ASSIGNMENT extends React.Component {
         this.handle_Task_Change = this.handle_Task_Change.bind(this);
     }
 
-    // ALLOWS FOR COMPONENT'S STATE TO UPDATE ON TEXT INPUT CHANGE
-    handle_Modal_Change = (obj, i) => {
-        (this.state.add_Task) ? this.setState(prevState => ({add_Task: !prevState.add_Task})) : null,
-        (i === undefined) ? this.setState(INIT_STATE) : this.setState(({obj: {THIS_TODO: obj, index: i}})) // if object is passed, we can set it in state to get data
-    }
+  // ALLOWS FOR COMPONENT'S STATE TO UPDATE ON TEXT INPUT CHANGE
+  handle_Modal_Change = (obj, i) => {
+    this.state.add_Task
+      ? this.setState((prevState) => ({ add_Task: !prevState.add_Task }))
+      : null,
+      i === undefined
+        ? this.setState(INIT_STATE)
+        : this.setState({ obj: { THIS_TODO: obj, index: i } }); // if object is passed, we can set it in state to get data
+  };
 
     handle_Task_Change = () => { // ...prevState to preserve other state values
         this.setState(prevState => ({...prevState, add_Task: !prevState.add_Task}));
@@ -61,9 +64,11 @@ class VIEW_ASSIGNMENT extends React.Component {
 
 // ALLOWS US TO MAKE TODOs AVAILABLE IN ASSIGNMENT CLASS
 const mapStateToProps = (state) => {
-    // GETTING STATE VALUES FROM RETURN DEFAULT CASE IN REDUCERS/INDEX.JS
-    const { TODO_STATE } = state
-    return { TODO_STATE };
+  // GETTING STATE VALUES FROM RETURN DEFAULT CASE IN REDUCERS/INDEX.JS
+  const { TODO_STATE } = state;
+  return { TODO_STATE };
 };
 
 export default connect(mapStateToProps)(VIEW_ASSIGNMENT);
+
+const ToDoStyles = StyleSheet.create({});

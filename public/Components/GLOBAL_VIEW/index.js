@@ -1,4 +1,4 @@
-import {VIEW_ASSIGNMENT, VIEW_CLASS, VIEW_CALENDAR} from "../index";
+import {VIEW_ASSIGNMENT, VIEW_CLASS, VIEW_CALENDAR, VIEW_SETTINGS} from "../index";
 import { Text } from "react-native";
 
 export default function GLOBAL_VIEW(VIEW, FUNK) {

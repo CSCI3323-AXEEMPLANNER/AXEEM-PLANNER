@@ -5,9 +5,20 @@ import { StatusBar } from 'expo-status-bar';
 import STORE from './store';
 
 // IMPORTANT IMPORTS FOR GLOBAL STATE
-import { Provider } from 'react-redux';
+import { Provider } from "react-redux";
+import { configureStore } from "@reduxjs/toolkit";
+import allReducers from "./public/Reducers/";
 import { AuthProvider } from './server/Providers/AuthProvider';
 import { UserProvider } from './server/Providers/UserProvider';
+
+const STORE = configureStore({
+  reducer: allReducers,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      immutableCheck: false,
+      serializableCheck: false,
+    }),
+});
 
 export default function App() {
   return (
@@ -28,8 +39,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'grey',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

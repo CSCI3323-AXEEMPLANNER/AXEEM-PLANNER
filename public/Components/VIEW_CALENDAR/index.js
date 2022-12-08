@@ -1,12 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { View, Button } from "react-native";
+import { View, Button, Text, StyleSheet } from "react-native";
 import PASS_THROUGH from "../../Util/Object _Pass";
 import MODAL_VIEW from "../../Util/Modal";
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { SET_START_DATE, SET_END_DATE } from "../../Actions/List_Action";
 import {to_Date} from "../../Util/TO_DATE";
 import DateTimePicker from '@react-native-community/datetimepicker';
+import {DisplayCalendarDates, DisplayMonth}from '../VIEW_CALENDAR/displayCalendarDays'
 
 class Calendar extends React.Component {
     constructor(props) {
@@ -15,7 +16,22 @@ class Calendar extends React.Component {
             obj: {THIS_TODO: null, index: null},
             s_Date: 0,
             e_Date: 0,
-            content: {classes: [], assignments: [], todos: []},
+            content: {classes: [], assignments: [ 
+             {
+                title: "Homework 01: Solving Expressions Where life ends",
+                urgent: false,
+                date: "December 7, 2022",
+                time: "1:00 PM",
+                class: "Math 1234"
+            },
+            {
+                title: "Exam 1",
+                urgent: false,
+                date: "December 8, 2022 11:00:00",
+                time: "10:30 PM",
+                class: "Stats",
+            }
+        ], todos: []},
             show_Date: {on: false, type: ''}
         };
         this.handle_Modal_Change = this.handle_Modal_Change.bind(this);
@@ -64,50 +80,84 @@ class Calendar extends React.Component {
 
     render() {
         return (
-            <View>
-                {(this.state.obj.THIS_TODO !== null) ? <MODAL_VIEW prop={this.state.obj} RLM_DELETE={this.props.delete_TODO} RLM_EDIT={this.props.edit_TODO} view_ME={this.handle_Modal_Change} /> : null}
+          <View>
+            {/*Displays the month with days*/}
+            <DisplayMonth startDate={to_Date(this.state.s_Date)} />
+            <View style={styles.dateContainer}>
+              <DisplayCalendarDates startDate={to_Date(this.state.s_Date)} />
+            </View>
+            {this.state.obj.THIS_TODO !== null ? (
+              <MODAL_VIEW
+                prop={this.state.obj}
+                view_ME={this.handle_Modal_Change}
+              />
+            ) : null}
+            <Button
+              style={{ fontSize: "20px" }}
+              title={"From " + to_Date(this.state.s_Date)}
+              onPress={() => this.handle_Date_View("s")}
+            />
+            <Button
+              style={{ fontSize: "20px" }}
+              title={"To " + to_Date(this.state.e_Date)}
+              onPress={() => this.handle_Date_View("e")}
+            />
+            {/* Add view by date: Start to Finish and render todo and classes from beginning date to end date */}
+
+            {this.state.show_Date.on === true ? (
+              <>
                 <Button
-                    style={{fontSize: 20}} 
-                    title={"From " + to_Date(this.state.s_Date)}
-                    onPress={() => this.handle_Date_View('s')}
-                />
-                <Button 
-                    style={{fontSize: 20}} 
-                    title={"To " + to_Date(this.state.e_Date)}
-                    onPress={() => this.handle_Date_View('e')}
-                />
-                {/* Add view by date: Start to Finish and render todo and classes from beginning date to end date */}
-                <PASS_THROUGH type='DATE' PROP_STATE={{TODO: this.state.content.todos, CLASS: this.state.content.classes}} view_ME={this.handle_Modal_Change} date={{e_Date: this.state.e_Date, s_Date: this.state.s_Date}} />
-                
-                {this.state.show_Date.on === true ?
-                <>
-                <Button 
-                    title={"return"}
-                    onPress={() => this.handle_Date_View()}
+                  title={"return"}
+                  onPress={() => this.handle_Date_View()}
                 />
                 <DateTimePicker
-                testID="dateTimePicker"
-                value={this.state.show_Date.type === 's' ? new Date(this.state.s_Date) : new Date(this.state.e_Date)}
-                mode={'date'}
-                display={'default'} // Can be adjusted to observer device is ios or android
-                is24Hour={true}
-                onChange={(e) => {this.state.show_Date.type === 's' ? this.SENDER({s_Date: e.nativeEvent.timestamp, e_Date: this.state.e_Date}) : this.SENDER({s_Date: this.state.s_Date, e_Date: e.nativeEvent.timestamp})}} 
+                  testID="dateTimePicker"
+                  value={
+                    this.state.show_Date.type === "s"
+                      ? new Date(this.state.s_Date)
+                      : new Date(this.state.e_Date)
+                  }
+                  mode={"date"}
+                  display={"spinner"}
+                  is24Hour={true}
+                  onChange={(e) => {
+                    this.state.show_Date.type === "s"
+                      ? this.SENDER({
+                          s_Date: e.nativeEvent.timestamp,
+                          e_Date: this.state.e_Date,
+                        })
+                      : this.SENDER({
+                          s_Date: this.state.s_Date,
+                          e_Date: e.nativeEvent.timestamp,
+                        });
+                  }}
                 />
-                </>
-                : 
-                <>
-                    <Button
-                    title="<"
-                    onPress={() => this.CALC_AND_SEND('<')} 
-                    />
-                    <Button
-                    title=">"
-                    onPress={() => this.CALC_AND_SEND('>')} 
-                    />
-                </>
-                }
-            </View>
-        )
+              </>
+            ) : (
+              <View style={styles.arrowButtonsContainer}>
+                <View style={[styles.arrowButtons, {marginRight: 100}]}>
+                  <Button title="<" onPress={() => this.CALC_AND_SEND("<")} />
+                </View>
+                <View style={styles.arrowButtons}>
+                  <Button title=">" onPress={() => this.CALC_AND_SEND(">")} />
+                </View>
+              </View>
+            )}
+            {/* horizontal line */}
+            <View style={{borderBottomColor: "black", borderBottomWidth: 3, marginBottom: 30}}></View>
+            
+            <PASS_THROUGH
+              type="DATE"
+              PROP_STATE={{
+                TODO: this.state.content.todos,
+                CLASS: this.state.content.classes,
+                ASSIGNMENTS: this.state.content.assignments,
+              }}
+              view_ME={this.handle_Modal_Change}
+              date={{ e_Date: this.state.e_Date, s_Date: this.state.s_Date }}
+            />
+          </View>
+        );
     }
 }
 
@@ -125,4 +175,24 @@ const mapDispatchToProps = dispatch => (
     }, dispatch)
 );
 
-export default connect(mapStateToProps, mapDispatchToProps)(Calendar)
+export default connect(mapStateToProps, mapDispatchToProps)(Calendar);
+
+const styles = StyleSheet.create({
+    dateContainer:{
+        width: 350,
+        justifyContent: 'space-evenly',
+        flexDirection: "row",
+        //textAlign: 'center',
+        //sbackgroundColor: 'red',
+    },
+    arrowButtonsContainer:{
+        flexDirection: "row",
+       // backgroundColor: "red",
+        marginStart: 30,
+        marginBottom: 10, 
+    },
+    arrowButtons:{
+        width: 100 ,
+        backgroundColor: "#8BBEE2",
+    },
+})

@@ -58,34 +58,32 @@ export function LOGIN_REDUCER (state = LOGGED_STATE, action) {
 // Setting date in global state, should already have calculated date
 export function CALENDAR_REDUCER (state = DATE_STATE, action) {
     switch (action.type) {
-        case SET_S_DATE:
-
+      case SET_S_DATE:
         let NEW_S_Date = action.payload;
-        
+  
         state.s_Date = NEW_S_Date;
-
+  
         const POST_S_STATE = DATE_STATE;
-
+  
         return POST_S_STATE;
-
-        case SET_E_DATE:
-
+  
+      case SET_E_DATE:
         let NEW_E_Date = action.payload;
-    
+  
         state.e_Date = NEW_E_Date;
-
+  
         const POST_E_STATE = DATE_STATE;
-
+  
         return POST_E_STATE;
-
-        default:
-            return state;
+  
+      default:
+        return state;
     }
-}
-
-export function CLASS_REDUCER (state = CLASS_STATE, action) {
+  }
+  
+  export function CLASS_REDUCER(state = CLASS_STATE, action) {
     switch (action.type) {
-        case ADD_CLASS:
+      case ADD_CLASS:
         // GETS CLASS ARRAY FROM STATE PASSED IN FUNCTION
         var {
             CLASSES
@@ -108,41 +106,38 @@ export function CLASS_REDUCER (state = CLASS_STATE, action) {
         default:
             return state; // IN MAPSTATETOPROPS, GETTING EXACT VALUE FOR VIEW WITH STATE.VIEW
     }
-}
-
-// REDUCER CALLED WHEN ATTEMPTING TO GET VIEW IN STATE OR CHANGE THE VIEW!
-export function VIEW_REDUCER (state = VIEW_STATE, action) {
+  }
+  
+  // REDUCER CALLED WHEN ATTEMPTING TO GET VIEW IN STATE OR CHANGE THE VIEW!
+  export function VIEW_REDUCER(state = VIEW_STATE, action) {
     switch (action.type) {
-        case CHANGE_VIEW:
+      case CHANGE_VIEW:
         // GETS STATE VALUE OF CURRENT VIEW
         const VIEW = state;
-
+  
         // SETTING ADJUST_VIEW TO VALUE SENT IN PAYLOAD
         const ADJUST_VIEW = action.payload;
-        
+  
         // REWRITING VIEW VALUE TO CHANGE VALUE GLOBALLY
         VIEW.VIEW = ADJUST_VIEW;
-
+  
         const UPDATED_VIEW = VIEW;
-
+  
         return UPDATED_VIEW;
-
-        // IF NO ACTION.TYPE, RETURNS STATE!
-        default:
-            return state; // IN MAPSTATETOPROPS, GETTING EXACT VALUE FOR VIEW WITH STATE.VIEW
+  
+      // IF NO ACTION.TYPE, RETURNS STATE!
+      default:
+        return state; // IN MAPSTATETOPROPS, GETTING EXACT VALUE FOR VIEW WITH STATE.VIEW
     }
-}
-
-// REDUCER CALLED WHICH WILL SWITCH MUTATION/GETTER WITH ACTION TYPE
-export function TODO_REDUCER (state = TODO_STATE, action) {
+  }
+  
+  // REDUCER CALLED WHICH WILL SWITCH MUTATION/GETTER WITH ACTION TYPE
+  export function TODO_REDUCER(state = TODO_STATE, action) {
     switch (action.type) {
-        case ADD_TODO:
-            // GETS URGENT AND TODO ARRAYS FROM STATE (STATE = INIT_STATE)
-        var {
-            URGENT,
-            TODO_LIST
-        } = state;
-
+      case ADD_TODO:
+        // GETS URGENT AND TODO ARRAYS FROM STATE (STATE = INIT_STATE)
+        var { URGENT, TODO_LIST } = state;
+  
         // SETTING POST_TODO TO THE TODO CREATED BY USER AND ADDING IT TO TODO ARRAY IN STATE
         const POST_TODO_OBJECT = action.payload;
 
@@ -180,23 +175,19 @@ export function TODO_REDUCER (state = TODO_STATE, action) {
         const TODO_AFTER_UPDATE = {TODO_LIST, URGENT};
         
         return TODO_AFTER_UPDATE;
-        // Remove todo action
-        case REMOVE_TODO:
-
-        var {
-            URGENT,
-            TODO_LIST
-        } = state;
-
+      // Remove todo action
+      case REMOVE_TODO:
+        var { URGENT, TODO_LIST } = state;
+  
         const TODO_ID = action.payload; // todo id to be deleted
         // with todo_id, find where it is placed (index)
         var TODO_INDEX_TODOLIST = getINDEX(TODO_LIST, TODO_ID);
         if (TODO_LIST[TODO_INDEX_TODOLIST].urgent === true) {
-            // item is also urgent
-            let TODO_INDEX_URGENT = getINDEX(URGENT, TODO_ID);
-            URGENT.splice(TODO_INDEX_URGENT, 1); // RIGHT NOW REMOVAL IS ONLY ACCOUNTING FOR TODO_LIST, BUT SHOULD DO BOTH OR NEITHER DEPENDING ON GROUP DECISION!!!
+          // item is also urgent
+          let TODO_INDEX_URGENT = getINDEX(URGENT, TODO_ID);
+          URGENT.splice(TODO_INDEX_URGENT, 1); // RIGHT NOW REMOVAL IS ONLY ACCOUNTING FOR TODO_LIST, BUT SHOULD DO BOTH OR NEITHER DEPENDING ON GROUP DECISION!!!
         }
-
+  
         // Regardless, if deleted, the item will be in todo
         TODO_LIST.splice(TODO_INDEX_TODOLIST, 1); // RIGHT NOW REMOVAL IS ONLY ACCOUNTING FOR TODO_LIST, BUT SHOULD DO BOTH OR NEITHER DEPENDING ON GROUP DECISION!!!
 
@@ -230,4 +221,5 @@ export function TODO_REDUCER (state = TODO_STATE, action) {
         default:
             return state; // MAPSTATETOPROPS, GETTING BOTH ARRAYS FOR TODO AND URGENT
     }
-};
+  }
+  

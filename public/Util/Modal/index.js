@@ -1,9 +1,10 @@
 import React from "react";
-import { View, StyleSheet, Modal } from "react-native";
+import { View, StyleSheet, Modal,Text } from "react-native";
 import { connect } from "react-redux";
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { REMOVE_TODO_ACTION } from "../../Actions/List_Action";
 import PASS_THROUGH from "../Object _Pass";
+import {Modal_Style} from "../style.js"
 
 class MODAL_VIEW extends React.Component {
     constructor(props) {
@@ -18,9 +19,13 @@ class MODAL_VIEW extends React.Component {
             visible={true}
             >
                 <View
-                style={styles.container}
+                style={Modal_Style.container}
                 >
-                    <PASS_THROUGH type='EDIT' DELETE_ME={this.props.REMOVE_TODO_ACTION} RLM_DELETE={this.props.RLM_DELETE} RLM_EDIT={this.props.RLM_EDIT} PROP_STATE={this.props.prop} view_ME={this.props.view_ME} />
+                   {this.props.type === "CLASSES" ? (
+                    <PASS_THROUGH type ="CLASSES" PROP_STATE={this.props.info} index={this.props.index} view_Me={this.props.view_Me}/>
+                   ):
+                    <PASS_THROUGH type='EDIT' DELETE_ME={this.props.REMOVE_TODO_ACTION} PROP_STATE={this.props.prop} view_ME={this.props.view_ME} />
+                   }
                 </View>
             </Modal>
         )
