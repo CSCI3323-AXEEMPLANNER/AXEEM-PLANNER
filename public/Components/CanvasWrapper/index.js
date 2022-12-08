@@ -1,7 +1,7 @@
 import { useAuth } from "../../../server/Providers/AuthProvider";
 import { useUser } from "../../../server/Providers/UserProvider";
 import Canvas from "../Canvas";
-import AdminAccess from "../AdminAccess";
+import { AdminAccess } from "../AdminAccess";
 // import LOGIN_VIEW from "../VIEW_LOGIN";
 import Login from "../../Util/Login";
 import { SafeAreaView, Button, Text } from "react-native";
@@ -74,6 +74,7 @@ export const CanvasWrapper = () => {
                 {/* Also, restrictign functionality for Admin to only see bare functionality/their respective actions */}
                 {authProps.userRole === "admin" ? <AdminAccess UserAble={UserAble} authProps={authProps} /> :
                 <>
+                {/* Testing purposes */}
                 <Button
                     title="View Todos"
                     onPress={() => { console.log(STORE.getState().TODO_STATE.TODO_LIST); } } 

@@ -205,7 +205,7 @@ const UserProvider = ( props ) => {
   const viewAllClasses = async () => {
     await setPublic();
     const realm = realmRef.current;
-    console.log(JSON.stringify(realm.objects("Class")));
+    return realm.objects("Class");
   };
 
   // General usage for class mutation 
@@ -243,13 +243,15 @@ const UserProvider = ( props ) => {
         try {
           // Will add to user to class and the user in collection
           const res = await user.functions.ADD_USER_TO_CLASS(data);
+          if (res) return true;
           console.log(res);
         } catch (err) {
           console.log(err);
+          return false;
         }
       }
     }
-    if (action === 'delete') {
+    if (action === 'remove') {
       // delete user from local class
       realm.write(() => {
         let pickedClass = realm.objectForPrimaryKey('Class', to_ObjectID(classId)); // finds at some id
@@ -280,6 +282,7 @@ const UserProvider = ( props ) => {
           // Will add to user to class and the user in collection
           const res = await user.functions.REMOVE_USER_FROM_CLASS(data);
           console.log(res);
+          if (res) return true;
         } catch (err) {
           console.log(err);
         }

@@ -130,7 +130,10 @@ const updateCollection = async () => {
   // Specific to admin functionality for app
   try {
     const res = await user.functions.GET_USER_COLLECTION({id: user.id, email: "admin@gmail.com", type: "admin"});
-    setAC(res.students) // admin collection from db
+    if (res) {
+      setAC(res.students) // admin collection from db
+      return true;
+    }
   } catch (err) {
     console.log(err);
   }
