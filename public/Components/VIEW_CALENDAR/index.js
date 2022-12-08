@@ -10,8 +10,8 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import {DisplayCalendarDates, DisplayMonth}from '../VIEW_CALENDAR/displayCalendarDays'
 
 class Calendar extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             obj: {THIS_TODO: null, index: null},
             s_Date: 0,
@@ -43,7 +43,7 @@ class Calendar extends React.Component {
     // Gets and stores values from state when components in mounted
     // assignments: [...this.state.content.assignments] TEMP REPLACEMENT SO THAT THE ASSIGNENTS OBJECTS ARRAY DOES NOT GET REMOVED
     componentDidMount() {
-        this.setState({s_Date: this.props.DATE_STATE.s_Date, e_Date: this.props.DATE_STATE.e_Date, content: {classes: this.props.CLASS_STATE.CLASSES, assignments: [...this.state.content.assignments], todos: this.props.TODO_STATE.TODO_LIST}});
+        this.setState({s_Date: this.props.DATE_STATE.s_Date, e_Date: this.props.DATE_STATE.e_Date, content: {classes: this.props.CLASS_STATE, assignments: [...this.state.content.assignments], todos: this.props.TODO_STATE.TODO_LIST}});
     }
 
     // ALLOWS FOR COMPONENT'S STATE TO UPDATE ON TEXT INPUT CHANGE

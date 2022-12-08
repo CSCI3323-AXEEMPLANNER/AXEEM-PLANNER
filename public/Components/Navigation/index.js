@@ -18,8 +18,8 @@ const e = require('./Images/calendar-lines.png')
 const f = require('./Images/menu-dots.png')
 
 export default class Navigation extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             //VIEW_NAMES: ['CLASS', 'ASSIGNMENT', 'NOTIFICATIONS', 'CALENDAR', 'SETTING']
             VIEW_NAMES: [['CLASS', a],['NOTIFICATIONS', b],['ASSIGNMENT', c],

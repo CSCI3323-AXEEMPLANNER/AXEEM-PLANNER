@@ -7,6 +7,10 @@ import PASS_THROUGH from "../Object _Pass";
 import {Modal_Style} from "../style.js"
 
 class MODAL_VIEW extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
     render() {
         return (
             <Modal

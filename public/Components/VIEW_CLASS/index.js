@@ -122,12 +122,4 @@ const mapStateToProps = (state) => {
   return { CLASS_STATE };
 };
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      ADD_CLASS_ACTION,
-    },
-    dispatch
-  );
-
-export default connect(mapStateToProps, mapDispatchToProps)(VIEW_CLASS);
+export default connect(mapStateToProps)(VIEW_CLASS);
