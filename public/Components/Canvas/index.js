@@ -39,7 +39,7 @@ class Canvas extends React.Component {
         <View style={styles.mainBody}>
 
           {/* this text view displaying current view can be minimized to a single component for all instances! */}
-          <Text style={styles.tabTitle}>{this.state.view}</Text>
+          <Text style={styles.tabTitle}>{(this.state.view).replace("_", " ")}</Text>
           {/* Adjust view in canvas to view selected by user in navigation! */}
           {this.state.view !== null ? GLOBAL_VIEW(this.state.view) : null}
           {/* CHILD NAVIGATION COMPONENT getting passed parent function handleUpdate */}

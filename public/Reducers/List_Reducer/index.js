@@ -50,7 +50,8 @@ import {
         name: "CSCI 3342",
         desc: "Software Engineering",
         professor_ID: "232",
-        date: "MW 4:00 PM - 5:15 PM",
+        datea: "MW 4:00 PM - 5:15 PM",
+        date: "2022-12-07T17:00:00.000Z",
       },
       {
         class_ID: "123",

@@ -64,15 +64,14 @@ class VIEW_CLASS extends React.Component {
                 <TouchableHighlight
                   key={index}
                   activeOpacity={0.6}
-                  underlayColor="#DDDDDD"
+                  underlayColor="#white"
                   onPress={() => this.setState({
                     viewClass: true,
                     indexLoc: index
                   })}
                     //alert(CLASS.class_ID)}
-                >
-                  <>
-                      <>
+                >                 
+                      <View>
                         <View style={[Class_Style.classContainer, {backgroundColor: this.state.colors[index]}, Class_Style.shawdowProp]}>
                           <Text style={Class_Style.classTitleTx} key={index}>
                             {CLASS.name}:{"\n"}
@@ -87,8 +86,8 @@ class VIEW_CLASS extends React.Component {
                           </Text>
                         </View>
                         <Text> {"\n"}</Text>
-                      </>
-                  </>
+                      </View>
+                      
                 </TouchableHighlight>
               ))
             ) : (

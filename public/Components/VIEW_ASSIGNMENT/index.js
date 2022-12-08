@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Button, Text, StyleSheet } from "react-native";
+import { View, Button, Text, StyleSheet, ScrollView } from "react-native";
 import { connect } from "react-redux";
 import PASS_THROUGH from "../../Util/Object _Pass";
 import MODAL_VIEW from "../../Util/Modal";
@@ -58,6 +58,8 @@ class VIEW_ASSIGNMENT extends React.Component {
           {/*<Text>
             You have {this.props.TODO_STATE.URGENT.length} Urgent To-Do.
           </Text>*/}
+          <View style={{ height: 670}}>
+          <ScrollView>
           <PASS_THROUGH
             type="URGENT"
             PROP_STATE={this.props.TODO_STATE.URGENT}
@@ -69,9 +71,8 @@ class VIEW_ASSIGNMENT extends React.Component {
             PROP_STATE={this.props.TODO_STATE.TODO_LIST}
             view_ME={this.handle_Modal_Change}
           />
-
-
-
+        </ScrollView>
+          </View>
           <Button
             title="Create Task!"
             onPress={

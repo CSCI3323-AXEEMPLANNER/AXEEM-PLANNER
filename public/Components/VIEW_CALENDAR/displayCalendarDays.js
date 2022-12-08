@@ -69,6 +69,7 @@ export const DisplayCalendarDates = (props) => {
     return dateArr;
 
 };
+
 //------DisplayMonth----
 /*Function componet to return month name
     Pre: props with a date object
