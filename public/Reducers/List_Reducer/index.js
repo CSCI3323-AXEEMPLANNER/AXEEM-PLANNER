@@ -51,7 +51,7 @@ export function LOGIN_REDUCER (state = LOGGED_STATE, action) {
     return LOG_CONDITION;
     
     default:
-            return state;
+        return state;
     }
 }
 
@@ -93,7 +93,7 @@ export function CLASS_REDUCER (state = CLASS_STATE, action) {
 
         // SETTING POST_CLASS_OBJECT TO OBJECT PASSED FROM ACTION
         const POST_CLASS_OBJECT = action.payload;
-
+        
         POST_CLASS_OBJECT.forEach(item => {
             item !== undefined ? CLASSES.push(item) : null
         });

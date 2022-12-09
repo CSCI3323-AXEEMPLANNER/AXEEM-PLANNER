@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import Realm from "realm";
-import app from "../../RealmApp";
+import app from "../../RealmApp"
 import { ADD_CLASS_ACTION, SET_RESET } from "../../public/Actions/List_Action";
 import STORE from "../../store";
 import { ObjectId } from "bson";
@@ -117,7 +117,7 @@ const signUp = async (uEmail, uPassword, uType) => {
     console.error(err);
   }
   // Removing incorrect partition from realms
-  app.deleteUser(newUser);
+  getRealmApp().deleteUser(newUser);
   newUser.logOut(); // signing user out for additional user creation
 }
 

@@ -64,7 +64,7 @@ const UserProvider = ( props ) => {
     Realm.open(config_public).then(async (realm) => {
       realmRef.current = realm;
       // userclasses holds objectid of class in realms, so get that object and save it to user appropriate array
-      if (userClasses !== undefined && userClasses.length > 0) {
+      if (userClasses !== undefined) {
         const result = realm.objects("Class").filtered("_id = $0", userClasses);
 
         // sorting array by startTime
@@ -92,6 +92,7 @@ const UserProvider = ( props ) => {
 
       // Should be replaced with classes
       const syncTodos = realm.objects("Todo");
+      console.log(syncTodos)
       
       let sortedTodos = syncTodos.sorted("title");
       setTodos([...sortedTodos]);
