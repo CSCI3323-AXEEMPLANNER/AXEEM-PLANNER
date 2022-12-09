@@ -14,6 +14,34 @@ with AARC staff, and eventually, a social network.
 
 Our goals are to confine the many separate systems and services for students into a multi-functional, single-use application.
 
+### Tools
+
+- [Expo Go](https://expo.dev/client)
+- [React Native](https://reactnative.dev/)
+- [Android Studio](https://developer.android.com/)
+- [MongoDB Realms](https://www.mongodb.com/docs/realm/)
+- [React Redux](https://react-redux.js.org/)
+
+### Want to Contribute?
+- Fork the main branch
+- Clone onto your local machine
+```
+git@github.com:CSCI3323-AXEEMPLANNER/AXEEM-PLANNER.git
+```
+- Run the command below in terminal to install all dependencies
+```
+npm run install
+```
+- To complete an android or ios bundle
+```
+npx expo run:android
+npx expo run:ios
+```
+
+- Run the application using an [_*android*_](https://developer.android.com/studio/run/emulator) or [_*ios*_](https://developer.apple.com/library/archive/documentation/IDEs/Conceptual/iOS_Simulator_Guide/GettingStartedwithiOSSimulator/GettingStartedwithiOSSimulator.html) emulator
+<br/>
+> **If you plan to integrate with react realms, please consider initializing a new react app and integrating between a version of this app and yours, thank you.
+
 ---
 
 ### Repository Layout
