@@ -74,11 +74,6 @@ export const CanvasWrapper = () => {
                 {/* Also, restrictign functionality for Admin to only see bare functionality/their respective actions */}
                 {authProps.userRole === "admin" ? <AdminAccess UserAble={UserAble} authProps={authProps} /> :
                 <>
-                {/* Testing purposes */}
-                <Button
-                    title="View Todos"
-                    onPress={() => { console.log(STORE.getState().TODO_STATE.TODO_LIST); } } 
-                />
                 <Canvas {...UserAble} role={authProps.userRole} />
                 </> 
                 }

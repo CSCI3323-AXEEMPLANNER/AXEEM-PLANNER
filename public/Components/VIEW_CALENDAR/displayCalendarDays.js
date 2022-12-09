@@ -6,34 +6,36 @@ import {Text,StyleSheet, View} from 'react-native';
     Pre: Date object for the start
     Post: returns an array of Date objects
 */
-export const DisplayCalendarDates = (props) => {
  
-    //-------toWeekDay-------
-    /*Determines the day for example Mon, Tue, ...
-        Pre: a integer
-        Post: returns a string
-    */
-    function toWeekDay(day){
-        switch(day){
-            case 0:
-                return "Sun";
-            case 1:
-                return "Mon";
-            case 2:
-                return "Tue";
-            case 3:
-                return "Wed";
-            case 4:
-                return "Thr";  
-            case 5:
-                return "Fri";
-            case 6:
-                return "Sat";
-            default: 
-                return "error";
-        };
-
+//-------toWeekDay-------
+/*Determines the day for example Mon, Tue, ...
+    Pre: a integer
+    Post: returns a string
+*/
+export function toWeekDay(day){
+    switch(day){
+        case 0:
+            return "Sun";
+        case 1:
+            return "Mon";
+        case 2:
+            return "Tue";
+        case 3:
+            return "Wed";
+        case 4:
+            return "Thr";  
+        case 5:
+            return "Fri";
+        case 6:
+            return "Sat";
+        default: 
+            return "error";
     };
+
+};
+
+export const DisplayCalendarDates = (props) => {
+
 
     //begins to push on days with date values
     let currentDate = new Date(props.startDate);
@@ -84,7 +86,6 @@ export const DisplayMonth = (props) => {
     );
     
 };
-
 
 const styles = StyleSheet.create({
     dateStyle:{ 

@@ -28,20 +28,14 @@ class Canvas extends React.Component {
     }
 
     render() {
-        return (
-        <>
-        <View>
-            {/* this text view displaying current view can be minimized to a single component for all instances! */}
-            <Text style={{ fontSize: 40 }}>You are viewing: {this.state.view}</Text>
-            {/* Adjust view in canvas to view selected by user in navigation! */}
-            {this.state.view !== null ? GLOBAL_VIEW(this.state.view, { createTodo: this.props.createTodo, editTodo: this.props.editTodo, deleteTodo: this.props.deleteTodo }) : null}
-            {/* CHILD NAVIGATION COMPONENT getting passed parent function handleUpdate */}
-            <Navigation UPDATE_VIEW={this.handleUpdate} role={this.props.role} />
-          </View>
-          <Navigation UPDATE_VIEW={this.handleUpdate} />
-        </>
-    );
-  }
+      return (
+      <View>
+          {/* Adjust view in canvas to view selected by user in navigation! */}
+          {this.state.view !== null ? GLOBAL_VIEW(this.state.view, {createTodo: this.props.createTodo, editTodo: this.props.editTodo ,deleteTodo: this.props.deleteTodo}) : null}
+          {/* CHILD NAVIGATION COMPONENT getting passed parent function handleUpdate */}
+          <Navigation UPDATE_VIEW={this.handleUpdate} role={this.props.role} />
+      </View>
+  )}
 }
 
 // ALLOWS US TO MAKE TODOs AVAILABLE IN CANVAS CLASS

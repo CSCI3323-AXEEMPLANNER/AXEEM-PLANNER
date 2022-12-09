@@ -8,14 +8,10 @@ import {
   ScrollView,
 } from "react-native";
 import { connect } from "react-redux";
-import { bindActionCreators } from "@reduxjs/toolkit";
-import { ADD_CLASS_ACTION } from "../../Actions/List_Action";
-import { CLASS_OBJECT_CREATION } from "../../Util/Object_Creation";
-import reactDom, { render } from "react-dom";
-import { TouchableWithoutFeedback } from "react-native-web";
 import { Class_Style, randomColor } from "../../Util/style";
-import MODAL_VIEW from "../../Util/Modal";
 import Modal from "../../Util/Modal";
+import { to_Day } from "../../Util/TO_DATE";
+import { toWeekDay } from "../VIEW_CALENDAR/displayCalendarDays";
 
 // CLASS_OBJECT_CREATION(class_ID, name, desc, professor_ID)
 
@@ -47,20 +43,16 @@ class VIEW_CLASS extends React.Component {
     if(this.state.viewClass){
         return(
         <View>
-          <Modal type="CLASSES" info={this.props.CLASS_STATE.CLASSES} index={this.state.indexLoc} view_Me={this.changeView}/>
+          <Modal type="CLASSES" info={this.props.CLASS_STATE} index={this.state.indexLoc} view_Me={this.changeView}/>
         </View>
         );
     }
-    else{
+    if (this.props.CLASS_STATE !== undefined && this.props.CLASS_STATE.length > 0) {
       return (
       <View style={Class_Style.container}>
-        {/* Mapping through classes in user profile already as of 9/17, pulling from array in global state */}
-        {/*<Text style={{ fontSize: 20 }}>
-          You have {this.props.CLASS_STATE.CLASSES.length} classes.
-    </Text>*/}
           <ScrollView>
-            {this.props.CLASS_STATE.CLASSES.length > 0 ? (
-              this.props.CLASS_STATE.CLASSES.map((CLASS, index) => (
+            {this.props.CLASS_STATE.length > 0 ? (
+              this.props.CLASS_STATE.map((CLASS, index) => (
                 <TouchableHighlight
                   key={index}
                   activeOpacity={0.6}
@@ -69,12 +61,11 @@ class VIEW_CLASS extends React.Component {
                     viewClass: true,
                     indexLoc: index
                   })}
-                    //alert(CLASS.class_ID)}
-                >                 
+                >  
                       <View>
                         <View style={[Class_Style.classContainer, {backgroundColor: this.state.colors[index]}, Class_Style.shawdowProp]}>
-                          <Text style={Class_Style.classTitleTx} key={index}>
-                            {CLASS.name}:{"\n"}
+                          <Text style={Class_Style.classTitleTx} key={CLASS._partition}>
+                            {CLASS.subject}:{"\n"}
                           </Text>
                           <Text style={Class_Style.classMainTxt}>
                             {CLASS.desc}
@@ -82,10 +73,9 @@ class VIEW_CLASS extends React.Component {
                             
                           </Text>
                           <Text style={Class_Style.dateTxt}>
-                            {CLASS.date}
+                            {toWeekDay(to_Day(CLASS.startTime))}
                           </Text>
                         </View>
-                        <Text> {"\n"}</Text>
                       </View>
                       
                 </TouchableHighlight>
@@ -97,18 +87,6 @@ class VIEW_CLASS extends React.Component {
             )}
             <View style={{height: 80}}></View>
           </ScrollView>
-        {/* ADJUST BUTTON ONCLICK TO BRING LIST OF CLASSES BY PROFESSOR_ID -- USER SHOULD ONLY BE ABLE TO ADD CLASSES BASED ON WHAT PROFESSOR THEY BELONG TO */}
-        {/*<Button
-          title="Add Class"
-          onPress={() => {
-
-            {
-              this.props.ADD_CLASS_ACTION(
-                CLASS_OBJECT_CREATION("113", "CSCI 4341", "Computer", "232")
-              );
-            }
-          }
-        />*/}
       </View>
     );
    }
@@ -118,7 +96,7 @@ class VIEW_CLASS extends React.Component {
 // ALLOWS US TO MAKE CLASS ARRAY AVAILABLE IN class CLASS
 const mapStateToProps = (state) => {
   // GETTING STATE VALUES FROM RETURN DEFAULT CASE IN REDUCERS/INDEX.JS
-  const { CLASS_STATE } = state;
+  const { CLASS_STATE } = state
   return { CLASS_STATE };
 };
 

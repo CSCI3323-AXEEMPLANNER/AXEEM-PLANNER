@@ -24,7 +24,7 @@ class MODAL_VIEW extends React.Component {
                    {this.props.type === "CLASSES" ? (
                     <PASS_THROUGH type ="CLASSES" PROP_STATE={this.props.info} index={this.props.index} view_Me={this.props.view_Me}/>
                    ):
-                    <PASS_THROUGH type='EDIT' DELETE_ME={this.props.REMOVE_TODO_ACTION} PROP_STATE={this.props.prop} view_ME={this.props.view_ME} />
+                    <PASS_THROUGH type='EDIT' DELETE_ME={this.props.REMOVE_TODO_ACTION} RLM_DELETE={this.props.RLM_DELETE} RLM_EDIT={this.props.RLM_EDIT} PROP_STATE={this.props.prop} view_ME={this.props.view_ME} />
                    }
                 </View>
             </Modal>

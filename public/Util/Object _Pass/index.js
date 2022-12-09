@@ -8,10 +8,10 @@ import {
   Pressable,
 } from "react-native";
 import ADD_TASK from "../ADD_TASK";
-import { to_Date, to_Time, to_Zero } from "../../Util/TO_DATE";
+import { to_Date, to_Day, to_Time, to_Zero } from "../../Util/TO_DATE";
 import Icon from "@expo/vector-icons/Ionicons";
-
-
+import { toWeekDay } from "../../Components/VIEW_CALENDAR/displayCalendarDays";
+import { OID_toString } from "../TO_OBJECTID";
 
 // type SHOULD BE STRING OF WHAT THE STATE ARRAY IS > 'TODO' 'URGENT'
 export default class PASS_THROUGH extends React.Component {
@@ -31,7 +31,7 @@ export default class PASS_THROUGH extends React.Component {
     const type = this.props.type;
     const obj = this.props.PROP_STATE;
     
-    if (type === "TODO") {
+    if (type === "TODO" && obj.length > 0) {
       return obj.map((ITEM, index) => (
         <TouchableHighlight
           key={index}
@@ -41,7 +41,7 @@ export default class PASS_THROUGH extends React.Component {
         >
          
             <View style={styles.container}>
-              <Text key={index} style={styles.titleToDo}>
+              <Text key={ITEM._partition} style={styles.titleToDo}>
                 {ITEM.title} {"\n"}
                 <Text style={styles.descriptionToDo}>{ITEM.desc}</Text>
                 {/* Flagged: {ITEM.urgent ? "YES" : "NOPE"}
@@ -72,7 +72,7 @@ export default class PASS_THROUGH extends React.Component {
               />
             </View>
             <View style={styles.urgentContent}>
-              <Text key={index} style={[styles.titleToDo, styles.whiteTitle]}>
+              <Text key={ITEM._partition} style={[styles.titleToDo, styles.whiteTitle]}>
                 {ITEM.title} {"\n"}
                 <Text style={[styles.descriptionToDo, styles.colorContent]}>
                   {ITEM.desc}
@@ -132,9 +132,15 @@ export default class PASS_THROUGH extends React.Component {
                           : 1,
                         },
                       styles.editHeaderBtn, { backgroundColor: "red" }]}
-                    onPress={() => {
-                      this.props.DELETE_ME(obj.id);
-                      this.props.view_ME();
+                      onPress={() => {
+                        const id = obj._id;
+                        try {
+                            this.props.DELETE_ME(id);
+                            this.props.RLM_DELETE(id);
+                        } catch (e) {
+                            console.error(e)
+                        }
+                        this.props.view_ME();
                     }}
                   >
                     <Text
@@ -189,9 +195,7 @@ export default class PASS_THROUGH extends React.Component {
             ) : (
               // when edit button is clicked, add_task is returned to update the item at id!
               <ADD_TASK
-                in_Edit={this.state.edit_ME}
-                in_Edit_obj={obj}
-                view_Task={this.handle_Edit_Mode}
+                in_Edit={this.state.edit_ME} RLM_EDIT={this.props.RLM_EDIT} in_Edit_obj={obj} view_Task={this.handle_Edit_Mode}
               />
             ) // view_Task here is adjusting the state value in this instance view_ME func.
           }
@@ -265,7 +269,7 @@ export default class PASS_THROUGH extends React.Component {
                     ></View>
                     <View style={styles.urgentContent}>
                       <Text
-                        key={index}
+                        key={ITEM._partition}
                         style={[styles.titleToDo, styles.whiteTitle]}
                       >
                         {ITEM.class} {"\n"}
@@ -284,34 +288,34 @@ export default class PASS_THROUGH extends React.Component {
             } //else return <Text key={0}>Nothing To Display :L</Text>;
           })}
           <Text>Classes:</Text>
-          {classes.map((ITEM, index) => {
-            
+          
+          {classes.length > 0 ? classes.map((ITEM, index) => {
             if (
-              ITEM.date >= this.props.date.s_Date &&
-              to_Zero(ITEM.date) <= this.props.date.e_Date
+              to_Day(ITEM.startTime) >= to_Day(this.props.date.s_Date) &&
+              to_Day(to_Zero(ITEM.endTime)) <= to_Day(this.props.date.e_Date)
             ) { 
-               (
+               return (
                 <TouchableHighlight
                   key={index}
                   activeOpacity={0.6}
                   underlayColor="#DDDDDD"
                   onPress={() =>
                     alert(
-                      "this is have modal view as well, but should only allow view"
+                      "Title: " + ITEM.subject +
+                      "Time: " + to_Time(ITEM.startTime)
                     )
                   }
                 >
                   <View>
-
-                  <Text key={index}>
-                    Title: {ITEM.name}
-                    Time: {ITEM.time}
-                  </Text>
+                    <Text key={ITEM._partition}>
+                      Title: {ITEM.subject}
+                      Time: {to_Time(ITEM.startTime)}
+                    </Text>
                   </View>
                 </TouchableHighlight>
               );
-            } else return <Text key={0}>Nothing To Display :L</Text>;
-          })}
+            }
+          }) : <Text key={new Date().getTime()}>No Classes!</Text>}
           </View>
         </>
       );
@@ -319,14 +323,9 @@ export default class PASS_THROUGH extends React.Component {
     
     {/*Only for class view modal */}
     if (type === "CLASSES") {
-      
       const classes = obj;
       return (
         <>
-          {/*if (
-              ITEM.date >= this.props.date.s_Date &&
-              to_Zero(ITEM.date) <= this.props.date.e_Date
-            )*/}
 
           {/*console.log(this.props.index)*/}
           <TouchableHighlight
@@ -339,12 +338,15 @@ export default class PASS_THROUGH extends React.Component {
             }
           >
             <View style={styles.classContainer}>
-              
-
-              <Text style={{padding:10}}>Title: {classes[this.props.index].name}</Text>
-              <Text style={{padding:10}}>Time: {classes[this.props.index].date}</Text>
+              <Text style={{padding:10}}>Title: {classes[this.props.index].subject}</Text>
+              <Text style={{padding:10}}>Date: {to_Date(classes[this.props.index].startTime)}</Text>
+              <Text style={{padding:10}}>Meets on: {toWeekDay(to_Day(classes[this.props.index].startTime))}</Text>
               <Text style={{padding:10}}>Description: {classes[this.props.index].desc}</Text>
-             
+              {(classes[this.props.index].professor).map((el) => {
+                  console.log(el)
+                  return <Text style={{padding:10}}>{OID_toString(el)}</Text>
+                })}
+                <Text>Total Class Size: {(classes[this.props.index].participating).length}</Text>
             </View>
           </TouchableHighlight>
 
@@ -384,7 +386,7 @@ const styles = StyleSheet.create({
     height: 100,
     backgroundColor: "#D9D9D9",
     borderRadius: 20,
-    margin: 10,
+    margin: 0,
     //borderWidth: 5,
   },
   urgentContainer: {

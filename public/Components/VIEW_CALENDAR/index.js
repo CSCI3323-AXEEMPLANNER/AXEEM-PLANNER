@@ -44,7 +44,7 @@ class Calendar extends React.Component {
     // assignments: [...this.state.content.assignments] TEMP REPLACEMENT SO THAT THE ASSIGNENTS OBJECTS ARRAY DOES NOT GET REMOVED
     componentDidMount() {
         this.setState({s_Date: this.props.DATE_STATE.s_Date, e_Date: this.props.DATE_STATE.e_Date, content: {classes: this.props.CLASS_STATE, assignments: [...this.state.content.assignments], todos: this.props.TODO_STATE.TODO_LIST}});
-    }
+      }
 
     // ALLOWS FOR COMPONENT'S STATE TO UPDATE ON TEXT INPUT CHANGE
     handle_Modal_Change = (obj, i) => {
@@ -92,7 +92,7 @@ class Calendar extends React.Component {
                 view_ME={this.handle_Modal_Change}
               />
             ) : null}
-            <Button
+            {/* <Button
               style={{ fontSize: "20px" }}
               title={"From " + to_Date(this.state.s_Date)}
               onPress={() => this.handle_Date_View("s")}
@@ -101,7 +101,7 @@ class Calendar extends React.Component {
               style={{ fontSize: "20px" }}
               title={"To " + to_Date(this.state.e_Date)}
               onPress={() => this.handle_Date_View("e")}
-            />
+            /> */}
             {/* Add view by date: Start to Finish and render todo and classes from beginning date to end date */}
 
             {this.state.show_Date.on === true ? (

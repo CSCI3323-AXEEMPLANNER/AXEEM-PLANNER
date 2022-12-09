@@ -14,3 +14,8 @@ export function to_Zero(num) {
     t_Date.setHours(0,0,0,0);
     return t_Date.getTime();
 }
+
+export function to_Day(num) {
+    num = parseInt(num);
+    return new Date(num).getDay();
+}
